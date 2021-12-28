@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: optimtool
+Version: 2.3.0
+Summary: Tools for Mathematical Optimization Region.
+Home-page: https://gitcode.net/linjing_zyq/optimtool
+Author: 林景
+Author-email: 1439313331@qq.com
+License: UNKNOWN
+Platform: UNKNOWN
+
+Provide More Unconstrained Methods for Constrained Algorithms
+

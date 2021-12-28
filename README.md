@@ -82,7 +82,8 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图像`：
-<img src="https://img-blog.csdnimg.cn/31c73e0a194849cdb19094b3e0a36a4f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
+
+![image-20211229012313283](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012313283.png)
 
 ## 2. 非线性最小二乘问题
 * from optimtool.unconstrain import nonlinear_least_square
@@ -127,7 +128,8 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图示`：
-<img src="https://img-blog.csdnimg.cn/d943772c21ce47049a510a7b4778d8d8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
+
+![image-20211229012332612](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012332612.png)
 
 ## 3. 等式约束优化测试
 * from optimtool.constrain import equal
@@ -174,7 +176,8 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图示`：
-<img src="https://img-blog.csdnimg.cn/675ad1a732034c5e9e2aa6d584fc78a4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
+![image-20211229012352452](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012352452.png)
+
 ## 4. 不等式约束优化测试
 * from optimtool.constrain import unequal
 
@@ -201,9 +204,9 @@ x_0 = (2, 3)
 f_list = []
 title = ["penalty_quadratic", "penalty_interior_fraction"]
 colorlist = ["maroon", "teal"]
-_, _, f = unequal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = unequal.penalty_quadratic(funcs, args, cons, x_0, False, True, method="newton", sigma=10, epsilon=1e-6) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True)
+_, _, f = unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True, method="newton")
 f_list.append(f)
 
 # 绘图
@@ -216,9 +219,12 @@ plt.ylabel("$Objective \ function \ value: \ f(x_k)$")
 plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
+
 ```
 `图示`：
-<img src="https://img-blog.csdnimg.cn/e8243f73437a42a3b6ef1d71a023d2e7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
+
+![image-20211229012246399](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012246399.png)
+
 ## 5. 混合等式约束测试
 * from optimtool.constrain import mixequal
 
@@ -266,7 +272,8 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图示`：
-<img src="https://img-blog.csdnimg.cn/2390cd882b6247f8b9e32f5a7eee8dc5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
+
+![image-20211229012422473](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012422473.png)
 
 ## 6. [Lasso](https://zhuanlan.zhihu.com/p/390930621)问题测试
 
@@ -317,5 +324,6 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图示`：
-<img src="https://img-blog.csdnimg.cn/c64669762af546ea9936370e94604f27.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
+
+![image-20211229012834617](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012834617.png)
 
