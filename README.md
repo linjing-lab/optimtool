@@ -268,7 +268,7 @@ plt.show()
 `图示`：
 <img src="https://img-blog.csdnimg.cn/2390cd882b6247f8b9e32f5a7eee8dc5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
 
-## 6. Lasso问题测试
+## 6. [Lasso](https://zhuanlan.zhihu.com/p/390930621)问题测试
 
 * from optimtool.example import Lasso
 
@@ -279,10 +279,6 @@ plt.show()
 | 次梯度算法 | `subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)` | Lasso.subgradient(A, b, mu, args, x_0,)      |
 
 
-$$
-\min \frac{1}{2} ||Ax-b||^2+\mu ||x||_1
-$$
-给定$A_{m \times n}$，$x_{n \times 1}$，$b_{m \times 1}$，正则化常数$\mu$。解决该无约束最优化问题，该问题目标函数一阶不可导。
 ```python
 import numpy as np
 import sympy as sp
