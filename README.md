@@ -178,10 +178,11 @@ plt.show()
 
 无约束内核默认采用wolfe线搜索方法
 
-| 方法                 | 函数参数                                                     | 调用示例                                                  |
-| -------------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
-| 二次罚函数法         | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.4, epsilon=1e-10, k=0)` | unequal.penalty_quadratic(funcs, args, cons, x_0)         |
-| 内点（分式）罚函数法 | `penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)` | unequal.penalty_interior_fraction(funcs, args, cons, x_0) |
+| 方法                                 | 函数参数                                                     | 调用示例                                                  |
+| ------------------------------------ | ------------------------------------------------------------ | --------------------------------------------------------- |
+| 二次罚函数法                         | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.4, epsilon=1e-10, k=0)` | unequal.penalty_quadratic(funcs, args, cons, x_0)         |
+| 内点（分式）罚函数法                 | `penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)` | unequal.penalty_interior_fraction(funcs, args, cons, x_0) |
+| 拉格朗日法（本质上为不存在等式约束） | `lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0)` | unequal.lagrange_augmented(funcs, args, cons, x_0)        |
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
@@ -216,8 +217,42 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 
+`单独测试拉格朗日方法`：
+
+```python
+# 导入符号运算的包
+import sympy as sp
+
+# 导入约束优化
+from optimtool.constrain import unequal
+
+# 构造函数
+f1 = sp.symbols("f1")
+x1, x2, x3, x4 = sp.symbols("x1 x2 x3 x4")
+f1 = x1**2 + x2**2 + 2*x3**3 + x4**2 - 5*x1 - 5*x2 - 21*x3 + 7*x4
+c1 = 8 - x1 + x2 - x3 + x4 - x1**2 - x2**2 - x3**2 - x4**2
+c2 = 10 + x1 + x4 - x1**2 - 2*x2**2 - x3**2 - 2*x4**2
+c3 = 5 - 2*x1 + x2 + x4 - 2*x1**2 - x2**2 - x3**2
+cons_unequal1 = sp.Matrix([c1, c2, c3])
+funcs1 = sp.Matrix([f1])
+args1 = sp.Matrix([x1, x2, x3, x4])
+x_1 = (0, 0, 0, 0)
+
+x_0, _, f = unequal.lagrange_augmented(funcs1, args1, cons_unequal1, x_1, output_f=True, method="trust_region", sigma=1, muk=1, p=1.2)
+for i in range(len(x_0)):
+     x_0[i] = round(x_0[i], 2)
+print("\n最终收敛点：", x_0, "\n目标函数值：", f[-1])
+```
+
+`result`：
+
+```python
+最终收敛点： [ 2.5   2.5   1.87 -3.5 ] 
+目标函数值： -50.94151192711454
+```
 
 ## 5. 混合等式约束测试
+
 * from optimtool.constrain import mixequal
 
 无约束内核默认采用wolfe线搜索方法
@@ -313,5 +348,4 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-
 
