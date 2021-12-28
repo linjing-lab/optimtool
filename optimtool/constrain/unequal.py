@@ -4,7 +4,7 @@ from functions.tools import function_f_x_k, function_plot_iteration
 from optimtool.unconstrain import newton_quasi
 
 # 二次罚函数法（不等式约束）
-def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=1, p=0.4, epsilon=1e-10, k=0):
+def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=10, p=0.4, epsilon=1e-10, k=0):
     '''
     Parameters
     ----------
