@@ -1,7 +1,3 @@
-import numpy as np
-import sympy as sp
-import matplotlib.pyplot as plt
-
 def function_f_x_k(funcs, args, x_0, mu=None):
     '''
     Parameters
