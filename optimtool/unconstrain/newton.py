@@ -1,3 +1,8 @@
+import numpy as np
+import sympy as sp
+from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_CG_gradient
+from functions.linear_search import armijo, goldstein, wolfe
+
 '''
 牛顿类算法
 '''
