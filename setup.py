@@ -1,20 +1,25 @@
-import setuptools
-
-setuptools.setup(
-    name="optimtool",
-    version="0.1.1",
-    author="林景",
-    author_email="1439313331@qq.com",
-    description="Tools for Mathematical Optimization Region.",
-    url="https://gitcode.net/linjing_zyq/optimtool",
-    project_urls={
+from distutils.core import setup
+ 
+setup(
+      name='optimtool',  # 包名
+      version='1.0.0',  # 版本号
+      description="Tools for Mathematical Optimization Region.",
+      author='林景',
+      author_email='1439313331@qq.com',
+      url="https://gitcode.net/linjing_zyq/optimtool",
+      install_requires=["numpy", "sympy", "matplotlib"],
+      license='MIT License',
+      platforms=["all"],
+      project_urls={
         "Bug Tracker": "https://gitcode.net/linjing_zyq/optimtool/-/issues",
-    },
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
-    packages=["optimtool", "optimtool.unconstrain", "optimtool.constrain", "optimtool.hybrid", "optimtool.example"], 
-    python_requires=">=3.6",
+      },
+      classifiers=[
+          'Intended Audience :: Developers',
+          'Operating System :: OS Independent',
+          'Natural Language :: Chinese (Simplified)',
+          'Programming Language :: Python',
+          'Topic :: Software Development :: Libraries'
+      ],
+      packages=["optimtool", "optimtool.unconstrain", "optimtool.constrain", "optimtool.hybrid", "optimtool.example"], 
+      python_requires=">=3.6",
 )
