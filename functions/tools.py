@@ -418,9 +418,9 @@ def function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0):
         con = sp.Matrix([cons])
         conv = np.array(con.subs(dict(zip(args, x_0)))).astype(np.float64)
         if conv > 0:
-            sub += cons**2 - muk[i]**2 / sigma**2
+            sub = sub + (cons**2 - (muk[i] / sigma)**2)
         else:
-            sub += - muk[i]**2 / sigma**2
+            sub = sub - (muk[i] / sigma)**2
     sub = sp.Matrix([sub])
     return sub
 
