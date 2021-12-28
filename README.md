@@ -1,6 +1,7 @@
 # README.md
 
 中文博客主页：https://blog.csdn.net/linjing_zyq
+pip install optimtool
 
 ## 1. 无约束优化算法性能对比
 
