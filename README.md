@@ -138,8 +138,8 @@ plt.show()
 
 | 方法           | 函数参数                                                     | 调用示例                                         |
 | -------------- | ------------------------------------------------------------ | ------------------------------------------------ |
-| 二次罚函数法   | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=10, p=2, epsilon=1e-4, k=0)` | equal.penalty_quadratic(funcs, args, cons, x_0)  |
-| 增广拉格朗日法 | `lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0)` | equal.lagrange_augmented(funcs, args, cons, x_0) |
+| 二次罚函数法   | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0)` | equal.penalty_quadratic(funcs, args, cons, x_0)  |
+| 增广拉格朗日法 | `lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0)` | equal.lagrange_augmented(funcs, args, cons, x_0) |
 
 
 ```python
@@ -185,8 +185,8 @@ plt.show()
 
 | 方法                 | 函数参数                                                     | 调用示例                                                  |
 | -------------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
-| 二次罚函数法         | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=1, p=0.4, epsilon=1e-10, k=0)` | unequal.penalty_quadratic(funcs, args, cons, x_0)         |
-| 内点（分式）罚函数法 | `penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, sigma=12, p=0.6, epsilon=1e-6, k=0)` | unequal.penalty_interior_fraction(funcs, args, cons, x_0) |
+| 二次罚函数法         | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.4, epsilon=1e-10, k=0)` | unequal.penalty_quadratic(funcs, args, cons, x_0)         |
+| 内点（分式）罚函数法 | `penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)` | unequal.penalty_interior_fraction(funcs, args, cons, x_0) |
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
@@ -232,9 +232,9 @@ plt.show()
 
 | 方法               | 函数参数                                                     | 调用示例                                                     |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 二次罚函数法       | `penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, sigma=1, p=0.6, epsilon=1e-10, k=0)` | mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0) |
-| L1罚函数法         | `penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, sigma=1, p=0.6, epsilon=1e-10, k=0)` | mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0) |
-| 增广拉格朗日函数法 | `lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0)` | mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0) |
+| 二次罚函数法       | `penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)` | mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0) |
+| L1罚函数法         | `penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)` | mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0) |
+| 增广拉格朗日函数法 | `lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0)` | mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0) |
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
