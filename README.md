@@ -47,7 +47,7 @@
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool.unconstrain as ou
+from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
 
 f, x1, x2, x3, x4 = sp.symbols("f x1 x2 x3 x4")
 f = (x1 - 1)**2 + (x2 - 1)**2 + (x3 - 1)**2 + (x1**2 + x2**2 + x3**2 + x4**2 - 0.25)**2
@@ -59,13 +59,13 @@ x_0 = (1, 2, 3, 4)
 f_list = []
 title = ["gradient_descent_barzilar_borwein", "newton_CG", "newton_quasi_L_BFGS", "trust_region_steihaug_CG"]
 colorlist = ["maroon", "teal", "slateblue", "orange"]
-_, _, f = ou.gradient_descent.barzilar_borwein(funcs, args, x_0, False, True)
+_, _, f = gradient_descent.barzilar_borwein(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = ou.newton.CG(funcs, args, x_0, False, True)
+_, _, f = newton.CG(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = ou.newton_quasi.L_BFGS(funcs, args, x_0, False, True)
+_, _, f = newton_quasi.L_BFGS(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = ou.trust_region.steihaug_CG(funcs, args, x_0, False, True)
+_, _, f = trust_region.steihaug_CG(funcs, args, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -96,7 +96,7 @@ plt.show()
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool.unconstrain as ou
+from optimtool.unconstrain import nonlinear_least_square
 
 r1, r2, x1, x2 = sp.symbols("r1 r2 x1 x2")
 r1 = x1**3 - 2*x2**2 - 1
@@ -108,9 +108,9 @@ x_0 = (2, 2)
 f_list = []
 title = ["gauss_newton", "levenberg_marquardt"]
 colorlist = ["maroon", "teal"]
-_, _, f = ou.nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True) # 第五参数控制输出函数迭代值列表
+_, _, f = nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True) # 第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = ou.nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
+_, _, f = nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -142,7 +142,7 @@ plt.show()
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool.constrain as oc
+from optimtool.constrain import equal
 
 f, x1, x2 = sp.symbols("f x1 x2")
 f = x1 + np.sqrt(3) * x2
@@ -155,9 +155,9 @@ x_0 = (-1, -1)
 f_list = []
 title = ["penalty_quadratic", "lagrange_augmented"]
 colorlist = ["maroon", "teal"]
-_, _, f = oc.equal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = equal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = oc.equal.lagrange_augmented(funcs, args, cons, x_0, False, True)
+_, _, f = equal.lagrange_augmented(funcs, args, cons, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -185,7 +185,7 @@ plt.show()
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool.constrain as oc
+from optimtool.constrain import unequal
 
 f, x1, x2 = sp.symbols("f x1 x2")
 f = x1**2 + (x2 - 2)**2
@@ -199,9 +199,9 @@ x_0 = (2, 3)
 f_list = []
 title = ["penalty_quadratic", "penalty_interior_fraction"]
 colorlist = ["maroon", "teal"]
-_, _, f = oc.unequal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = unequal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = oc.unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True)
+_, _, f = unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -230,7 +230,7 @@ plt.show()
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool.constrain as oc
+from optimtool.constrain import mixequal
 
 f, x1, x2 = sp.symbols("f x1 x2")
 f = (x1 - 2)**2 + (x2 - 1)**2
@@ -245,11 +245,11 @@ x_0 = (0.5, 1)
 f_list = []
 title = ["penalty_quadratic", "penalty_L1", "lagrange_augmented"]
 colorlist = ["maroon", "teal", "orange"]
-_, _, f = oc.mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = oc.mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, False, True)
+_, _, f = mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
-_, _, f = oc.mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, False, True)
+_, _, f = mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -285,7 +285,7 @@ $$
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool.example as oe
+from optimtool.example import Lasso
 
 import scipy.sparse as ss
 f, A, b, mu = sp.symbols("f A b mu")
@@ -302,9 +302,9 @@ x_0 = tuple([1 for i in range(8)])
 f_list = []
 title = ["gradient_descent", "subgradient"]
 colorlist = ["maroon", "teal"]
-_, _, f = oe.Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)# 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)# 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = oe.Lasso.subgradient(A, b, mu, args, x_0, False, True)
+_, _, f = Lasso.subgradient(A, b, mu, args, x_0, False, True)
 f_list.append(f)
 
 # 绘图
