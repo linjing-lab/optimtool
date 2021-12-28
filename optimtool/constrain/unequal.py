@@ -257,7 +257,7 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
             sigma = p * sigma
             etak = 1 / sigma
             epsilonk  = 1 / sigma**alpha
-    function_plot_iteration(f, draw, "lagrange_augmented_mixequal")
+    function_plot_iteration(f, draw, "lagrange_augmented_unequal")
     if output_f is True:
         return x_0, k, f
     else:
