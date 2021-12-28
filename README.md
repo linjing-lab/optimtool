@@ -125,8 +125,6 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-`图示`：
-
 
 
 ## 3. 等式约束优化测试
@@ -173,7 +171,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-`图示`：
+
 
 ## 4. 不等式约束优化测试
 * from optimtool.constrain import unequal
@@ -216,10 +214,7 @@ plt.ylabel("$Objective \ function \ value: \ f(x_k)$")
 plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
-
 ```
-`图示`：
-
 
 
 ## 5. 混合等式约束测试
@@ -268,8 +263,6 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-`图示`：
-
 
 
 ## 6. [Lasso](https://zhuanlan.zhihu.com/p/390930621)问题测试
@@ -320,7 +313,5 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-`图示`：
-
 
 
