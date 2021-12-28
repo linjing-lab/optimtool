@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://gitcode.net/linjing_zyq/optimtool",
     project_urls={
-        "Bug Tracker": "https://github.com/pypa/sampleproject/issues",
+        "Bug Tracker": "https://gitcode.net/linjing_zyq/optimtool/-/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
