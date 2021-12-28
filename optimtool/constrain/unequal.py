@@ -1,10 +1,10 @@
 import numpy as np
 import sympy as sp
 from functions.tools import function_f_x_k, function_plot_iteration
-from optimtool.unconstrain import newton_quasi
+from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
 
 # 二次罚函数法（不等式约束）
-def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=10, p=0.4, epsilon=1e-10, k=0):
+def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.4, epsilon=1e-10, k=0):
     '''
     Parameters
     ----------
@@ -58,7 +58,14 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=1
         consv = np.where(consv <= 0, consv, 1)
         consv = np.where(consv > 0, consv, 0)
         pe = sp.Matrix([funcs + (sigma / 2) * cons.T * consv])
-        x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        if method == "gradient_descent":
+            x_0, _ = gradient_descent.barzilar_borwein(pe, args, tuple(x_0), draw=False)
+        elif method == "newton":
+            x_0, _ = newton.CG(pe, args, tuple(x_0), draw=False)
+        elif method == "newton_quasi":
+            x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        elif method == "trust_region":
+            x_0, _ = trust_region.steihaug_CG(pe, args, tuple(x_0), draw=False)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
@@ -76,7 +83,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=1
 保证点在定义域内
 '''
 # 分式
-def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, sigma=12, p=0.6, epsilon=1e-6, k=0):
+def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0):
     '''
     Parameters
     ----------
@@ -130,7 +137,14 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         pe = sp.Matrix([funcs - sigma * sub_pe])
-        x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        if method == "gradient_descent":
+            x_0, _ = gradient_descent.barzilar_borwein(pe, args, tuple(x_0), draw=False)
+        elif method == "newton":
+            x_0, _ = newton.CG(pe, args, tuple(x_0), draw=False)
+        elif method == "newton_quasi":
+            x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        elif method == "trust_region":
+            x_0, _ = trust_region.steihaug_CG(pe, args, tuple(x_0), draw=False)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
