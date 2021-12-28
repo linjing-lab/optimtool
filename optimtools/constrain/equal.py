@@ -1,7 +1,7 @@
 import numpy as np
 import sympy as sp
 from functions.tools import function_f_x_k, function_plot_iteration
-from optimtools.unconstrain import newton_quasi
+from optimtool.unconstrain import newton_quasi
 
 # 二次罚函数法（等式约束）
 def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, sigma=10, p=2, epsilon=1e-4, k=0):
