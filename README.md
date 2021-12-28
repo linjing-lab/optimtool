@@ -81,9 +81,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-`图像`：
 
-![image-20211229012313283](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012313283.png)
 
 ## 2. 非线性最小二乘问题
 * from optimtool.unconstrain import nonlinear_least_square
@@ -129,7 +127,7 @@ plt.show()
 ```
 `图示`：
 
-![image-20211229012332612](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012332612.png)
+
 
 ## 3. 等式约束优化测试
 * from optimtool.constrain import equal
@@ -176,7 +174,6 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图示`：
-![image-20211229012352452](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012352452.png)
 
 ## 4. 不等式约束优化测试
 * from optimtool.constrain import unequal
@@ -223,7 +220,7 @@ plt.show()
 ```
 `图示`：
 
-![image-20211229012246399](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012246399.png)
+
 
 ## 5. 混合等式约束测试
 * from optimtool.constrain import mixequal
@@ -273,7 +270,7 @@ plt.show()
 ```
 `图示`：
 
-![image-20211229012422473](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012422473.png)
+
 
 ## 6. [Lasso](https://zhuanlan.zhihu.com/p/390930621)问题测试
 
@@ -325,5 +322,5 @@ plt.show()
 ```
 `图示`：
 
-![image-20211229012834617](C:\Users\林景\AppData\Roaming\Typora\typora-user-images\image-20211229012834617.png)
+
 
