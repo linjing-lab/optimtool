@@ -1,3 +1,8 @@
+import numpy as np
+import sympy as sp
+from functions.tools import function_f_x_k, function_plot_iteration
+from functions.linear_search import nonmonotonic_Grippo, nonmonotonic_ZhangHanger
+
 # 梯度下降法
 def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     '''
