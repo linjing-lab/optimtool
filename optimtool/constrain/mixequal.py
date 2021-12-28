@@ -29,6 +29,9 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
     output_f : bool
         输出迭代函数值列表
         
+    method : string
+        无约束优化方法内核
+        
     sigma : float
         罚函数因子
         
@@ -105,6 +108,9 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
         
     output_f : bool
         输出迭代函数值列表
+        
+    method : string
+        无约束优化方法内核
         
     sigma : float
         罚函数因子
@@ -185,6 +191,9 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
         
     output_f : bool
         输出迭代函数值列表
+        
+    method : string
+        无约束优化方法内核
         
     lamk : float
         因子
