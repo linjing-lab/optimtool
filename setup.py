@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="optimtool",
-    version="1.1.1",
+    version="0.1.1",
     author="林景",
     author_email="1439313331@qq.com",
     description="Tools for Mathematical Optimization Region.",
