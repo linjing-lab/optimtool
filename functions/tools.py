@@ -418,7 +418,7 @@ def function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0):
         con = sp.Matrix([cons])
         conv = np.array(con.subs(dict(zip(args, x_0)))).astype(np.float64)
         if conv > 0:
-            sub = sub + (cons**2 - (muk[i] / sigma)**2)
+            sub = sub + cons**2 - (muk[i] / sigma)**2
         else:
             sub = sub - (muk[i] / sigma)**2
     sub = sp.Matrix([sub])
@@ -456,11 +456,15 @@ def function_v_k(cons_equal, cons_unequal, args, muk, sigma, x_0):
     sub = 0
     reps = dict(zip(args, x_0))
     len_unequal = cons_unequal.shape[0]
-    consv_equal = np.array(cons_equal.subs(reps)).astype(np.float64)
     consv_unequal = np.array(cons_unequal.subs(reps)).astype(np.float64)
-    sub += (consv_equal.T).dot(consv_equal)
-    for i in range(len_unequal):
-        sub += (max(consv_unequal[i], - muk[i] / sigma))**2
+    if cons_equal is not None:
+        consv_equal = np.array(cons_equal.subs(reps)).astype(np.float64)
+        sub += (consv_equal.T).dot(consv_equal)
+        for i in range(len_unequal):
+            sub += (max(consv_unequal[i], - muk[i] / sigma))**2
+    else:
+        for i in range(len_unequal):
+            sub += (max(consv_unequal[i], - muk[i] / sigma))**2
     return np.sqrt(sub)
 
 def function_renew_mu_k(cons_unequal, args, muk, sigma, x_0):
