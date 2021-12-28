@@ -8,5 +8,5 @@ setup(
       author_email='1439313331@qq.com',
       url="https://gitcode.net/linjing_zyq/optimtool",
       packages=["optimtool", "optimtool.unconstrain", "optimtool.constrain", "optimtool.hybrid", "optimtool.example", "functions"], 
-      install_requires=['numPy', 'matplotlib', 'sympy'],
+      install_requires=['numpy', 'matplotlib', 'sympy'],
 )
