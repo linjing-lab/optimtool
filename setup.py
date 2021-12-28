@@ -2,7 +2,7 @@ from distutils.core import setup
  
 setup(
       name='optimtool',  # 包名
-      version='2.1.2',  # 版本号
+      version='2.2.2',  # 版本号
       description="Tools for Mathematical Optimization Region.",
       author='林景',
       author_email='1439313331@qq.com',
