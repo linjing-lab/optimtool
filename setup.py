@@ -21,6 +21,6 @@ setup(
       install_requires = [
             'numpy',
             'sympy',
-            'matplotlib',
+            'matplotlib'
       ],
 )
