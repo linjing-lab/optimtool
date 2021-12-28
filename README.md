@@ -82,7 +82,7 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 `图像`：
-
+<img src="https://img-blog.csdnimg.cn/31c73e0a194849cdb19094b3e0a36a4f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBARGVlR0xNYXRo,size_12,color_FFFFFF,t_70,g_se,x_16#pic_center">
 
 ## 2. 非线性最小二乘问题
 * from optimtool.unconstrain import nonlinear_least_square
