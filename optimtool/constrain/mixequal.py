@@ -1,10 +1,10 @@
 import numpy as np
 import sympy as sp
 from functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_v_k, function_renew_mu_k
-from optimtool.unconstrain import newton_quasi
+from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
 
 # 二次罚函数法（混合约束）
-def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, sigma=1, p=0.6, epsilon=1e-10, k=0):
+def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0):
     '''
     Parameters
     ----------
@@ -60,7 +60,14 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
         consv = np.where(consv <= 0, consv, 1)
         consv = np.where(consv > 0, consv, 0)
         pe = sp.Matrix([funcs + (sigma / 2) * cons_unequal.T * consv + (sigma / 2) * cons_equal.T * cons_equal])
-        x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        if method == "gradient_descent":
+            x_0, _ = gradient_descent.barzilar_borwein(pe, args, tuple(x_0), draw=False)
+        elif method == "newton":
+            x_0, _ = newton.CG(pe, args, tuple(x_0), draw=False)
+        elif method == "newton_quasi":
+            x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        elif method == "trust_region":
+            x_0, _ = trust_region.steihaug_CG(pe, args, tuple(x_0), draw=False)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
@@ -74,7 +81,7 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
         return x_0, k
 
 # 精确罚函数法-l1罚函数法（混合约束）
-def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, sigma=1, p=0.6, epsilon=1e-10, k=0):
+def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0):
     '''
     Parameters
     ----------
@@ -133,7 +140,14 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
         consv_equal = np.where(consv_equal <= 0, consv_equal, 1)
         consv_equal = np.where(consv_equal > 0, consv_equal, -1)
         pe = sp.Matrix([funcs + sigma * cons_unequal.T * consv_unequal + sigma * cons_equal.T * consv_equal])
-        x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        if method == "gradient_descent":
+            x_0, _ = gradient_descent.barzilar_borwein(pe, args, tuple(x_0), draw=False)
+        elif method == "newton":
+            x_0, _ = newton.CG(pe, args, tuple(x_0), draw=False)
+        elif method == "newton_quasi":
+            x_0, _ = newton_quasi.L_BFGS(pe, args, tuple(x_0), draw=False)
+        elif method == "trust_region":
+            x_0, _ = trust_region.steihaug_CG(pe, args, tuple(x_0), draw=False)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
@@ -147,7 +161,7 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
         return x_0, k
 
 # 增广拉格朗日函数法（混合约束）
-def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0):
+def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0):
     '''
     Parameters
     ----------
@@ -220,7 +234,14 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
         cons_uneuqal_modifyed = function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0)
         L = sp.Matrix([funcs + (sigma / 2) * (cons_equal.T * cons_equal + cons_uneuqal_modifyed) + cons_equal.T * lamk])
         f.append(function_f_x_k(funcs, args, x_0))
-        x_0, _ = newton_quasi.L_BFGS(L, args, x_0, draw=False, epsilon=etak)
+        if method == "gradient_descent":
+            x_0, _ = gradient_descent.barzilar_borwein(L, args, x_0, draw=False, epsilon=etak)
+        elif method == "newton":
+            x_0, _ = newton.CG(L, args, x_0, draw=False, epsilon=etak)
+        elif method == "newton_quasi":
+            x_0, _ = newton_quasi.L_BFGS(L, args, x_0, draw=False, epsilon=etak)
+        elif method == "trust_region":
+            x_0, _ = trust_region.steihaug_CG(L, args, x_0, draw=False, epsilon=etak)
         k = k + 1
         vkx = function_v_k(cons_equal, cons_unequal, args, muk, sigma, x_0)
         if vkx <= epsilonk:
