@@ -250,7 +250,7 @@ def function_CG_gradient(A, b, dk, epsilon=1e-6, k=0):
         k = k + 1
     return dk.reshape(1, -1), k
 
-def function_L_BFGS_float_loop(q, p, s, y, m, k, Hkm):
+def function_L_BFGS_double_loop(q, p, s, y, m, k, Hkm):
     '''
     Parameters
     ----------
