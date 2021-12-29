@@ -1,7 +1,7 @@
 import numpy as np
 import sympy as sp
 from functions.tools import function_f_x_k, function_plot_iteration
-from functions.linear_search import nonmonotonic_Grippo, nonmonotonic_ZhangHanger
+from functions.linear_search import armijo, goldstein, wolfe, nonmonotonic_Grippo, nonmonotonic_ZhangHanger
 
 # 梯度下降法
 def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
@@ -59,6 +59,60 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     else:
         return x_0, k
 
+# 最速下降法
+def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0):
+    '''
+    Parameters
+    ----------
+    funcs : sympy.matrices.dense.MutableDenseMatrix
+        当前目标方程
+        
+    args : sympy.matrices.dense.MutableDenseMatrix
+        参数列表
+        
+    x_0 : list
+        初始迭代点列表
+        
+    draw : bool
+        绘图接口参数
+        
+    output_f : bool
+        输出迭代函数值列表
+        
+    method : string
+        非精确线搜索方法
+        
+    epsilon : float
+        迭代停机准则
+        
+    k : int
+        迭代次数
+        
+
+    Returns
+    -------
+    tuple
+        最终收敛点, 迭代次数, (迭代函数值列表)
+        
+    '''
+    res = funcs.jacobian(args)
+    fx = []
+    while True:
+        reps = dict(zip(args, x_0))
+        fx.append(function_f_x_k(funcs, args, x_0))
+        dk = -np.array(res.subs(reps)).astype(np.float64)
+        if np.linalg.norm(dk) >= epsilon:
+            alpha = eval(method)(funcs, args, x_0, dk)
+            x_0 = x_0 + alpha * dk[0]
+            k = k + 1
+        else:
+            break
+    function_plot_iteration(fx, draw, "gradient_descent_steepest")
+    if output_f is True:
+        return x_0, k, fx
+    else:
+        return x_0, k
+    
 # Barzilar Borwein梯度下降法
 def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0):
     '''
