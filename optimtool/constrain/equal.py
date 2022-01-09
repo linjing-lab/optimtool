@@ -1,8 +1,3 @@
-import numpy as np
-import sympy as sp
-from functions.tools import function_f_x_k, function_plot_iteration
-from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
-
 # 二次罚函数法（等式约束）
 def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0):
     '''
@@ -48,6 +43,10 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
     assert sigma > 0
     assert p > 1
     point = []
@@ -129,6 +128,10 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
     assert sigma > 0
     assert p > 1
     f = []

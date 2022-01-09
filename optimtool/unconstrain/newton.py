@@ -1,7 +1,3 @@
-import numpy as np
-from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_CG_gradient
-from functions.linear_search import armijo, goldstein, wolfe
-
 '''
 牛顿类算法
 '''
@@ -41,6 +37,8 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.tools import function_f_x_k, function_plot_iteration
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
@@ -101,6 +99,9 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian
+    from functions.linear_search import armijo, goldstein, wolfe
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
@@ -160,6 +161,9 @@ def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.linear_search import armijo, goldstein, wolfe
+    from functions.tools import function_f_x_k, function_plot_iteration, function_CG_gradient
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     dk0 = np.zeros((args.shape[0], 1))

@@ -1,8 +1,3 @@
-import numpy as np
-import sympy as sp
-from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_CG_gradient
-from functions.linear_search import armijo, goldstein, wolfe
-
 '''
 非线性最小二乘问题
 '''
@@ -42,6 +37,10 @@ def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", ep
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import sympy as sp
+    import numpy as np
+    from functions.linear_search import armijo, goldstein, wolfe
+    from functions.tools import function_f_x_k, function_plot_iteration
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     f = []
@@ -118,6 +117,10 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import sympy as sp
+    import numpy as np
+    from functions.linear_search import armijo, goldstein, wolfe
+    from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_CG_gradient
     assert eta >= 0
     assert eta < p1
     assert p1 < p2

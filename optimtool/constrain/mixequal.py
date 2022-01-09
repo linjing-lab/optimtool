@@ -1,8 +1,3 @@
-import numpy as np
-import sympy as sp
-from functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_v_k, function_renew_mu_k
-from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
-
 # 二次罚函数法（混合约束）
 def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0):
     '''
@@ -51,6 +46,10 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
     assert sigma > 0
     assert p > 0
     point = []
@@ -131,6 +130,10 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
     assert sigma > 0
     assert p > 0
     point = []
@@ -229,6 +232,10 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_v_k, function_renew_mu_k
+    from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
     assert sigma > 0
     assert p > 1
     assert alpha > 0 

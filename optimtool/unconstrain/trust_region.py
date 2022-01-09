@@ -1,6 +1,3 @@
-import numpy as np
-from functions.tools import function_modify_hessian, function_steihaug_CG, function_plot_iteration
-
 '''
 信赖域算法
 '''
@@ -61,6 +58,8 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.tools import function_modify_hessian, function_steihaug_CG, function_plot_iteration
     assert eta >= 0
     assert r0 < rmax
     assert eta < p1

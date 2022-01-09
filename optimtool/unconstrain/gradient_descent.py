@@ -1,8 +1,3 @@
-import numpy as np
-import sympy as sp
-from functions.tools import function_f_x_k, function_plot_iteration
-from functions.linear_search import armijo, goldstein, wolfe, nonmonotonic_Grippo, nonmonotonic_ZhangHanger
-
 # 梯度下降法
 def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     '''
@@ -36,6 +31,9 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration
     res = funcs.jacobian(args)
     m = sp.symbols("m")
     arg = sp.Matrix([m])
@@ -95,6 +93,9 @@ def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilo
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.tools import function_f_x_k, function_plot_iteration
+    from functions.linear_search import armijo, goldstein, wolfe
     res = funcs.jacobian(args)
     fx = []
     while True:
@@ -161,6 +162,9 @@ def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.linear_search import nonmonotonic_Grippo, nonmonotonic_ZhangHanger
+    from functions.tools import function_f_x_k, function_plot_iteration
     assert M >= 0
     assert alpha > 0
     assert c1 > 0

@@ -1,7 +1,3 @@
-import numpy as np
-import sympy as sp
-from functions.tools import function_f_x_k, function_plot_iteration, function_get_f_delta_gradient, function_get_subgradient
-
 def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0):
     '''
     Parameters
@@ -46,6 +42,9 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration, function_get_f_delta_gradient
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
@@ -116,6 +115,9 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    import sympy as sp
+    from functions.tools import function_f_x_k, function_plot_iteration, function_get_subgradient
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     point = []

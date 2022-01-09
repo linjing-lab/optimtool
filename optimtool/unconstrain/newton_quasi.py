@@ -1,6 +1,3 @@
-import numpy as np
-from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_L_BFGS_double_loop
-from functions.linear_search import armijo, goldstein, wolfe
 '''
 拟牛顿类算法
 '''
@@ -43,6 +40,9 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.linear_search import armijo, goldstein, wolfe
+    from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
@@ -110,6 +110,9 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.linear_search import armijo, goldstein, wolfe
+    from functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
@@ -178,6 +181,9 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    import numpy as np
+    from functions.linear_search import armijo, goldstein, wolfe
+    from functions.tools import function_f_x_k, function_plot_iteration, function_L_BFGS_double_loop
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     l = hes.shape[0]
