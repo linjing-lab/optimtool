@@ -17,6 +17,7 @@
 | 解方程得到精确解法（solve）             | `solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)` | gradient_descent.solve(funcs, args, x_0)                     |
 | 基于Grippo非单调线搜索的梯度下降法      | `barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0)` | gradient_descent.barzilar_borwein(funcs, args, x_0, method="grippo") |
 | 基于ZhangHanger非单调线搜索的梯度下降法 | `barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="ZhangHanger", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0)` | gradient_descent.barzilar_borwein(funcs, args, x_0, method="ZhangHanger") |
+| 基于最速下降法的梯度下降法              | `steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)` | gradient_descent.steepest(funcs, args, x_0)                  |
 
 * from optimtool.unconstrain import newton
 
@@ -44,12 +45,10 @@
 | ------------------------------ | ------------------------------------------------------------ | ------------------------------------------ |
 | 基于截断共轭梯度法的信赖域算法 | `steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0)` | trust_region.steihaug_CG(funcs, args, x_0) |
 
-
-
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-from optimtool.unconstrain import gradient_descent, newton, newton_quasi, trust_region
+import optimtool as oo
 
 f, x1, x2, x3, x4 = sp.symbols("f x1 x2 x3 x4")
 f = (x1 - 1)**2 + (x2 - 1)**2 + (x3 - 1)**2 + (x1**2 + x2**2 + x3**2 + x4**2 - 0.25)**2
@@ -61,13 +60,13 @@ x_0 = (1, 2, 3, 4)
 f_list = []
 title = ["gradient_descent_barzilar_borwein", "newton_CG", "newton_quasi_L_BFGS", "trust_region_steihaug_CG"]
 colorlist = ["maroon", "teal", "slateblue", "orange"]
-_, _, f = gradient_descent.barzilar_borwein(funcs, args, x_0, False, True)
+_, _, f = oo.unconstrain.gradient_descent.barzilar_borwein(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = newton.CG(funcs, args, x_0, False, True)
+_, _, f = oo.unconstrain.newton.CG(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = newton_quasi.L_BFGS(funcs, args, x_0, False, True)
+_, _, f = oo.unconstrain.newton_quasi.L_BFGS(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = trust_region.steihaug_CG(funcs, args, x_0, False, True)
+_, _, f = oo.unconstrain.trust_region.steihaug_CG(funcs, args, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -97,7 +96,7 @@ plt.show()
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-from optimtool.unconstrain import nonlinear_least_square
+import optimtool as oo
 
 r1, r2, x1, x2 = sp.symbols("r1 r2 x1 x2")
 r1 = x1**3 - 2*x2**2 - 1
@@ -109,9 +108,9 @@ x_0 = (2, 2)
 f_list = []
 title = ["gauss_newton", "levenberg_marquardt"]
 colorlist = ["maroon", "teal"]
-_, _, f = nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True) # 第五参数控制输出函数迭代值列表
+_, _, f = oo.unconstrain.nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True) # 第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
+_, _, f = oo.unconstrain.nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -142,7 +141,7 @@ plt.show()
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
-from optimtool.constrain import equal
+import optimtool as oo
 
 f, x1, x2 = sp.symbols("f x1 x2")
 f = x1 + np.sqrt(3) * x2
@@ -155,9 +154,9 @@ x_0 = (-1, -1)
 f_list = []
 title = ["penalty_quadratic", "lagrange_augmented"]
 colorlist = ["maroon", "teal"]
-_, _, f = equal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.constrain.equal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = equal.lagrange_augmented(funcs, args, cons, x_0, False, True)
+_, _, f = oo.constrain.equal.lagrange_augmented(funcs, args, cons, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -186,7 +185,7 @@ plt.show()
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-from optimtool.constrain import unequal
+import optimtool as oo
 
 f, x1, x2 = sp.symbols("f x1 x2")
 f = x1**2 + (x2 - 2)**2
@@ -200,9 +199,9 @@ x_0 = (2, 3)
 f_list = []
 title = ["penalty_quadratic", "penalty_interior_fraction"]
 colorlist = ["maroon", "teal"]
-_, _, f = unequal.penalty_quadratic(funcs, args, cons, x_0, False, True, method="newton", sigma=10, epsilon=1e-6) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.constrain.unequal.penalty_quadratic(funcs, args, cons, x_0, False, True, method="newton", sigma=10, epsilon=1e-6) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True, method="newton")
+_, _, f = oo.constrain.unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True, method="newton")
 f_list.append(f)
 
 # 绘图
@@ -224,7 +223,7 @@ plt.show()
 import sympy as sp
 
 # 导入约束优化
-from optimtool.constrain import unequal
+import optimtool as oo
 
 # 构造函数
 f1 = sp.symbols("f1")
@@ -238,7 +237,7 @@ funcs1 = sp.Matrix([f1])
 args1 = sp.Matrix([x1, x2, x3, x4])
 x_1 = (0, 0, 0, 0)
 
-x_0, _, f = unequal.lagrange_augmented(funcs1, args1, cons_unequal1, x_1, output_f=True, method="trust_region", sigma=1, muk=1, p=1.2)
+x_0, _, f = oo.constrain.unequal.lagrange_augmented(funcs1, args1, cons_unequal1, x_1, output_f=True, method="trust_region", sigma=1, muk=1, p=1.2)
 for i in range(len(x_0)):
      x_0[i] = round(x_0[i], 2)
 print("\n最终收敛点：", x_0, "\n目标函数值：", f[-1])
@@ -265,7 +264,7 @@ print("\n最终收敛点：", x_0, "\n目标函数值：", f[-1])
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
-from optimtool.constrain import mixequal
+import optimtool as oo
 
 f, x1, x2 = sp.symbols("f x1 x2")
 f = (x1 - 2)**2 + (x2 - 1)**2
@@ -280,11 +279,11 @@ x_0 = (0.5, 1)
 f_list = []
 title = ["penalty_quadratic", "penalty_L1", "lagrange_augmented"]
 colorlist = ["maroon", "teal", "orange"]
-_, _, f = mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.constrain.mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, False, True)
+_, _, f = oo.constrain.mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
-_, _, f = mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, False, True)
+_, _, f = oo.constrain.mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -315,7 +314,7 @@ plt.show()
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
-from optimtool.example import Lasso
+import optimtool as oo
 
 import scipy.sparse as ss
 f, A, b, mu = sp.symbols("f A b mu")
@@ -332,9 +331,9 @@ x_0 = tuple([1 for i in range(8)])
 f_list = []
 title = ["gradient_descent", "subgradient"]
 colorlist = ["maroon", "teal"]
-_, _, f = Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)# 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.example.Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)# 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
 f_list.append(f)
-_, _, f = Lasso.subgradient(A, b, mu, args, x_0, False, True)
+_, _, f = oo.example.Lasso.subgradient(A, b, mu, args, x_0, False, True)
 f_list.append(f)
 
 # 绘图
@@ -349,3 +348,36 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 
+## 7. WanYuan问题测试
+
+* from optimtool.example import WanYuan
+
+| 方法                            | 函数参数                                                     | 调用示例                                                     |
+| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 构造7个残差函数并采用高斯牛顿法 | `gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10)` | WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5, -0.5, 2.5, -0.05), draw=True) |
+
+`问题描述`：
+
+给定直线方程的斜率（$m$）与截距（$n$），给定一元二次方程的二次项系数（$a$）、一次项系数（$b$）、常数（$c$），给定一个过定点的圆（$x_3$，$y_3$​​），要求这个过定点的圆与直线（$x_1$，$y_1$）和抛物线（$x_2$，$y_2$）相切的切点以及该圆的圆心（$x_0$，$y_0$）。
+
+`code`：
+
+```python
+# 导包
+import sympy as sp
+import matplotlib.pyplot as plt
+import optimtool as oo
+
+# 构造数据
+m = 1
+n = 2
+a = 0.2
+b = -1.4
+c = 2.2
+x3 = 2*(1/2)
+y3 = 0
+x_0 = (0, -1, -2.5, -0.5, 2.5, -0.05)
+
+# 训练
+oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5, -0.5, 2.5, -0.05), draw=True)
+```
