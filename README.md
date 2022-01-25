@@ -1,49 +1,22 @@
 # README.md
 
-中文博客主页：https://blog.csdn.net/linjing_zyq
+Chinese blog homepage：https://blog.csdn.net/linjing_zyq
 
-`pip install optimtool`
+How to use it：`pip install optimtool`
 
-## 1. 无约束优化算法性能对比
+## 1. Unconstrained optimization algorithm performance comparison
 
-前五个参数完全一致，其中第四个参数是绘图接口，默认绘制单个算法的迭代过程；第五个参数是输出函数迭代值接口，默认为不输出。
+The first five identical parameters, wherein the fourth parameter is the drawing interface, rendering the default single iteration of the algorithm; fifth parameter is a function of iteration output interfaces, the default is not output.
 
-`method`：用于传递线搜索方式
+`method`：Used for transmission line search
 
 * from optimtool.unconstrain import gradient_descent
 
-| 方法                                    | 函数参数                                                     | 调用示例                                                     |
-| --------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 解方程得到精确解法（solve）             | `solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)` | gradient_descent.solve(funcs, args, x_0)                     |
-| 基于Grippo非单调线搜索的梯度下降法      | `barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0)` | gradient_descent.barzilar_borwein(funcs, args, x_0, method="grippo") |
-| 基于ZhangHanger非单调线搜索的梯度下降法 | `barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="ZhangHanger", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0)` | gradient_descent.barzilar_borwein(funcs, args, x_0, method="ZhangHanger") |
-| 基于最速下降法的梯度下降法              | `steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)` | gradient_descent.steepest(funcs, args, x_0)                  |
-
 * from optimtool.unconstrain import newton
-
-| 方法                                  | 函数参数                                                     | 调用示例                                              |
-| ------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------- |
-| 经典牛顿法                            | `classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)` | newton.classic(funcs, args, x_0)                      |
-| 基于armijo线搜索方法的修正牛顿法      | `modified(funcs, args, x_0, draw=True, output_f=False, method="armijo", m=20, epsilon=1e-10, k=0)` | newton.modified(funcs, args, x_0, method="armijo")    |
-| 基于goldstein线搜索方法的修正牛顿法   | `modified(funcs, args, x_0, draw=True, output_f=False, method="goldstein", m=20, epsilon=1e-10, k=0)` | newton.modified(funcs, args, x_0, method="goldstein") |
-| 基于wolfe线搜索方法的修正牛顿法       | `modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0)` | newton.modified(funcs, args, x_0, method="wolfe")     |
-| 基于armijo线搜索方法的非精确牛顿法    | `CG(funcs, args, x_0, draw=True, output_f=False, method="armijo", epsilon=1e-6, k=0)` | newton.CG(funcs, args, x_0, method="armijo")          |
-| 基于goldstein线搜索方法的非精确牛顿法 | `CG(funcs, args, x_0, draw=True, output_f=False, method="goldstein", epsilon=1e-6, k=0)` | newton.CG(funcs, args, x_0, method="goldstein")       |
-| 基于wolfe线搜索方法的非精确牛顿法     | `CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6, k=0)` | newton.CG(funcs, args, x_0, method="wolfe")           |
 
 * from optimtool.unconstrain import newton_quasi
 
-| 方法                                       | 函数参数                                                     | 调用示例                              |
-| ------------------------------------------ | ------------------------------------------------------------ | ------------------------------------- |
-| 基于BFGS方法更新海瑟矩阵的拟牛顿法         | `bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0)` | newton_quasi.bfgs(funcs, args, x_0)   |
-| 基于DFP方法更新海瑟矩阵的拟牛顿法          | `dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-4, k=0)` | newton_quasi.dfp(funcs, args, x_0)    |
-| 基于有限内存BFGS方法更新海瑟矩阵的拟牛顿法 | `L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, epsilon=1e-10, k=0)` | newton_quasi.L_BFGS(funcs, args, x_0) |
-
 * from optimtool.unconstrain import trust_region
-
-| 方法                           | 函数参数                                                     | 调用示例                                   |
-| ------------------------------ | ------------------------------------------------------------ | ------------------------------------------ |
-| 基于截断共轭梯度法的信赖域算法 | `steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0)` | trust_region.steihaug_CG(funcs, args, x_0) |
 
 ```python
 import sympy as sp
@@ -56,7 +29,6 @@ funcs = sp.Matrix([f])
 args = sp.Matrix([x1, x2, x3, x4])
 x_0 = (1, 2, 3, 4)
 
-# 无约束优化测试函数性能对比
 f_list = []
 title = ["gradient_descent_barzilar_borwein", "newton_CG", "newton_quasi_L_BFGS", "trust_region_steihaug_CG"]
 colorlist = ["maroon", "teal", "slateblue", "orange"]
@@ -69,7 +41,7 @@ f_list.append(f)
 _, _, f = oo.unconstrain.trust_region.steihaug_CG(funcs, args, x_0, False, True)
 f_list.append(f)
 
-# 绘图
+# draw
 handle = []
 for j, z in zip(colorlist, f_list):
     ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
@@ -82,16 +54,8 @@ plt.show()
 ```
 
 
-## 2. 非线性最小二乘问题
+## 2. Nonlinear least squares problem
 * from optimtool.unconstrain import nonlinear_least_square
-
-`method`：用于传递线搜索方法
-
-| 方法                                            | 函数参数                                                     | 调用示例                                                     |
-| ----------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 基于高斯牛顿法的非线性最小二乘问题解法          | `gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)` | nonlinear_least_square.gauss_newton(funcr, args, x_0)        |
-| 基于levenberg_marquardt的非线性最小二乘问题解法 | `levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk=1, eta=0.2, p1=0.4, p2=0.9, gamma1=0.7, gamma2=1.3, epsilon=1e-10, k=0)` | nonlinear_least_square.levenberg_marquardt(funcr, args, x_0) |
-
 
 ```python
 import sympy as sp
@@ -108,12 +72,12 @@ x_0 = (2, 2)
 f_list = []
 title = ["gauss_newton", "levenberg_marquardt"]
 colorlist = ["maroon", "teal"]
-_, _, f = oo.unconstrain.nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True) # 第五参数控制输出函数迭代值列表
+_, _, f = oo.unconstrain.nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True)
 f_list.append(f)
 _, _, f = oo.unconstrain.nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
 f_list.append(f)
 
-# 绘图
+# draw
 handle = []
 for j, z in zip(colorlist, f_list):
     ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
@@ -126,16 +90,8 @@ plt.show()
 ```
 
 
-## 3. 等式约束优化测试
+## 3. Equality Constrained Optimization Test
 * from optimtool.constrain import equal
-
-无约束内核默认采用wolfe线搜索方法
-
-| 方法           | 函数参数                                                     | 调用示例                                         |
-| -------------- | ------------------------------------------------------------ | ------------------------------------------------ |
-| 二次罚函数法   | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0)` | equal.penalty_quadratic(funcs, args, cons, x_0)  |
-| 增广拉格朗日法 | `lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0)` | equal.lagrange_augmented(funcs, args, cons, x_0) |
-
 
 ```python
 import numpy as np
@@ -154,12 +110,12 @@ x_0 = (-1, -1)
 f_list = []
 title = ["penalty_quadratic", "lagrange_augmented"]
 colorlist = ["maroon", "teal"]
-_, _, f = oo.constrain.equal.penalty_quadratic(funcs, args, cons, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.constrain.equal.penalty_quadratic(funcs, args, cons, x_0, False, True)
 f_list.append(f)
 _, _, f = oo.constrain.equal.lagrange_augmented(funcs, args, cons, x_0, False, True)
 f_list.append(f)
 
-# 绘图
+# draw
 handle = []
 for j, z in zip(colorlist, f_list):
     ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
@@ -172,16 +128,9 @@ plt.show()
 ```
 
 
-## 4. 不等式约束优化测试
+## 4. Inequality constrained optimization test
 * from optimtool.constrain import unequal
 
-无约束内核默认采用wolfe线搜索方法
-
-| 方法                                 | 函数参数                                                     | 调用示例                                                  |
-| ------------------------------------ | ------------------------------------------------------------ | --------------------------------------------------------- |
-| 二次罚函数法                         | `penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.4, epsilon=1e-10, k=0)` | unequal.penalty_quadratic(funcs, args, cons, x_0)         |
-| 内点（分式）罚函数法                 | `penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)` | unequal.penalty_interior_fraction(funcs, args, cons, x_0) |
-| 拉格朗日法（本质上为不存在等式约束） | `lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0)` | unequal.lagrange_augmented(funcs, args, cons, x_0)        |
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
@@ -199,12 +148,12 @@ x_0 = (2, 3)
 f_list = []
 title = ["penalty_quadratic", "penalty_interior_fraction"]
 colorlist = ["maroon", "teal"]
-_, _, f = oo.constrain.unequal.penalty_quadratic(funcs, args, cons, x_0, False, True, method="newton", sigma=10, epsilon=1e-6) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.constrain.unequal.penalty_quadratic(funcs, args, cons, x_0, False, True, method="newton", sigma=10, epsilon=1e-6)
 f_list.append(f)
 _, _, f = oo.constrain.unequal.penalty_interior_fraction(funcs, args, cons, x_0, False, True, method="newton")
 f_list.append(f)
 
-# 绘图
+# draw
 handle = []
 for j, z in zip(colorlist, f_list):
     ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
@@ -216,16 +165,15 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 
-`单独测试拉格朗日方法`：
+`Single test Lagrange method`：
 
 ```python
-# 导入符号运算的包
 import sympy as sp
 
-# 导入约束优化
+# import optimtool
 import optimtool as oo
 
-# 构造函数
+# make functions
 f1 = sp.symbols("f1")
 x1, x2, x3, x4 = sp.symbols("x1 x2 x3 x4")
 f1 = x1**2 + x2**2 + 2*x3**3 + x4**2 - 5*x1 - 5*x2 - 21*x3 + 7*x4
@@ -240,27 +188,20 @@ x_1 = (0, 0, 0, 0)
 x_0, _, f = oo.constrain.unequal.lagrange_augmented(funcs1, args1, cons_unequal1, x_1, output_f=True, method="trust_region", sigma=1, muk=1, p=1.2)
 for i in range(len(x_0)):
      x_0[i] = round(x_0[i], 2)
-print("\n最终收敛点：", x_0, "\n目标函数值：", f[-1])
+print("\nfinal point：", x_0, "\nTarget function value：", f[-1])
 ```
 
 `result`：
 
 ```python
-最终收敛点： [ 2.5   2.5   1.87 -3.5 ] 
-目标函数值： -50.94151192711454
+final point： [ 2.5   2.5   1.87 -3.5 ] 
+Target function value： -50.94151192711454
 ```
 
-## 5. 混合等式约束测试
+## 5. Mixed equation constraint test
 
 * from optimtool.constrain import mixequal
 
-无约束内核默认采用wolfe线搜索方法
-
-| 方法               | 函数参数                                                     | 调用示例                                                     |
-| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 二次罚函数法       | `penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)` | mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0) |
-| L1罚函数法         | `penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)` | mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0) |
-| 增广拉格朗日函数法 | `lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0)` | mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0) |
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
@@ -279,14 +220,14 @@ x_0 = (0.5, 1)
 f_list = []
 title = ["penalty_quadratic", "penalty_L1", "lagrange_augmented"]
 colorlist = ["maroon", "teal", "orange"]
-_, _, f = oo.constrain.mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, False, True) # 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.constrain.mixequal.penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
 _, _, f = oo.constrain.mixequal.penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
 _, _, f = oo.constrain.mixequal.lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, False, True)
 f_list.append(f)
 
-# 绘图
+# draw
 handle = []
 for j, z in zip(colorlist, f_list):
     ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
@@ -299,16 +240,9 @@ plt.show()
 ```
 
 
-## 6. [Lasso](https://zhuanlan.zhihu.com/p/390930621)问题测试
+## 6. Lasso problem test
 
 * from optimtool.example import Lasso
-
-
-| 方法       | 函数参数                                                     | 调用示例                                     |
-| ---------- | ------------------------------------------------------------ | -------------------------------------------- |
-| 梯度下降法 | `gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0)` | Lasso.gradient_descent(A, b, mu, args, x_0,) |
-| 次梯度算法 | `subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)` | Lasso.subgradient(A, b, mu, args, x_0,)      |
-
 
 ```python
 import numpy as np
@@ -331,12 +265,12 @@ x_0 = tuple([1 for i in range(8)])
 f_list = []
 title = ["gradient_descent", "subgradient"]
 colorlist = ["maroon", "teal"]
-_, _, f = oo.example.Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)# 第四个参数控制单个算法不显示迭代图，第五参数控制输出函数迭代值列表
+_, _, f = oo.example.Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)
 f_list.append(f)
 _, _, f = oo.example.Lasso.subgradient(A, b, mu, args, x_0, False, True)
 f_list.append(f)
 
-# 绘图
+# draw
 handle = []
 for j, z in zip(colorlist, f_list):
     ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
@@ -348,27 +282,23 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 
-## 7. WanYuan问题测试
+## 7. WanYuan problem test
 
 * from optimtool.example import WanYuan
 
-| 方法                            | 函数参数                                                     | 调用示例                                                     |
-| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 构造7个残差函数并采用高斯牛顿法 | `gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10)` | WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5, -0.5, 2.5, -0.05), draw=True) |
+`problem describe`：
 
-`问题描述`：
-
-给定直线方程的斜率（$m$）与截距（$n$），给定一元二次方程的二次项系数（$a$）、一次项系数（$b$）、常数（$c$），给定一个过定点的圆（$x_3$，$y_3$​​），要求这个过定点的圆与直线（$x_1$，$y_1$）和抛物线（$x_2$，$y_2$）相切的切点以及该圆的圆心（$x_0$，$y_0$）。
+Given slope and intercept of the linear equation, a quadratic equation given quadratic coefficient, a coefficient, a constant term, through a given point of the circle, the circle point over the required straight line tangent to the parabola and cut-off point and center of the circle.
 
 `code`：
 
 ```python
-# 导包
+# import packages
 import sympy as sp
 import matplotlib.pyplot as plt
 import optimtool as oo
 
-# 构造数据
+# make data
 m = 1
 n = 2
 a = 0.2
@@ -378,6 +308,6 @@ x3 = 2*(1/2)
 y3 = 0
 x_0 = (0, -1, -2.5, -0.5, 2.5, -0.05)
 
-# 训练
+# train
 oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5, -0.5, 2.5, -0.05), draw=True)
 ```
