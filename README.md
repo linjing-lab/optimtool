@@ -2,6 +2,8 @@
 
 Chinese blog homepage：https://blog.csdn.net/linjing_zyq
 
+GitCode Url: https://gitcode.net/linjing_zyq/optimtool
+
 How to use it：`pip install optimtool`
 
 ## 1. Unconstrained optimization algorithm performance comparison
