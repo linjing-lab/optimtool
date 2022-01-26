@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: optimtool
+Version: 2.3.4
+Summary: Tools for Mathematical Optimization Region.
+Home-page: https://gitcode.net/linjing_zyq/optimtool
+Author: 林景
+Author-email: 1439313331@qq.com
+License: UNKNOWN
+Platform: UNKNOWN
+
+The steepest descent method is added, the research on Wan Yuan problem is added, and the guide package method is changed.
+
