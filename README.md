@@ -238,7 +238,7 @@ plt.show()
 ```
 
 
-### 3. Equality Constrained Optimization Test
+### 3. Equality constrained Optimization Test
 
 ```python
 import numpy as np
