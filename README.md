@@ -8,7 +8,7 @@ How to use it：`pip install optimtool`
 
 In this project, the solution types of problems corresponding to each method are different, so some problems that are not applicable to the method will appear in the actual application process. At this time, it can be solved by replacing the method library. All methods are designed and encapsulated on the basis of norm, derivative, convex set, convex function, conjugate function, subgradient and optimization theory. The algorithms of hybrid-optimization and the application fields of unconstrained-optimization and constrained-optimization are still being updated. It is hoped that more people in the industry will provide a good algorithm design framework.
 
-## Introduce to use Unconstrained-optimization
+## Introduce to use unconstrained-optimization
 
 There are five mainstream methods, one of which is used to solve the nonlinear least squares problem.
 
@@ -79,7 +79,7 @@ from optimtool.unconstrain import trust_region
 |--|--|
 |steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0)|The truncated conjugate gradient method is used to search the gradient.|
 
-## Introduce to use Constrained-optimization
+## Introduce to use constrained-optimization
 
 Here is the method library of inequality constraints, equality constraints and mixed equality constraints.
 
@@ -124,7 +124,7 @@ from optimtool.constrain import mixequal
 |penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)|The design idea of L1 penalty function is adopted.|
 |lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0)|Design idea of solving frame based on Augmented Lagrange multiplier method.|
 
-## Introduce to use Hybrid-optimization
+## Introduce to use hybrid-optimization
 
 The algorithm of this section will be updated in the future
 
@@ -203,7 +203,7 @@ plt.show()
 ```
 
 
-## 2. Nonlinear least squares problem
+### 2. Nonlinear least squares problem
 
 ```python
 import sympy as sp
@@ -238,7 +238,7 @@ plt.show()
 ```
 
 
-## 3. Equality Constrained Optimization Test
+### 3. Equality Constrained Optimization Test
 
 ```python
 import numpy as np
@@ -275,7 +275,7 @@ plt.show()
 ```
 
 
-## 4. Inequality constrained optimization test
+### 4. Inequality constrained optimization test
 
 ```python
 import sympy as sp
@@ -344,7 +344,7 @@ final point： [ 2.5   2.5   1.87 -3.5 ]
 Target function value： -50.94151192711454
 ```
 
-## 5. Mixed equation constraint test
+### 5. Mixed equation constraint test
 
 ```python
 import sympy as sp
@@ -384,7 +384,7 @@ plt.show()
 ```
 
 
-## 6. Lasso problem test
+### 6. Lasso problem test
 
 ```python
 import numpy as np
@@ -424,7 +424,7 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 
-## 7. WanYuan problem test
+### 7. WanYuan problem test
 
 ```python
 # import packages
