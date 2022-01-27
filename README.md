@@ -6,19 +6,166 @@ GitCode Url: https://gitcode.net/linjing_zyq/optimtool
 
 How to use it：`pip install optimtool`
 
-## 1. Unconstrained optimization algorithm performance comparison
+In this project, the solution types of problems corresponding to each method are different, so some problems that are not applicable to the method will appear in the actual application process. At this time, it can be solved by replacing the method library. All methods are designed and encapsulated on the basis of norm, derivative, convex set, convex function, conjugate function, subgradient and optimization theory. The algorithms of hybrid-optimization and the application fields of unconstrained-optimization and constrained-optimization are still being updated. It is hoped that more people in the industry will provide a good algorithm design framework.
 
-The first five identical parameters, wherein the fourth parameter is the drawing interface, rendering the default single iteration of the algorithm; fifth parameter is a function of iteration output interfaces, the default is not output.
+## Introduce to use Unconstrained-optimization
 
-`method`：Used for transmission line search
+There are five mainstream methods, one of which is used to solve the nonlinear least squares problem.
 
-* from optimtool.unconstrain import gradient_descent
+### gradient_descent
 
-* from optimtool.unconstrain import newton
+`import packages`:
 
-* from optimtool.unconstrain import newton_quasi
+from optimtool.unconstrain import gradient_descent
 
-* from optimtool.unconstrain import trust_region
+`method list`:
+
+|method|explanation|
+|--|--|
+|solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)|The exact step size is solved by solving the equation.|
+|steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)|The inexact step size is obtained by using the line search method.|
+|barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0)|The non monotonic line search method (grippo and Zhang hanger) is used to obtain the inexact step size.|
+
+### newton
+
+`import packages`:
+
+from optimtool.unconstrain import newton
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)|The exact step size is obtained by directly solving the inverse of heather matrix.|
+|modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0)|The positive definiteness of heather matrix is determined and corrected.|
+|CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6, k=0)|The conjugate gradient method is used to solve the optimal step size.|
+
+### newton_quasi
+
+`import packages`:
+
+from optimtool.unconstrain import newton_quasi
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0)|Update Heather matrix by BFGS.|
+|dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-4, k=0)|Update Heather matrix by DFP.|
+|L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, epsilon=1e-10, k=0)|Finite memory and double loop method are used to solve the updated Heather matrix.|
+
+### nonlinear_least_square
+
+`import packages`:
+
+from optimtool.unconstrain import nonlinear_least_square
+
+`method_list`:
+
+|method|explanation|
+|--|--|
+|gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)|Gauss Newton proposed a framework for solving nonlinear least squares problems, including QR decomposition and other operations.
+|levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk=1, eta=0.2, p1=0.4, p2=0.9, gamma1=0.7, gamma2=1.3, epsilon=1e-10, k=0)|A framework for solving nonlinear least squares problems proposed by Levenberg Marquardt.|
+
+### trust_region
+
+`import packages`:
+
+from optimtool.unconstrain import trust_region
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0)|The truncated conjugate gradient method is used to search the gradient.|
+
+## Introduce to use Constrained-optimization
+
+Here is the method library of inequality constraints, equality constraints and mixed equality constraints.
+
+### equal
+
+`import packages`:
+
+from optimtool.constrain import equal
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0)|Design idea based on quadratic penalty function.|
+|lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0)|Design idea of solving frame based on Augmented Lagrange multiplier method.|
+
+### unequal
+
+`import packages`:
+
+from optimtool.constrain import unequal
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.4, epsilon=1e-10, k=0)|Design idea based on quadratic penalty function.|
+|penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)|Design idea of interior point method.|
+|lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0)|Design idea of solving frame based on Augmented Lagrange multiplier method.|
+
+### mixequal
+
+`import packages`:
+
+from optimtool.constrain import mixequal
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0)|Design idea based on quadratic penalty function.|
+|penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)|The design idea of L1 penalty function is adopted.|
+|lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0)|Design idea of solving frame based on Augmented Lagrange multiplier method.|
+
+## Introduce to use Hybrid-optimization
+
+The algorithm of this section will be updated in the future
+
+## Introduce to use example
+
+In this section, we will discuss the application of unconstrained, constrained and hybrid optimization in different fields.
+
+### Lasso
+
+You can search the specific form and solution method of lasso problem on the Internet. Here, the solution of the objective function of lasso problem is dealt with uniformly.
+
+`import packages`:
+
+from optimtool.example import example
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0)|The idea of smoothing lasso function is used to optimize the objective function, and the gradient descent kernel is used to solve it.|
+|subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)|The subgradient method is used to solve the problem that the absolute value function is not differentiable at the origin.|
+
+### WanYuan
+`problem describe`：
+
+Given slope and intercept of the linear equation, a quadratic equation given quadratic coefficient, a coefficient, a constant term, through a given point of the circle, the circle point over the required straight line tangent to the parabola and cut-off point and center of the circle.
+
+> This section is different from other sections, because I am a student in the Department of mathematics. The project issued by my tutor WanYuan is a problem closely related to curve research. At present, the curves under discussion are roughly circles, ellipses, parabolas, hyperbolas, implicit curves, etc. (specific project address:https://gitcode.net/linjing_zyq/curve-research) this is a specific problem. At present, it is only a preliminary version of the algorithm. The kernel used is Gaussian Newton method to solve the minimum value problem of seven residual functions.
+
+`import packages`:
+
+from optimtool.example import WanYuan
+
+`method list`:
+
+|method|explanation|
+|--|--|
+|gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10)|The algorithm is implemented by Gaussian Newton kernel.|
+
+## Test
+### 1. Unconstrained optimization algorithm performance comparison
 
 ```python
 import sympy as sp
@@ -57,7 +204,6 @@ plt.show()
 
 
 ## 2. Nonlinear least squares problem
-* from optimtool.unconstrain import nonlinear_least_square
 
 ```python
 import sympy as sp
@@ -93,7 +239,6 @@ plt.show()
 
 
 ## 3. Equality Constrained Optimization Test
-* from optimtool.constrain import equal
 
 ```python
 import numpy as np
@@ -131,7 +276,6 @@ plt.show()
 
 
 ## 4. Inequality constrained optimization test
-* from optimtool.constrain import unequal
 
 ```python
 import sympy as sp
@@ -202,8 +346,6 @@ Target function value： -50.94151192711454
 
 ## 5. Mixed equation constraint test
 
-* from optimtool.constrain import mixequal
-
 ```python
 import sympy as sp
 import matplotlib.pyplot as plt
@@ -244,8 +386,6 @@ plt.show()
 
 ## 6. Lasso problem test
 
-* from optimtool.example import Lasso
-
 ```python
 import numpy as np
 import sympy as sp
@@ -285,14 +425,6 @@ plt.show()
 ```
 
 ## 7. WanYuan problem test
-
-* from optimtool.example import WanYuan
-
-`problem describe`：
-
-Given slope and intercept of the linear equation, a quadratic equation given quadratic coefficient, a coefficient, a constant term, through a given point of the circle, the circle point over the required straight line tangent to the parabola and cut-off point and center of the circle.
-
-`code`：
 
 ```python
 # import packages
