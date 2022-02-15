@@ -201,7 +201,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
 ### 2. Nonlinear least squares problem
 
@@ -236,7 +236,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
 ### 3. Equality constrained optimization Test
 
@@ -273,7 +273,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
 ### 4. Inequality constrained optimization test
 
@@ -310,6 +310,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
 `Single test Lagrange method`：
 
@@ -336,6 +337,7 @@ for i in range(len(x_0)):
      x_0[i] = round(x_0[i], 2)
 print("\nfinal point：", x_0, "\nTarget function value：", f[-1])
 ```
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E6%9C%80%E9%80%9F%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B5%8B%E8%AF%95%E5%9B%BE%E4%BE%8B.png"/></div>
 
 `result`：
 
@@ -382,7 +384,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
-
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E6%B7%B7%E5%90%88%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
 ### 6. Lasso problem test
 
@@ -423,6 +425,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/Lasso%E8%A7%A3%E6%B3%95%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
 ### 7. WanYuan problem test
 
@@ -445,3 +448,4 @@ x_0 = (0, -1, -2.5, -0.5, 2.5, -0.05)
 # train
 oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5, -0.5, 2.5, -0.05), draw=True)
 ```
+<div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/WanYuan%E9%97%AE%E9%A2%98%E6%B5%8B%E8%AF%95%E5%9B%BE.png"/></div>
