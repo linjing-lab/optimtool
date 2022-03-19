@@ -2,7 +2,7 @@
 
 Chinese blog homepage：https://blog.csdn.net/linjing_zyq
 
-GitCode Url（It will not be updated, and the version will stay at 2.3.4）： https://gitcode.net/linjing_zyq/optimtool
+GitCode Url（It will not be updated, and the version will stay at 2.3.4）： [DeeGLMath / optimtool · GitCode](https://gitcode.net/linjing_zyq/optimtool)
 
 How to use it：`pip install optimtool`
 

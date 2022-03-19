@@ -4,7 +4,7 @@
 
 版权归属：@武汉理工大学 林景
 
-CSDN博客主页：https://blog.csdn.net/linjing_zyq?spm=1000.2115.3001.5343
+CSDN博客主页：https://blog.csdn.net/linjing_zyq
 
 ```python
 # 导入numpy与sympy两个依赖包
@@ -1826,8 +1826,6 @@ lagrange_augmented_mixequal(funcs, args, cons_equal, cons_unequal, (0.5, 1))
 ```python
 (array([1.9999927, 1.0000146]), 7)
 ```
-
-
 
 #### 2.3 convex
 
