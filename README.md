@@ -2,7 +2,7 @@
 
 Chinese blog homepage：https://blog.csdn.net/linjing_zyq
 
-GitCode Url: https://gitcode.net/linjing_zyq/optimtool
+GitCode Url： https://gitcode.net/linjing_zyq/optimtool
 
 How to use it：`pip install optimtool`
 
