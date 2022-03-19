@@ -41,7 +41,7 @@ def armijo(funcs, args, x_0, d, gamma=0.5, c=0.1):
     reps = dict(zip(args, x_0))
     f0 = np.array(funcs.subs(reps)).astype(np.float64)
     res0 = np.array(res.subs(reps)).astype(np.float64)
-    while True:
+    while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(np.float64)
         if f1 <= f0 + c*alpha*res0.dot(d.T):
@@ -235,7 +235,7 @@ def nonmonotonic_Grippo(funcs, args, x_0, d, k, point, M, c1, beta, alpha):
     reps = dict(zip(args, x_0))
     res = funcs.jacobian(args)
     res0 = np.array(res.subs(reps)).astype(np.float64)
-    while True:
+    while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(np.float64)
         fk = - np.inf
@@ -300,7 +300,7 @@ def nonmonotonic_ZhangHanger(funcs, args, x_0, d, k, point, c1, beta, alpha, eta
     reps = dict(zip(args, x_0))
     res = funcs.jacobian(args)
     res0 = np.array(res.subs(reps)).astype(np.float64)
-    while True:
+    while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(np.float64)
         Ck = function_C_k(funcs, args, point, eta, k)

@@ -38,7 +38,7 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     m = sp.symbols("m")
     arg = sp.Matrix([m])
     fx = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         fx.append(function_f_x_k(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(np.float64)
@@ -98,7 +98,7 @@ def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilo
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     res = funcs.jacobian(args)
     fx = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         fx.append(function_f_x_k(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(np.float64)
@@ -174,7 +174,7 @@ def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo
     res = funcs.jacobian(args)
     point = []
     f = []
-    while True:
+    while 1:
         point.append(x_0)
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))

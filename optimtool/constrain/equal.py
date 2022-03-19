@@ -56,7 +56,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
     f = []
-    while True:
+    while 1:
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         pe = pen.subs(sig, sigma)
@@ -142,7 +142,7 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
     assert p > 1
     f = []
     lamk = np.array([lamk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
-    while True:
+    while 1:
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
         f.append(function_f_x_k(funcs, args, x_0))
         if method == "gradient_descent":

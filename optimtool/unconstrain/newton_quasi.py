@@ -48,7 +48,7 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
     hess = function_modify_hessian(hess, m)
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
@@ -119,7 +119,7 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
     hess = function_modify_hessian(hess, m)
     hessi = np.linalg.inv(hess)
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
@@ -193,7 +193,7 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
     p = []
     gamma = []
     gamma.append(1)
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         Hkm = gamma[k] * np.identity(l)

@@ -44,7 +44,7 @@ def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", ep
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(np.float64)
         f.append(function_f_x_k(funcs, args, x_0))
@@ -133,7 +133,7 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
     hess = resf.jacobian(args)
     dk0 = np.zeros((args.shape[0], 1))
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(np.float64)
         f.append(function_f_x_k(funcs, args, x_0))

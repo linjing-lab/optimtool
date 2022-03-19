@@ -50,7 +50,7 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
     point = []
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0, mu))
@@ -122,7 +122,7 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
     res = funcs.jacobian(args)
     point = []
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0, mu))

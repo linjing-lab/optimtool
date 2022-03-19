@@ -71,7 +71,7 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
     hes = res.jacobian(args)
     s0 = [0 for i in range(args.shape[0])]
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         funv = np.array(funcs.subs(reps)).astype(np.float64)
         f.append(funv[0][0])

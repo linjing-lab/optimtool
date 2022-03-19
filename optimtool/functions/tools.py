@@ -201,7 +201,7 @@ def function_modify_hessian(hessian, m, pk=1):
     '''
     import numpy as np
     l = hessian.shape[0]
-    while True:
+    while 1:
         values, _ = np.linalg.eig(hessian)
         flag = (all(values) > 0) & (np.linalg.cond(hessian) <= m)
         if flag:
@@ -240,7 +240,7 @@ def function_CG_gradient(A, b, dk, epsilon=1e-6, k=0):
     import numpy as np
     rk = b.T - A.dot(dk)
     pk = rk
-    while True:
+    while 1:
         if np.linalg.norm(pk) < epsilon:
             break
         else:
@@ -368,7 +368,7 @@ def function_steihaug_CG(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
     s = []
     r = []
     p = []
-    while True:
+    while 1:
         s.append(sk)
         r.append(rk)
         p.append(pk)

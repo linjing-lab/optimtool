@@ -55,7 +55,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     assert p < 1
     point = []
     f = []
-    while True:
+    while 1:
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         reps = dict(zip(args, x_0))

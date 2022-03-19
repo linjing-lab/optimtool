@@ -42,7 +42,7 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         hessian = np.array(hes.subs(reps)).astype(np.float64)
@@ -105,7 +105,7 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
@@ -168,7 +168,7 @@ def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6
     hes = res.jacobian(args)
     dk0 = np.zeros((args.shape[0], 1))
     f = []
-    while True:
+    while 1:
         reps = dict(zip(args, x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)

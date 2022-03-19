@@ -57,7 +57,7 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
     assert p > 0
     point = []
     f = []
-    while True:
+    while 1:
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         reps = dict(zip(args, x_0))
@@ -144,7 +144,7 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
     assert p > 0
     point = []
     f = []
-    while True:
+    while 1:
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         reps = dict(zip(args, x_0))
@@ -253,7 +253,7 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
     f = []
     lamk = np.array([lamk for i in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for i in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
-    while True:
+    while 1:
         etak = 1 / sigma
         epsilonk = 1 / sigma**alpha
         cons_uneuqal_modifyed = function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0)
