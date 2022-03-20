@@ -153,7 +153,7 @@ from optimtool.example import example
 
 Given slope and intercept of the linear equation, a quadratic equation given quadratic coefficient, a coefficient, a constant term, through a given point of the circle, the circle point over the required straight line tangent to the parabola and cut-off point and center of the circle.
 
-> This section is different from other sections, because I am a student in the department of mathematics. The project issued by my tutor WanYuan is a problem closely related to curve research. At present, the curves under discussion are roughly circles, ellipses, parabolas, hyperbolas, implicit curves, etc. (specific project address:https://gitcode.net/linjing_zyq/curve-research) this is a specific problem. At present, it is only a preliminary version of the algorithm. The kernel used is Gaussian Newton method to solve the minimum value problem of seven residual functions.
+> This section is different from other sections, because I am a student in the department of mathematics. The project issued by my tutor WanYuan is a problem closely related to curve research. At present, the curves under discussion are roughly circles, ellipses, parabolas, hyperbolas, implicit curves, etc. (specific project address:[linjing-lab/curve-research: The solvers for scientific research in curves. (github.com)](https://github.com/linjing-lab/curve-research)) this is a specific problem. At present, it is only a preliminary version of the algorithm. The kernel used is Gaussian Newton method to solve the minimum value problem of seven residual functions.
 
 `import packages`:
 
