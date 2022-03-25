@@ -1,5 +1,7 @@
 # README.md
 
+![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Community-PyPi-informational?style=flat&logo=pypi&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Tool-Anaconda-informational?style=flat&logo=anaconda&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Tool-Git-informational?style=flat&logo=git&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Editor-Sublime_Text-informational?style=flat&logo=sublime-text&logoColor=white&color=2bbc8a)
+
 Chinese blog homepage：https://blog.csdn.net/linjing_zyq
 
 GitCode Url（It will not be updated, and the version will stay at 2.3.4）： [DeeGLMath / optimtool · GitCode](https://gitcode.net/linjing_zyq/optimtool)
