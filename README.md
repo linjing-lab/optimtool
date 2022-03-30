@@ -1,6 +1,6 @@
 # Optimtool
 
-[![Matplotlib Latest Release](https://img.shields.io/pypi/v/matplotlib.svg)](https://pypi.org/project/matplotlib/);&emsp;[![Numpy Latest Release](https://img.shields.io/pypi/v/numpy.svg)](https://pypi.org/project/numpy/);&emsp;[![Sympy Latest Release](https://img.shields.io/pypi/v/sympy.svg)](https://pypi.org/project/sympy/);&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/);
+![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/);
 
 Chinese blog homepage：https://blog.csdn.net/linjing_zyq
 
