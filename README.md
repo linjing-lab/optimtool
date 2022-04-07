@@ -231,7 +231,7 @@ plt.title("Performance Comparison")
 plt.show()
 ```
 <div align="center">
-    <img src="./visualization/无约束最优化函数测试.png">
+    <img src="./visualization/无约束优化函数测试.png">
 </div>
 
 ### 4.2 非线性最小二乘问题测试程序
