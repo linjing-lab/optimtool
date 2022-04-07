@@ -7,7 +7,7 @@ setup(
       long_description = "The steepest descent method is added, the research on Wan Yuan problem is added, and the guide package method is changed.",
       author='林景',
       author_email='1439313331@qq.com',
-      url="https://gitcode.net/linjing_zyq/optimtool",
+      url="https://github.com/linjing-lab/optimtool",
       packages=[
           "optimtool",
           "optimtool.unconstrain",
