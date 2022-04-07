@@ -376,8 +376,8 @@ print("\nfinal point：", x_0, "\nTarget function value：", f[-1])
 `result`：
 
 ```python
-final point： [ 2.5   2.5   1.87 -3.5 ] 
-Target function value： -50.94151192711454
+最终收敛点： [ 2.5   2.5   1.87 -3.5 ] 
+最终目标函数值： -50.94151192711454
 ```
 
 ### 4.5 混合等式约束优化问题测试程序
