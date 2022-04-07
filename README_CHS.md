@@ -155,11 +155,11 @@ oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等�
 | penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)                                                     | L1精确罚函数法  |
 | lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0) | 增广拉格朗日乘子法 |
 
-### 3.3 混合优化算法
+### 3.3 混合优化算法（hybrid）
 
 这部分的算法将会在日后上线，欢迎各界人士前来补充。
 
-### 3.4 方法的应用
+### 3.4 方法的应用（example）
 
 ```python
 import optimtool.example as oe
