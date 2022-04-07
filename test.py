@@ -1,7 +1,7 @@
 # 导包
 import sympy as sp
 import matplotlib.pyplot as plt
-import optimtool as oo
+import optimtool.unconstrain as ou
 
 # 构造数据
 m = 1
