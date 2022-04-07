@@ -1,175 +1,200 @@
-# Optimtool
+# 最优化计算方法工具包（optimtool）
 
 ![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/)
 
-Chinese blog homepage：https://blog.csdn.net/linjing_zyq
+Github项目地址：https://github.com/linjing-lab/optimtool
+
+CSDN个人博客主页：https://blog.csdn.net/linjing_zyq
 
-GitCode Url（It will not be updated, and the version will stay at 2.3.4）： [DeeGLMath / optimtool · GitCode](https://gitcode.net/linjing_zyq/optimtool)
+如何下载： `pip install optimtool`
+
+## 1. 项目介绍
 
-How to use it：`pip install optimtool`
+&emsp;&emsp;该工具包采用了北京大学出版的《最优化：建模、算法与理论》这本书中的部分理论方法框架，运用了`Numpy`包高效处理数组间运算等的特性，巧妙地应用了`Sympy`内部支持的`.jacobian`等方法，设计了一个用于最优化科学研究领域的Python工具包。 研究人员可以通过简单的`pip`指令进行下载与使用。
+
+&emsp;&emsp;因为在求解不同的目标函数的全局或局部收敛点时，会有不同的求取收敛点的方法，而且在研究过程中不同领域的研究方法不断被提出、修改、完善、扩充，所以这些方法成了现在人们口中的`最优化方法`。 此项目中的所有内部支持的算法，都是在范数、导数、凸集、凸函数、共轭函数、次梯度和最优化理论等基础方法论的基础上进行设计与完善的。
 
-In this project, the solution types of problems corresponding to each method are different, so some problems that are not applicable to the method will appear in the actual application process. At this time, it can be solved by replacing the method library. All methods are designed and encapsulated on the basis of norm, derivative, convex set, convex function, conjugate function, subgradient and optimization theory. The algorithms of hybrid-optimization and the application fields of unconstrained-optimization and constrained-optimization are still being updated. It is hoped that more people in the industry will provide a good algorithm design framework.
+        目前这个工具包内置了诸如Barzilar Borwein非单调梯度下降法、修正牛顿法、有限内存BFGS方法、截断共轭梯度法-信赖域方法、高斯-牛顿法等无约束优化领域收敛效率与性质较好的算法，以及用于解决约束优化问题的二次罚函数法、增广拉格朗日法等算法。
 
-## Introduce to use unconstrained-optimization
+&emsp;&emsp;这个工具包内无约束优化与约束优化板块的算法仍然需要不断更新、维护与扩充，并且应用于混合约束优化板块的算法将在日后上线。 我们欢迎广大热爱数学、编程的各界人士加入开发与更新最优化计算方法的队伍中，成为里程碑的一员。
 
-There are five mainstream methods, one of which is used to solve the nonlinear least squares problem.
+## 2. 项目结构
+
+```textile
+|- optimtool
+    |-- constrain
+        |-- __init__.py
+        |-- equal.py
+        |-- mixequal.py
+        |-- unequal.py
+    |-- example
+        |-- __init__.py
+        |-- Lasso.py
+        |-- WanYuan.py
+    |-- functions
+        |-- __init__.py
+        |-- linear_search.py
+        |-- tools.py
+    |-- hybrid
+        |-- __init__.py
+    |-- unconstrain
+        |-- __init__.py
+        |-- gradient_descent.py
+        |-- newton.py
+        |-- newton_quasi.py
+        |-- nonlinear_least_square.py
+        |-- trust_region.py  
+    |-- __init__.py 
+```
 
-### gradient_descent
+## 3. 开始使用
 
-`import packages`:
+### 3.1 无约束优化算法（unconstrain）
 
-from optimtool.unconstrain import gradient_descent
+```python
+import optimtool.unconstrain as ou
+ou.[方法名].[函数名]([目标函数], [参数表], [初始迭代点])
+```
 
-`method list`:
+#### 3.1.1 梯度下降法（gradient_descent）
 
-| method                                                                                                                              | explanation                                                                                             |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)                                                              | The exact step size is solved by solving the equation.                                                  |
-| steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)                                           | The inexact step size is obtained by using the line search method.                                      |
-| barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0) | The non monotonic line search method (grippo and Zhang hanger) is used to obtain the inexact step size. |
+```python
+ou.gradient_descent.[函数名]([目标函数], [参数表], [初始迭代点])
+```
 
-### newton
+| 方法头                                                                                                                                 | 解释                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)                                                              | 通过解方程的方式来求解精确步长                      |
+| steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)                                           | 使用线搜索方法求解非精确步长（默认使用wolfe线搜索）         |
+| barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0) | 使用Grippo与Zhang hanger提出的非单调线搜索方法更新步长 |
 
-`import packages`:
+#### 3.1.2 牛顿法（newton)
 
-from optimtool.unconstrain import newton
+```python
+ou.newton.[函数名]([目标函数], [参数表], [初始迭代点])
+```
 
-`method list`:
+| 方法头                                                                                             | 解释                                |
+| ----------------------------------------------------------------------------------------------- | --------------------------------- |
+| classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)                        | 通过直接对目标函数二阶导矩阵（海瑟矩阵）进行求逆来获取下一步的步长 |
+| modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0) | 修正当前海瑟矩阵保证其正定性（目前只接入了一种修正方法）      |
+| CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6, k=0)              | 采用牛顿-共轭梯度法求解梯度（非精确牛顿法的一种）         |
 
-| method                                                                                          | explanation                                                                        |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0)                        | The exact step size is obtained by directly solving the inverse of heather matrix. |
-| modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0) | The positive definiteness of heather matrix is determined and corrected.           |
-| CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6, k=0)              | The conjugate gradient method is used to solve the optimal step size.              |
+#### 3.1.3 拟牛顿法（newton_quasi）
 
-### newton_quasi
+```python
+ou.newton_quasi.[函数名]([目标函数], [参数表], [初始迭代点])
+```
 
-`import packages`:
+| 方法头                                                                                          | 解释              |
+| -------------------------------------------------------------------------------------------- | --------------- |
+| bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0)  | BFGS方法更新海瑟矩阵    |
+| dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-4, k=0)    | DFP方法更新海瑟矩阵     |
+| L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, epsilon=1e-10, k=0) | 双循环方法更新BFGS海瑟矩阵 |
 
-from optimtool.unconstrain import newton_quasi
+#### 3.1.4 非线性最小二乘法（nonlinear_least_square）
 
-`method list`:
+```python
+ou.nonlinear_least_square.[函数名]([目标函数], [参数表], [初始迭代点])
+```
 
-| method                                                                                       | explanation                                                                        |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0)  | Update Heather matrix by BFGS.                                                     |
-| dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-4, k=0)    | Update Heather matrix by DFP.                                                      |
-| L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, epsilon=1e-10, k=0) | Finite memory and double loop method are used to solve the updated Heather matrix. |
+| 方法头                                                                                                                                                  | 解释                         |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)                                                        | 高斯-牛顿提出的方法框架，包括OR分解等操作     |
+| levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk=1, eta=0.2, p1=0.4, p2=0.9, gamma1=0.7, gamma2=1.3, epsilon=1e-10, k=0) | Levenberg Marquardt提出的方法框架 |
 
-### nonlinear_least_square
+#### 3.1.5 信赖域方法（trust_region）
 
-`import packages`:
+```python
+ou.trust_region.[函数名]([目标函数], [参数表], [初始迭代点])
+```
 
-from optimtool.unconstrain import nonlinear_least_square
+| 方法头                                                                                                                                               | 解释                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0) | 共轭梯度法在此方法中被用于搜索步长 |
 
-`method_list`:
+### 3.2 约束优化算法（constrain）
 
-| method                                                                                                                                               | explanation                                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)                                                        | Gauss Newton proposed a framework for solving nonlinear least squares problems, including QR decomposition and other operations. |
-| levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk=1, eta=0.2, p1=0.4, p2=0.9, gamma1=0.7, gamma2=1.3, epsilon=1e-10, k=0) | A framework for solving nonlinear least squares problems proposed by Levenberg Marquardt.                                        |
+```python
+import optimtool.constrain as oc
+oc.[方法名].[函数名]([目标函数], [参数表], [等式约束表], [不等式约数表], [初始迭代点])
+```
 
-### trust_region
+#### 3.2.1 等式约束（equal）
 
-`import packages`:
+```python
+oc.equal.[函数名]([目标函数], [参数表], [等式约束表], [初始迭代点])
+```
 
-from optimtool.unconstrain import trust_region
+| 方法头                                                                                                                                                   | 解释        |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0)                     | 增加二次罚项    |
+| lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0) | 增广拉格朗日乘子法 |
 
-`method list`:
+#### 3.2.2 不等式约束（unequal）
 
-| method                                                                                                                                            | explanation                                                             |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0) | The truncated conjugate gradient method is used to search the gradient. |
+```python
+oc.unequal.[函数名]([目标函数], [参数表], [不等式约数表], [初始迭代点])
+```
 
-## Introduce to use constrained-optimization
+| 方法头                                                                                                                                                                      | 解释        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
+| penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.4, epsilon=1e-10, k=0)                                     | 增加二次罚项    |
+| penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)                              | 增加分式函数罚项  |
+| lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0) | 增广拉格朗日乘子法 |
 
-Here is the method library of inequality constraints, equality constraints and mixed equality constraints.
+#### 3.2.3 混合等式约束（mixequal）
 
-### equal
+```python
+oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等式约数表], [初始迭代点])
+```
 
-`import packages`:
+| 方法头                                                                                                                                                                                                  | 解释        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0)                                             | 增加二次罚项    |
+| penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)                                                     | L1精确罚函数法  |
+| lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0) | 增广拉格朗日乘子法 |
 
-from optimtool.constrain import equal
+### 3.3 混合优化算法（hybrid）
 
-`method list`:
+这部分的算法将会在日后上线，欢迎各界人士前来补充。
 
-| method                                                                                                                                                | explanation                                                                 |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0)                     | Design idea based on quadratic penalty function.                            |
-| lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0) | Design idea of solving frame based on Augmented Lagrange multiplier method. |
+### 3.4 方法的应用（example）
 
-### unequal
+```python
+import optimtool.example as oe
+```
 
-`import packages`:
+#### 3.4.1 Lasso问题（Lasso）
 
-from optimtool.constrain import unequal
+```python
+oe.Lasso.[函数名]([矩阵A], [矩阵b], [因子mu], [参数表], [初始迭代点])
+```
 
-`method list`:
+| 方法头                                                                                                     | 解释               |
+| ------------------------------------------------------------------------------------------------------- | ---------------- |
+| gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0) | 光滑化Lasso函数法      |
+| subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)             | 次梯度法Lasso避免一阶不可导 |
 
-| method                                                                                                                                                                   | explanation                                                                 |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
-| penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.4, epsilon=1e-10, k=0)                                     | Design idea based on quadratic penalty function.                            |
-| penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)                              | Design idea of interior point method.                                       |
-| lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0) | Design idea of solving frame based on Augmented Lagrange multiplier method. |
+#### 3.4.2 曲线相切问题（WanYuan）
 
-### mixequal
+```python
+oe.WanYuan.[函数名]([直线的斜率], [直线的截距], [二次项系数], [一次项系数], [常数项], [圆心横坐标], [圆心纵坐标], [初始迭代点])
+```
 
-`import packages`:
+问题描述：
 
-from optimtool.constrain import mixequal
+```tetxile
+给定直线的斜率和截距，给定一个抛物线函数的二次项系数，一次项系数与常数项。 要求解一个给定圆心的圆，该圆同时与抛物线、直线相切，若存在可行方案，请给出切点的坐标。
+```
 
-`method list`:
+| 方法头                                                             | 解释                   |
+| --------------------------------------------------------------- | -------------------- |
+| gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10) | 使用高斯-牛顿方法求解构造的7个残差函数 |
 
-| method                                                                                                                                                                                               | explanation                                                                 |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0)                                             | Design idea based on quadratic penalty function.                            |
-| penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)                                                     | The design idea of L1 penalty function is adopted.                          |
-| lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0) | Design idea of solving frame based on Augmented Lagrange multiplier method. |
+## 4. 测试
 
-## Introduce to use hybrid-optimization
-
-The algorithm of this section will be updated in the future
-
-## Introduce to use example
-
-In this section, we will discuss the application of unconstrained, constrained and hybrid optimization in different fields.
-
-### Lasso
-
-You can search the specific form and solution method of lasso problem on the Internet. Here, the solution of the objective function of lasso problem is dealt with uniformly.
-
-`import packages`:
-
-from optimtool.example import example
-
-`method list`:
-
-| method                                                                                                  | explanation                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0) | The idea of smoothing lasso function is used to optimize the objective function, and the gradient descent kernel is used to solve it. |
-| subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)             | The subgradient method is used to solve the problem that the absolute value function is not differentiable at the origin.             |
-
-### WanYuan
-
-`problem describe`：
-
-Given slope and intercept of the linear equation, a quadratic equation given quadratic coefficient, a coefficient, a constant term, through a given point of the circle, the circle point over the required straight line tangent to the parabola and cut-off point and center of the circle.
-
-> This section is different from other sections, because I am a student in the department of mathematics. The project issued by my tutor WanYuan is a problem closely related to curve research. At present, the curves under discussion are roughly circles, ellipses, parabolas, hyperbolas, implicit curves, etc. (specific project address:[linjing-lab/curve-research: The solvers for scientific research in curves. (github.com)](https://github.com/linjing-lab/curve-research)) this is a specific problem. At present, it is only a preliminary version of the algorithm. The kernel used is Gaussian Newton method to solve the minimum value problem of seven residual functions.
-
-`import packages`:
-
-from optimtool.example import WanYuan
-
-`method list`:
-
-| method                                                          | explanation                                             |
-| --------------------------------------------------------------- | ------------------------------------------------------- |
-| gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10) | The algorithm is implemented by Gaussian Newton kernel. |
-
-## Test
-
-### 1. Unconstrained optimization algorithm performance comparison
+### 4.1 无约束优化问题测试程序
 
 ```python
 import sympy as sp
@@ -208,7 +233,7 @@ plt.show()
 
 <div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
-### 2. Nonlinear least squares problem
+### 4.2 非线性最小二乘问题测试程序
 
 ```python
 import sympy as sp
@@ -244,7 +269,7 @@ plt.show()
 
 <div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
-### 3. Equality constrained optimization Test
+### 4.3 等式约束优化问题测试程序
 
 ```python
 import numpy as np
@@ -282,7 +307,7 @@ plt.show()
 
 <div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
-### 4. Inequality constrained optimization test
+### 4.4 不等式约束优化问题测试程序
 
 ```python
 import sympy as sp
@@ -355,7 +380,7 @@ final point： [ 2.5   2.5   1.87 -3.5 ]
 Target function value： -50.94151192711454
 ```
 
-### 5. Mixed equation constraint test
+### 4.5 混合等式约束优化问题测试程序
 
 ```python
 import sympy as sp
@@ -396,7 +421,7 @@ plt.show()
 
 <div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/%E6%B7%B7%E5%90%88%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
-### 6. Lasso problem test
+### 4.6 Lasso问题测试程序
 
 ```python
 import numpy as np
@@ -438,7 +463,7 @@ plt.show()
 
 <div align=center><img src="https://github.com/linjing-lab/optimtool/blob/master/visualization%20algorithms/Lasso%E8%A7%A3%E6%B3%95%E5%87%BD%E6%95%B0%E6%B5%8B%E8%AF%95.png"/></div>
 
-### 7. WanYuan problem test
+### 4.7 曲线切点问题测试程序
 
 ```python
 # import packages
