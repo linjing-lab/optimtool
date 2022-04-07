@@ -2,8 +2,6 @@
 
 ![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/)
 
-Github项目地址：https://github.com/linjing-lab/optimtool
-
 CSDN个人博客主页：https://blog.csdn.net/linjing_zyq
 
 如何下载： `pip install optimtool`
