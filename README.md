@@ -6,7 +6,7 @@ CSDN个人博客主页：https://blog.csdn.net/linjing_zyq
 
 如何下载： `pip install optimtool`
 
-## 1. 项目介绍
+## 项目介绍
 
 &emsp;&emsp;该工具包采用了北京大学出版的《最优化：建模、算法与理论》这本书中的部分理论方法框架，运用了`Numpy`包高效处理数组间运算等的特性，巧妙地应用了`Sympy`内部支持的`.jacobian`等方法，并结合Python内置函数`dict`与`zip`实现了`Sympy`矩阵到`Numpy`矩阵的转换，最终设计了一个用于最优化科学研究领域的Python工具包。 研究人员可以通过简单的`pip`指令进行下载与使用。
 
@@ -16,7 +16,7 @@ CSDN个人博客主页：https://blog.csdn.net/linjing_zyq
 
 &emsp;&emsp;这个工具包内无约束优化与约束优化板块的算法仍然需要不断更新、维护与扩充，并且应用于混合约束优化板块的算法将在日后上线。 我们非常欢迎广大热爱数学、编程的各界人士加入开发与更新最优化计算方法的队伍中，提出新的框架或算法，成为里程碑中的一员。
 
-## 2. 项目结构
+## 项目结构
 
 ```textile
 |- optimtool
@@ -45,16 +45,16 @@ CSDN个人博客主页：https://blog.csdn.net/linjing_zyq
     |-- __init__.py 
 ```
 
-## 3. 开始使用
+## 开始使用
 
-### 3.1 无约束优化算法（unconstrain）
+### 无约束优化算法（unconstrain）
 
 ```python
 import optimtool.unconstrain as ou
 ou.[方法名].[函数名]([目标函数], [参数表], [初始迭代点])
 ```
 
-#### 3.1.1 梯度下降法（gradient_descent）
+#### 梯度下降法（gradient_descent）
 
 ```python
 ou.gradient_descent.[函数名]([目标函数], [参数表], [初始迭代点])
@@ -66,7 +66,7 @@ ou.gradient_descent.[函数名]([目标函数], [参数表], [初始迭代点])
 | steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)                                           | 使用线搜索方法求解非精确步长（默认使用wolfe线搜索）         |
 | barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0) | 使用Grippo与Zhang hanger提出的非单调线搜索方法更新步长 |
 
-#### 3.1.2 牛顿法（newton)
+#### 牛顿法（newton)
 
 ```python
 ou.newton.[函数名]([目标函数], [参数表], [初始迭代点])
@@ -78,7 +78,7 @@ ou.newton.[函数名]([目标函数], [参数表], [初始迭代点])
 | modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0) | 修正当前海瑟矩阵保证其正定性（目前只接入了一种修正方法）      |
 | CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6, k=0)              | 采用牛顿-共轭梯度法求解梯度（非精确牛顿法的一种）         |
 
-#### 3.1.3 拟牛顿法（newton_quasi）
+#### 拟牛顿法（newton_quasi）
 
 ```python
 ou.newton_quasi.[函数名]([目标函数], [参数表], [初始迭代点])
@@ -90,7 +90,7 @@ ou.newton_quasi.[函数名]([目标函数], [参数表], [初始迭代点])
 | dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-4, k=0)    | DFP方法更新海瑟矩阵     |
 | L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, epsilon=1e-10, k=0) | 双循环方法更新BFGS海瑟矩阵 |
 
-#### 3.1.4 非线性最小二乘法（nonlinear_least_square）
+#### 非线性最小二乘法（nonlinear_least_square）
 
 ```python
 ou.nonlinear_least_square.[函数名]([目标函数], [参数表], [初始迭代点])
@@ -111,14 +111,14 @@ ou.trust_region.[函数名]([目标函数], [参数表], [初始迭代点])
 | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0) | 截断共轭梯度法在此方法中被用于搜索步长 |
 
-### 3.2 约束优化算法（constrain）
+### 约束优化算法（constrain）
 
 ```python
 import optimtool.constrain as oc
 oc.[方法名].[函数名]([目标函数], [参数表], [等式约束表], [不等式约数表], [初始迭代点])
 ```
 
-#### 3.2.1 等式约束（equal）
+#### 等式约束（equal）
 
 ```python
 oc.equal.[函数名]([目标函数], [参数表], [等式约束表], [初始迭代点])
@@ -129,7 +129,7 @@ oc.equal.[函数名]([目标函数], [参数表], [等式约束表], [初始迭�
 | penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0)                     | 增加二次罚项    |
 | lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0) | 增广拉格朗日乘子法 |
 
-#### 3.2.2 不等式约束（unequal）
+#### 不等式约束（unequal）
 
 ```python
 oc.unequal.[函数名]([目标函数], [参数表], [不等式约束表], [初始迭代点])
@@ -141,7 +141,7 @@ oc.unequal.[函数名]([目标函数], [参数表], [不等式约束表], [初�
 | penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)                              | 增加分式函数罚项  |
 | lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0) | 增广拉格朗日乘子法 |
 
-#### 3.2.3 混合等式约束（mixequal）
+#### 混合等式约束（mixequal）
 
 ```python
 oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等式约束表], [初始迭代点])
@@ -153,17 +153,17 @@ oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等�
 | penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0)                                                     | L1精确罚函数法  |
 | lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0) | 增广拉格朗日乘子法 |
 
-### 3.3 混合优化算法（hybrid）
+### 混合优化算法（hybrid）
 
 这部分的算法将会在日后上线，欢迎各界人士前来补充。
 
-### 3.4 方法的应用（example）
+### 方法的应用（example）
 
 ```python
 import optimtool.example as oe
 ```
 
-#### 3.4.1 Lasso问题（Lasso）
+#### Lasso问题（Lasso）
 
 ```python
 oe.Lasso.[函数名]([矩阵A], [矩阵b], [因子mu], [参数表], [初始迭代点])
@@ -174,7 +174,7 @@ oe.Lasso.[函数名]([矩阵A], [矩阵b], [因子mu], [参数表], [初始迭�
 | gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0) | 光滑化Lasso函数法      |
 | subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)             | 次梯度法Lasso避免一阶不可导 |
 
-#### 3.4.2 曲线相切问题（WanYuan）
+#### 曲线相切问题（WanYuan）
 
 ```python
 oe.WanYuan.[函数名]([直线的斜率], [直线的截距], [二次项系数], [一次项系数], [常数项], [圆心横坐标], [圆心纵坐标], [初始迭代点])
@@ -190,9 +190,9 @@ oe.WanYuan.[函数名]([直线的斜率], [直线的截距], [二次项系数], 
 | --------------------------------------------------------------- | -------------------- |
 | gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10) | 使用高斯-牛顿方法求解构造的7个残差函数 |
 
-## 4. 测试
+## 测试
 
-### 4.1 无约束优化问题测试程序
+### 无约束优化问题测试程序
 
 ```python
 import sympy as sp
@@ -232,7 +232,7 @@ plt.show()
     <img src="./visualization/无约束优化函数测试.png">
 </div>
 
-### 4.2 非线性最小二乘问题测试程序
+### 非线性最小二乘问题测试程序
 
 ```python
 import sympy as sp
@@ -270,7 +270,7 @@ plt.show()
     <img src="./visualization/非线性最小二乘函数测试.png">
 </div>
 
-### 4.3 等式约束优化问题测试程序
+### 等式约束优化问题测试程序
 
 ```python
 import numpy as np
@@ -310,7 +310,7 @@ plt.show()
     <img src="./visualization/等式约束函数测试.png">
 </div>
 
-### 4.4 不等式约束优化问题测试程序
+### 不等式约束优化问题测试程序
 
 ```python
 import sympy as sp
@@ -387,7 +387,7 @@ print("\nfinal point：", x_0, "\nTarget function value：", f[-1])
 最终目标函数值： -50.94151192711454
 ```
 
-### 4.5 混合等式约束优化问题测试程序
+### 混合等式约束优化问题测试程序
 
 ```python
 import sympy as sp
@@ -430,7 +430,7 @@ plt.show()
     <img src="./visualization/混合等式约束函数测试.png">
 </div>
 
-### 4.6 Lasso问题测试程序
+### Lasso问题测试程序
 
 ```python
 import numpy as np
@@ -474,7 +474,7 @@ plt.show()
     <img src="./visualization/Lasso解法函数测试.png">
 </div>
 
-### 4.7 曲线切点问题测试程序
+### 曲线切点问题测试程序
 
 ```python
 # import packages
@@ -499,3 +499,11 @@ oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5,
 <div align="center">
     <img src="./visualization/WanYuan问题测试图.png">
 </div>
+
+## 参考资料
+* [matplotlib](https://matplotlib.org/) 官网
+* [numpy](https://www.numpy.org.cn/) 中文文档
+* [sympy](https://www.sympy.org/en/index.html) 官网
+
+## LICENSE
+[MIT LICENSE](./LICENSE)
