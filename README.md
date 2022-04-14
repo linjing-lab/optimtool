@@ -1,4 +1,5 @@
 # 最优化领域科学研究工具包（optimtool）
+
 <div align="center">
     <img src="logo.jpg">
 </div>
@@ -104,14 +105,14 @@ ou.nonlinear_least_square.[函数名]([目标函数], [参数表], [初始迭代
 | gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0)                                                        | 高斯-牛顿提出的方法框架，包括OR分解等操作     |
 | levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk=1, eta=0.2, p1=0.4, p2=0.9, gamma1=0.7, gamma2=1.3, epsilon=1e-10, k=0) | Levenberg Marquardt提出的方法框架 |
 
-#### 3.1.5 信赖域方法（trust_region）
+#### 信赖域方法（trust_region）
 
 ```python
 ou.trust_region.[函数名]([目标函数], [参数表], [初始迭代点])
 ```
 
-| 方法头                                                                                                                                               | 解释                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| 方法头                                                                                                                                               | 解释                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0) | 截断共轭梯度法在此方法中被用于搜索步长 |
 
 ### 约束优化算法（constrain）
@@ -231,6 +232,7 @@ plt.legend(handle, title)
 plt.title("Performance Comparison")
 plt.show()
 ```
+
 <div align="center">
     <img src="./visualization/无约束优化函数测试.png">
 </div>
@@ -504,9 +506,11 @@ oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5,
 </div>
 
 ## 参考资料
+
 * [matplotlib](https://matplotlib.org/) 官网
 * [numpy](https://www.numpy.org.cn/) 中文文档
 * [sympy](https://www.sympy.org/en/index.html) 官网
 
 ## LICENSE
+
 [MIT LICENSE](./LICENSE)
