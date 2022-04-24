@@ -1,14 +1,10 @@
-[TOC]
-
 # 最优化领域核心算法python实现
 
-版权归属：@武汉理工大学 林景
-
-CSDN博客主页：https://blog.csdn.net/linjing_zyq
+版权归属：@[武汉理工大学 林景](https://github.com/linjing-lab)
 
 ```python
 # 导入numpy与sympy两个依赖包
-%matplotlib widget # 便于保存图像
+%matplotlib widget # 便于保存图像（Jupyter lab）
 import numpy as np
 import sympy as sp
 

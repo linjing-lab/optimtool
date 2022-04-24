@@ -1,6 +1,3 @@
-'''
-非线性最小二乘问题
-'''
 # 高斯-牛顿法（非线性最小二乘问题）
 def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0):
     '''

@@ -1,6 +1,3 @@
-'''
-信赖域算法
-'''
 # 信赖域算法
 def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0):
     '''

@@ -1,6 +1,3 @@
-'''
-牛顿类算法
-'''
 # 经典牛顿法
 def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     '''
