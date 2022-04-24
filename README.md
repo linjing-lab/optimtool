@@ -4,7 +4,7 @@
     <img src="logo.jpg">
 </div>
 
-![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/)
+![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)
 
 如何下载： `pip install optimtool`
 
@@ -467,11 +467,10 @@ oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5,
 </div>
 
 ## ISSUES
-1. 外部调用方式更改（2.3.5）
-2. functions优化
-3. 内点罚函数法优化
-4. 约束优化算法调整
-5. hybrid方法加入
+1. 稳定版本: [![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/)
+2. 外部调用方式更改（2.3.5）
+3. 内点罚函数法优化（2.3.6）
+4. hybrid方法加入（2.4.0）
 
 ## LICENSE
 
