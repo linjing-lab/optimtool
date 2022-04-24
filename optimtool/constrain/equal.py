@@ -52,6 +52,19 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 1
+    # data convert
+    if isinstance(args, list) or isinstance(args, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
+    if isinstance(cons, list) or isinstance(cons, tuple):
+        cons = sp.Matrix(cons)
+    else:
+        cons = sp.Matrix([cons])
     point = []
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
@@ -140,6 +153,19 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
     from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 1
+    # data convert
+    if isinstance(args, list) or isinstance(args, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
+    if isinstance(cons, list) or isinstance(cons, tuple):
+        cons = sp.Matrix(cons)
+    else:
+        cons = sp.Matrix([cons])
     f = []
     lamk = np.array([lamk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:

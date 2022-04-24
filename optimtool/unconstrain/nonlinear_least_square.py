@@ -38,6 +38,15 @@ def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", ep
     import numpy as np
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    # data convert
+    if isinstance(funcr, list) or isinstance(funcr, tuple):
+        funcr = sp.Matrix(funcr)
+    else:
+        funcr = sp.Matrix([funcr])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     f = []
@@ -124,6 +133,15 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
     assert p2 < 1
     assert gamma1 < 1
     assert gamma2 > 1
+    # data convert
+    if isinstance(funcr, list) or isinstance(funcr, tuple):
+        funcr = sp.Matrix(funcr)
+    else:
+        funcr = sp.Matrix([funcr])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     resf = funcs.jacobian(args)

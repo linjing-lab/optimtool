@@ -36,6 +36,15 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     '''
     import numpy as np
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    # data convert
+    if isinstance(funcs, list) or isinstance(funcs, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
@@ -97,8 +106,18 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
         
     '''
     import numpy as np
+    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
+    # data convert
+    if isinstance(funcs, list) or isinstance(funcs, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
@@ -159,8 +178,18 @@ def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6
         
     '''
     import numpy as np
+    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_CG_gradient
+    # data convert
+    if isinstance(funcs, list) or isinstance(funcs, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     dk0 = np.zeros((args.shape[0], 1))

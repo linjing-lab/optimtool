@@ -215,7 +215,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
             
         '''
         x0, y0, x1, y1, x2, y2 = sp.symbols("x0 y0 x1 y1 x2 y2")
-        args = sp.Matrix([x0, y0, x1, y1, x2, y2])
+        args = [x0, y0, x1, y1, x2, y2]
         line1 = function_maker_line_1(m, n)
         line2 = function_maker_line_2(x3, y3)
         line3 = function_maker_line_3(m, n, x3, y3)
@@ -223,7 +223,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         parabola1 = function_maker_parabola_1(a, b)
         parabola2 = function_maker_parabola_2(a, b, c)
         parabola3 = function_maker_parabola_3(x3, y3)
-        funcr = sp.Matrix([line1, line2, line3, line4, parabola1, parabola2, parabola3])
+        funcr = [line1, line2, line3, line4, parabola1, parabola2, parabola3]
         return funcr, args
     
     def function_plot_solve(final, x_0, m, n, a, b, c, x3, y3):
@@ -290,7 +290,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
     
     final = []
     funcr, args = function_maker_data(m, n, a, b, c, x3, y3)
-    fin, k = gauss_newton(funcr, args, x_0, epsilon=eps)
+    fin, k = gauss_newton(funcr, args, x_0, False, epsilon=eps)
     for i in fin: # for i in map(round, fin):
         final.append(round(i, 2)) # final.append(i)
     print("(x0, y0)=",(final[0], final[1]),"\n(x1, y1)=",(final[2], final[3]),"\n(x2, y2)=",(final[4], final[5]))

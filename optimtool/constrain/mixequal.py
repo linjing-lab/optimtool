@@ -55,7 +55,23 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
     from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 0
-    point = []
+    # data convert
+    if isinstance(args, list) or isinstance(args, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
+    if isinstance(cons_equal, list) or isinstance(cons_equal, tuple):
+        cons_equal = sp.Matrix(cons_equal)
+    else:
+        cons_equal = sp.Matrix([cons_equal])
+    if isinstance(cons_unequal, list) or isinstance(cons_unequal, tuple):
+        cons_unequal = sp.Matrix(cons_unequal)
+    else:
+        cons_unequal = sp.Matrix([cons_unequal])
     f = []
     while 1:
         point.append(np.array(x_0))
@@ -142,6 +158,23 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
     from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 0
+    # data convert
+    if isinstance(args, list) or isinstance(args, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
+    if isinstance(cons_equal, list) or isinstance(cons_equal, tuple):
+        cons_equal = sp.Matrix(cons_equal)
+    else:
+        cons_equal = sp.Matrix([cons_equal])
+    if isinstance(cons_unequal, list) or isinstance(cons_unequal, tuple):
+        cons_unequal = sp.Matrix(cons_unequal)
+    else:
+        cons_unequal = sp.Matrix([cons_unequal])
     point = []
     f = []
     while 1:
@@ -250,6 +283,23 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
     assert alpha > 0 
     assert alpha <= beta
     assert beta < 1
+    # data convert
+    if isinstance(args, list) or isinstance(args, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
+    if isinstance(cons_equal, list) or isinstance(cons_equal, tuple):
+        cons_equal = sp.Matrix(cons_equal)
+    else:
+        cons_equal = sp.Matrix([cons_equal])
+    if isinstance(cons_unequal, list) or isinstance(cons_unequal, tuple):
+        cons_unequal = sp.Matrix(cons_unequal)
+    else:
+        cons_unequal = sp.Matrix([cons_unequal])
     f = []
     lamk = np.array([lamk for i in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for i in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)

@@ -203,8 +203,8 @@ import optimtool as oo
 
 f, x1, x2, x3, x4 = sp.symbols("f x1 x2 x3 x4")
 f = (x1 - 1)**2 + (x2 - 1)**2 + (x3 - 1)**2 + (x1**2 + x2**2 + x3**2 + x4**2 - 0.25)**2
-funcs = sp.Matrix([f])
-args = sp.Matrix([x1, x2, x3, x4])
+funcs = f # funcs = [f]
+args = [x1, x2, x3, x4]
 x_0 = (1, 2, 3, 4)
 
 f_list = []
@@ -232,7 +232,7 @@ plt.show()
 ```
 
 <div align="center">
-    <img src="./visualization/无约束优化函数测试.png">
+    <img src="./images/unconstrained_optimization.png">
 </div>
 
 ### 非线性最小二乘问题测试程序
@@ -245,8 +245,8 @@ import optimtool as oo
 r1, r2, x1, x2 = sp.symbols("r1 r2 x1 x2")
 r1 = x1**3 - 2*x2**2 - 1
 r2 = 2*x1 + x2 - 2
-funcr = sp.Matrix([r1, r2])
-args = sp.Matrix([x1, x2])
+funcr = [r1, r2]
+args = [x1, x2]
 x_0 = (2, 2)
 
 f_list = []
@@ -270,7 +270,7 @@ plt.show()
 ```
 
 <div align="center">
-    <img src="./visualization/非线性最小二乘函数测试.png">
+    <img src="./images/nonlinear_least_squares.png">
 </div>
 
 ### 等式约束优化问题测试程序
@@ -284,9 +284,9 @@ import optimtool as oo
 f, x1, x2 = sp.symbols("f x1 x2")
 f = x1 + np.sqrt(3) * x2
 c1 = x1**2 + x2**2 - 1
-funcs = sp.Matrix([f])
-cons = sp.Matrix([c1])
-args = sp.Matrix([x1, x2])
+funcs = f
+cons = c1 # cons = [c1]
+args = [x1, x2]
 x_0 = (-1, -1)
 
 f_list = []
@@ -310,7 +310,7 @@ plt.show()
 ```
 
 <div align="center">
-    <img src="./visualization/等式约束函数测试.png">
+    <img src="./images/equality_constraint.png">
 </div>
 
 ### 不等式约束优化问题测试程序
@@ -324,9 +324,9 @@ f, x1, x2 = sp.symbols("f x1 x2")
 f = x1**2 + (x2 - 2)**2
 c1 = 1 - x1
 c2 = 2 - x2
-funcs = sp.Matrix([f])
-cons = sp.Matrix([c1, c2])
-args = sp.Matrix([x1, x2])
+funcs = f
+cons = [c1, c2]
+args = [x1, x2]
 x_0 = (2, 3)
 
 f_list = []
@@ -350,45 +350,8 @@ plt.show()
 ```
 
 <div align="center">
-    <img src="./visualization/不等式约束函数测试.png">
+    <img src="./images/inequality_constraint.png">
 </div>
-
-`Single test Lagrange method`：
-
-```python
-import sympy as sp
-
-# import optimtool
-import optimtool as oo
-
-# make functions
-f1 = sp.symbols("f1")
-x1, x2, x3, x4 = sp.symbols("x1 x2 x3 x4")
-f1 = x1**2 + x2**2 + 2*x3**3 + x4**2 - 5*x1 - 5*x2 - 21*x3 + 7*x4
-c1 = 8 - x1 + x2 - x3 + x4 - x1**2 - x2**2 - x3**2 - x4**2
-c2 = 10 + x1 + x4 - x1**2 - 2*x2**2 - x3**2 - 2*x4**2
-c3 = 5 - 2*x1 + x2 + x4 - 2*x1**2 - x2**2 - x3**2
-cons_unequal1 = sp.Matrix([c1, c2, c3])
-funcs1 = sp.Matrix([f1])
-args1 = sp.Matrix([x1, x2, x3, x4])
-x_1 = (0, 0, 0, 0)
-
-x_0, _, f = oo.constrain.unequal.lagrange_augmented(funcs1, args1, cons_unequal1, x_1, output_f=True, method="trust_region", sigma=1, muk=1, p=1.2)
-for i in range(len(x_0)):
-     x_0[i] = round(x_0[i], 2)
-print("\nfinal point：", x_0, "\nTarget function value：", f[-1])
-```
-
-<div align="center">
-    <img src="./visualization/不等式约束拉格朗日方法.png">
-</div>
-
-`result`：
-
-```python
-最终收敛点： [ 2.5   2.5   1.87 -3.5 ] 
-最终目标函数值： -50.94151192711454
-```
 
 ### 混合等式约束优化问题测试程序
 
@@ -401,10 +364,10 @@ f, x1, x2 = sp.symbols("f x1 x2")
 f = (x1 - 2)**2 + (x2 - 1)**2
 c1 = x1 - 2*x2
 c2 = 0.25*x1**2 - x2**2 - 1
-funcs = sp.Matrix([f])
-cons_equal = sp.Matrix([c1])
-cons_unequal = sp.Matrix([c2])
-args = sp.Matrix([x1, x2])
+funcs = f
+cons_equal = c1
+cons_unequal = c2
+args = [x1, x2]
 x_0 = (0.5, 1)
 
 f_list = []
@@ -430,7 +393,7 @@ plt.show()
 ```
 
 <div align="center">
-    <img src="./visualization/混合等式约束函数测试.png">
+    <img src="./images/mixed_equality_constraint.png">
 </div>
 
 ### Lasso问题测试程序
@@ -450,7 +413,7 @@ u = (ss.rand(n, 1, 0.1)).toarray()
 A = np.random.randn(m, n)
 b = A.dot(u)
 mu = 1e-2
-args = sp.Matrix(x)
+args = x
 x_0 = tuple([1 for i in range(8)])
 
 f_list = []
@@ -474,7 +437,7 @@ plt.show()
 ```
 
 <div align="center">
-    <img src="./visualization/Lasso解法函数测试.png">
+    <img src="./images/Lasso.png">
 </div>
 
 ### 曲线切点问题测试程序
@@ -500,14 +463,15 @@ oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5,
 ```
 
 <div align="center">
-    <img src="./visualization/WanYuan问题测试图.png">
+    <img src="./images/WanYuan.png">
 </div>
 
-## 参考资料
-
-* [matplotlib](https://matplotlib.org/) 官网
-* [numpy](https://www.numpy.org.cn/) 中文文档
-* [sympy](https://www.sympy.org/en/index.html) 官网
+## ISSUES
+1. 外部调用方式更改（2.3.5）
+2. functions优化
+3. 内点罚函数法优化
+4. 约束优化算法调整
+5. hybrid方法加入
 
 ## LICENSE
 

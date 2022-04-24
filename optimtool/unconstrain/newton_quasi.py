@@ -38,8 +38,18 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
         
     '''
     import numpy as np
+    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian
+    # data convert
+    if isinstance(funcs, list) or isinstance(funcs, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
@@ -108,8 +118,18 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
         
     '''
     import numpy as np
+    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian
+    # data convert
+    if isinstance(funcs, list) or isinstance(funcs, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
@@ -179,8 +199,18 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
         
     '''
     import numpy as np
+    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_L_BFGS_double_loop
+    # data convert
+    if isinstance(funcs, list) or isinstance(funcs, tuple):
+        funcs = sp.Matrix(funcs)
+    else:
+        funcs = sp.Matrix([funcs])
+    if isinstance(args, list) or isinstance(args, tuple):
+        args = sp.Matrix(args)
+    else:
+        args = sp.Matrix([args])
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     l = hes.shape[0]

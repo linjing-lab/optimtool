@@ -1,6 +1,3 @@
-'''
-线搜索准则
-'''
 # Armijo线搜索准则
 def armijo(funcs, args, x_0, d, gamma=0.5, c=0.1):
     '''
