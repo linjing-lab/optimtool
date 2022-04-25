@@ -1,17 +1,29 @@
-# import packages
 import sympy as sp
 import matplotlib.pyplot as plt
 import optimtool as oo
 
-# make data
-m = 1
-n = 2
-a = 0.2
-b = -1.4
-c = 2.2
-x3 = 2*(1/2)
-y3 = 0
-x_0 = (0, -1, -2.5, -0.5, 2.5, -0.05)
+r1, r2, x1, x2 = sp.symbols("r1 r2 x1 x2")
+r1 = x1**3 - 2*x2**2 - 1
+r2 = 2*x1 + x2 - 2
+funcr = (r1, r2) # (r1, r2) \ sp.Matrix([funcr])
+args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
+x_0 = (2, 2)
 
-# train
-oo.example.WanYuan.gauss_newton(1, 2, 0.2, -1.4, 2.2, 2**(1/2), 0, (0, -1, -2.5, -0.5, 2.5, -0.05), draw=True)
+f_list = []
+title = ["gauss_newton", "levenberg_marquardt"]
+colorlist = ["maroon", "teal"]
+_, _, f = oo.unconstrain.nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True)
+f_list.append(f)
+_, _, f = oo.unconstrain.nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
+f_list.append(f)
+
+# draw
+handle = []
+for j, z in zip(colorlist, f_list):
+    ln, = plt.plot([i for i in range(len(z))], z, c=j, marker='o', linestyle='dashed')
+    handle.append(ln)
+plt.xlabel("$Iteration \ times \ (k)$")
+plt.ylabel("$Objective \ function \ value: \ f(x_k)$")
+plt.legend(handle, title)
+plt.title("Performance Comparison")
+plt.show()

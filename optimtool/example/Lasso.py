@@ -44,11 +44,8 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_f_delta_gradient
-    if isinstance(args, tuple) or isinstance(args, list):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_f_delta_gradient, function_data_convert
+    _, args, _, _ = function_data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
@@ -121,7 +118,8 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_subgradient
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_subgradient, function_data_convert
+    _, args, _, _ = function_data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     point = []

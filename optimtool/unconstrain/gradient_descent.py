@@ -33,16 +33,8 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
-    # data convert
-    if isinstance(funcs, list) or isinstance(funcs, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
+    funcs, args, _, _ = function_data_convert(funcs, args)
     res = funcs.jacobian(args)
     m = sp.symbols("m")
     arg = sp.Matrix([m])
@@ -104,17 +96,9 @@ def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilo
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    # data convert
-    if isinstance(funcs, list) or isinstance(funcs, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
+    funcs, args, _, _ = function_data_convert(funcs, args)
     res = funcs.jacobian(args)
     fx = []
     while 1:
@@ -184,22 +168,14 @@ def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo
     import numpy as np
     import sympy as sp
     from optimtool.functions.linear_search import nonmonotonic_Grippo, nonmonotonic_ZhangHanger
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     assert M >= 0
     assert alpha > 0
     assert c1 > 0
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    # data convert
-    if isinstance(funcs, list) or isinstance(funcs, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
+    funcs, args, _, _ = function_data_convert(funcs, args)
     res = funcs.jacobian(args)
     point = []
     f = []

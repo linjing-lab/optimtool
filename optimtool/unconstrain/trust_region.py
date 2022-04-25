@@ -57,7 +57,7 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_modify_hessian, function_steihaug_CG, function_plot_iteration
+    from optimtool.functions.tools import function_modify_hessian, function_steihaug_CG, function_plot_iteration, function_data_convert
     assert eta >= 0
     assert r0 < rmax
     assert eta < p1
@@ -65,15 +65,7 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
     assert p2 < 1
     assert gamma1 < 1
     assert gamma2 > 1
-    # data convert
-    if isinstance(funcs, list) or isinstance(funcs, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
+    funcs, args, _, _ = function_data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     s0 = [0 for i in range(args.shape[0])]

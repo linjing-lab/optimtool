@@ -45,7 +45,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
     from optimtool.unconstrain.newton_quasi import L_BFGS
@@ -53,19 +53,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     assert sigma > 0
     assert p > 0
     assert p < 1
-    # data convert
-    if isinstance(args, list) or isinstance(args, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    if isinstance(cons, list) or isinstance(cons, tuple):
-        cons = sp.Matrix(cons)
-    else:
-        cons = sp.Matrix([cons])
+    funcs, args, _, cons = function_data_convert(funcs, args, None, cons)
     point = []
     f = []
     while 1:
@@ -147,7 +135,7 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
     from optimtool.unconstrain.newton_quasi import L_BFGS
@@ -155,19 +143,7 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
     assert sigma > 0
     assert p > 0
     assert p < 1
-    # data convert
-    if isinstance(args, list) or isinstance(args, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    if isinstance(cons, list) or isinstance(cons, tuple):
-        cons = sp.Matrix(cons)
-    else:
-        cons = sp.Matrix([cons])
+    funcs, args, _, cons = function_data_convert(funcs, args, None, cons)
     point = []
     f = []
     sub_pe = 0
@@ -257,7 +233,7 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
     '''
     import sympy as sp
     import numpy as np
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_renew_mu_k, function_v_k
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_renew_mu_k, function_v_k, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
     from optimtool.unconstrain.newton_quasi import L_BFGS
@@ -267,19 +243,7 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
     assert alpha > 0 
     assert alpha <= beta
     assert beta < 1
-    # data convert
-    if isinstance(args, list) or isinstance(args, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    if isinstance(cons, list) or isinstance(cons, tuple):
-        cons = sp.Matrix(cons)
-    else:
-        cons = sp.Matrix([cons])
+    funcs, args, _, cons = function_data_convert(funcs, args, None, cons)
     f = []
     muk = np.array([muk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while True:

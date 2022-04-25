@@ -48,30 +48,14 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
     from optimtool.unconstrain.newton_quasi import L_BFGS
     from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 0
-    # data convert
-    if isinstance(args, list) or isinstance(args, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    if isinstance(cons_equal, list) or isinstance(cons_equal, tuple):
-        cons_equal = sp.Matrix(cons_equal)
-    else:
-        cons_equal = sp.Matrix([cons_equal])
-    if isinstance(cons_unequal, list) or isinstance(cons_unequal, tuple):
-        cons_unequal = sp.Matrix(cons_unequal)
-    else:
-        cons_unequal = sp.Matrix([cons_unequal])
+    funcs, args, cons_equal, cons_unequal = function_data_convert(funcs, args, cons_equal, cons_unequal)
     f = []
     while 1:
         point.append(np.array(x_0))
@@ -151,30 +135,14 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
     from optimtool.unconstrain.newton_quasi import L_BFGS
     from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 0
-    # data convert
-    if isinstance(args, list) or isinstance(args, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    if isinstance(cons_equal, list) or isinstance(cons_equal, tuple):
-        cons_equal = sp.Matrix(cons_equal)
-    else:
-        cons_equal = sp.Matrix([cons_equal])
-    if isinstance(cons_unequal, list) or isinstance(cons_unequal, tuple):
-        cons_unequal = sp.Matrix(cons_unequal)
-    else:
-        cons_unequal = sp.Matrix([cons_unequal])
+    funcs, args, cons_equal, cons_unequal = function_data_convert(funcs, args, cons_equal, cons_unequal)
     point = []
     f = []
     while 1:
@@ -273,7 +241,7 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
     '''
     import numpy as np
     import sympy as sp
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_v_k, function_renew_mu_k
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_v_k, function_renew_mu_k, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
     from optimtool.unconstrain.newton_quasi import L_BFGS
@@ -283,23 +251,7 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
     assert alpha > 0 
     assert alpha <= beta
     assert beta < 1
-    # data convert
-    if isinstance(args, list) or isinstance(args, tuple):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    if isinstance(args, list) or isinstance(args, tuple):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    if isinstance(cons_equal, list) or isinstance(cons_equal, tuple):
-        cons_equal = sp.Matrix(cons_equal)
-    else:
-        cons_equal = sp.Matrix([cons_equal])
-    if isinstance(cons_unequal, list) or isinstance(cons_unequal, tuple):
-        cons_unequal = sp.Matrix(cons_unequal)
-    else:
-        cons_unequal = sp.Matrix([cons_unequal])
+    funcs, args, cons_equal, cons_unequal = function_data_convert(funcs, args, cons_equal, cons_unequal)
     f = []
     lamk = np.array([lamk for i in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for i in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)

@@ -509,3 +509,65 @@ def function_renew_mu_k(cons_unequal, args, muk, sigma, x_0):
     for i in range(len_unequal):
         muk[i] = max(muk[i] + sigma * consv_unequal[i], 0)
     return muk
+
+def function_data_convert(funcs, args, cons_equal=None, cons_unequal=None):
+    '''
+    Parameters
+    ----------
+    funcs : list or tuple or single value
+        目标函数
+        
+    args : list or tuple or single value 
+        参数
+    
+    cons_equal : list or tuple or single value 
+        等式约束
+        
+    cons_unequal : list or tuple or single value
+        不等式约束
+
+
+    Returns
+    -------
+    funcs : sympy.matrices.dense.MutableDenseMatrix
+        目标函数
+        
+    args : sympy.matrices.dense.MutableDenseMatrix 
+        参数
+    
+    cons_equal : sympy.matrices.dense.MutableDenseMatrix 
+        等式约束
+        
+    cons_unequal : sympy.matrices.dense.MutableDenseMatrix
+        不等式约束
+        
+    '''
+    import sympy as sp
+    # convert funcs
+    if funcs is not None:
+        if isinstance(funcs, (list, tuple)):
+            funcs = sp.Matrix(funcs)
+        else:
+            funcs = sp.Matrix([funcs])
+
+    # convert args
+    if args is not None:
+        if isinstance(args, (list, tuple)):
+            args = sp.Matrix(args)
+        else:
+            args = sp.Matrix([args])
+
+    # convert cons_equal
+    if cons_equal is not None:
+        if isinstance(cons_equal, (list, tuple)):
+            cons_equal = sp.Matrix(cons_equal)
+        else:
+            cons_equal = sp.Matrix([cons_equal])
+
+    # convert cons_unequal
+    if cons_unequal is not None:
+        if isinstance(cons_unequal, (list, tuple)):
+            cons_unequal = sp.Matrix(cons_unequal)
+        else:
+            cons_unequal = sp.Matrix([cons_unequal])
+    return funcs, args, cons_equal, cons_unequal

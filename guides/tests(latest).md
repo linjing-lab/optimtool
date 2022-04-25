@@ -9,8 +9,8 @@ import optimtool as oo
 
 f, x1, x2, x3, x4 = sp.symbols("f x1 x2 x3 x4")
 f = (x1 - 1)**2 + (x2 - 1)**2 + (x3 - 1)**2 + (x1**2 + x2**2 + x3**2 + x4**2 - 0.25)**2
-funcs = f # funcs = [f] \ funcs = (f)
-args = [x1, x2, x3, x4] # args = (x1, x2, x3, x4)
+funcs = f # [f] \ (f) \ sp.Matrix([f])
+args = [x1, x2, x3, x4] # (x1, x2, x3, x4) \ sp.Matrix([args])
 x_0 = (1, 2, 3, 4)
 
 f_list = []
@@ -51,8 +51,8 @@ import optimtool as oo
 r1, r2, x1, x2 = sp.symbols("r1 r2 x1 x2")
 r1 = x1**3 - 2*x2**2 - 1
 r2 = 2*x1 + x2 - 2
-funcr = [r1, r2] # funcs = (r1, r2)
-args = [x1, x2] # args = (x1, x2)
+funcr = [r1, r2] # (r1, r2) \ sp.Matrix([funcr])
+args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
 x_0 = (2, 2)
 
 f_list = []
@@ -90,9 +90,9 @@ import optimtool as oo
 f, x1, x2 = sp.symbols("f x1 x2")
 f = x1 + np.sqrt(3) * x2
 c1 = x1**2 + x2**2 - 1
-funcs = f # funcs = [f] \ funcs = (f)
-cons = [c1] # cons = c1 \ funcs = (c1)
-args = [x1, x2] # args = (x1, x2)
+funcs = f # [f] \ (f) \ sp.Matrix([f])
+cons = [c1] # c1 \ (c1) \ sp.Matrix([cons])
+args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
 x_0 = (-1, -1)
 
 f_list = []
@@ -130,9 +130,9 @@ f, x1, x2 = sp.symbols("f x1 x2")
 f = x1**2 + (x2 - 2)**2
 c1 = 1 - x1
 c2 = 2 - x2
-funcs = f # funcs = [f] \ funcs = (f)
-cons = [c1, c2] # cons = (c1, c2)
-args = [x1, x2] # args = (x1, x2)
+funcs = f # [f] \ (f) \ sp.Matrix([f])
+cons = [c1, c2] # (c1, c2) \ sp.Matrix([cons])
+args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
 x_0 = (2, 3)
 
 f_list = []
@@ -170,10 +170,10 @@ f, x1, x2 = sp.symbols("f x1 x2")
 f = (x1 - 2)**2 + (x2 - 1)**2
 c1 = x1 - 2*x2
 c2 = 0.25*x1**2 - x2**2 - 1
-funcs = f # funcs = [f] \ funcs = (f)
-cons_equal = c1 # cons_equal = [c1] \ cons_equal = (c1)
-cons_unequal = c2 # cons_unequal = [c2] \ cons_unequal = (c2)
-args = [x1, x2] # args = (x1, x2)
+funcs = f # [f] \ (f) \ sp.Matrix([f])
+cons_equal = c1 # [c1] \ (c1) \ sp.Matrix([c1])
+cons_unequal = c2 # [c2] \ (c2) \ sp.Matrix([c2])
+args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
 x_0 = (0.5, 1)
 
 f_list = []
@@ -219,7 +219,7 @@ u = (ss.rand(n, 1, 0.1)).toarray()
 A = np.random.randn(m, n)
 b = A.dot(u)
 mu = 1e-2
-args = x # x转为list也可以
+args = x # list(x) \ sp.Matrix(x)
 x_0 = tuple([1 for i in range(8)])
 
 f_list = []
