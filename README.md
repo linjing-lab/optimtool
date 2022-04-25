@@ -58,6 +58,8 @@ Latest ---> [latest](./guides/tests(latest).md)
 
 ## [ISSUES](./guides/issues.md)
 
-## LICENSE
+## [LICENSE](./LICENSE)
 
-[MIT LICENSE](./LICENSE)
+If you want to participate in the development, please follow the [baseline](./guides/baseline.md).
+
+如果你想参与开发，请遵循[baseline](./guides/baseline.md)。
