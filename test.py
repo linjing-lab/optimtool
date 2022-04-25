@@ -1,20 +1,26 @@
+import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
 import optimtool as oo
 
-r1, r2, x1, x2 = sp.symbols("r1 r2 x1 x2")
-r1 = x1**3 - 2*x2**2 - 1
-r2 = 2*x1 + x2 - 2
-funcr = (r1, r2) # (r1, r2) \ sp.Matrix([funcr])
-args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
-x_0 = [2, 2]
+import scipy.sparse as ss
+f, A, b, mu = sp.symbols("f A b mu")
+x = sp.symbols('x1:9')
+m = 4
+n = 8
+u = (ss.rand(n, 1, 0.1)).toarray()
+A = np.random.randn(m, n)
+b = A.dot(u)
+mu = 1e-2
+args = x # list(x) \ sp.Matrix(x)
+x_0 = tuple([1 for i in range(8)])
 
 f_list = []
-title = ["gauss_newton", "levenberg_marquardt"]
+title = ["gradient_descent", "subgradient"]
 colorlist = ["maroon", "teal"]
-_, _, f = oo.unconstrain.nonlinear_least_square.gauss_newton(funcr, args, x_0, False, True)
+_, _, f = oo.example.Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)
 f_list.append(f)
-_, _, f = oo.unconstrain.nonlinear_least_square.levenberg_marquardt(funcr, args, x_0, False, True)
+_, _, f = oo.example.Lasso.subgradient(A, b, mu, args, x_0, False, True)
 f_list.append(f)
 
 # draw
