@@ -1,26 +1,23 @@
-import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
 import optimtool as oo
 
-import scipy.sparse as ss
-f, A, b, mu = sp.symbols("f A b mu")
-x = sp.symbols('x1:9')
-m = 4
-n = 8
-u = (ss.rand(n, 1, 0.1)).toarray()
-A = np.random.randn(m, n)
-b = A.dot(u)
-mu = 1e-2
-args = x # list(x) \ sp.Matrix(x)
-x_0 = tuple([1 for i in range(8)])
+f, x1, x2, x3, x4 = sp.symbols("f x1 x2 x3 x4")
+f = (x1 - 1)**2 + (x2 - 1)**2 + (x3 - 1)**2 + (x1**2 + x2**2 + x3**2 + x4**2 - 0.25)**2
+funcs = sp.Matrix([f])
+args = sp.Matrix([x1, x2, x3, x4])
+x_0 = (1, 2, 3, 4)
 
 f_list = []
-title = ["gradient_descent", "subgradient"]
-colorlist = ["maroon", "teal"]
-_, _, f = oo.example.Lasso.gradient_descent(A, b, mu, args, x_0, False, True, epsilon=1e-4)
+title = ["gradient_descent_barzilar_borwein", "newton_CG", "newton_quasi_L_BFGS", "trust_region_steihaug_CG"]
+colorlist = ["maroon", "teal", "slateblue", "orange"]
+_, _, f = oo.unconstrain.gradient_descent.barzilar_borwein(funcs, args, x_0, False, True)
 f_list.append(f)
-_, _, f = oo.example.Lasso.subgradient(A, b, mu, args, x_0, False, True)
+_, _, f = oo.unconstrain.newton.CG(funcs, args, x_0, False, True)
+f_list.append(f)
+_, _, f = oo.unconstrain.newton_quasi.L_BFGS(funcs, args, x_0, False, True)
+f_list.append(f)
+_, _, f = oo.unconstrain.trust_region.steihaug_CG(funcs, args, x_0, False, True)
 f_list.append(f)
 
 # draw
