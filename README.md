@@ -4,7 +4,7 @@
     <img src="logo.jpg">
 </div>
 
-![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/)
 
 如何下载： `pip install optimtool`
 
@@ -49,10 +49,10 @@
 
 ## [方法使用](./guides/methods.md)
 
-
 ## 方法测试
+> 尽量下载v2.3.4及以后
 
-[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/) ---> [v2.3.4](./guides/tests(v2.3.4).md)
+v2.3.4 ---> [v2.3.4](./guides/tests(v2.3.4).md)
 
 Latest ---> [latest](./guides/tests(latest).md)
 
