@@ -4,8 +4,8 @@ import optimtool as oo
 
 f, x1, x2, x3, x4 = sp.symbols("f x1 x2 x3 x4")
 f = (x1 - 1)**2 + (x2 - 1)**2 + (x3 - 1)**2 + (x1**2 + x2**2 + x3**2 + x4**2 - 0.25)**2
-funcs = sp.Matrix([f])
-args = sp.Matrix([x1, x2, x3, x4])
+funcs = f # [f] \ (f) \ sp.Matrix([f])
+args = [x1, x2, x3, x4] # (x1, x2, x3, x4) \ sp.Matrix([args])
 x_0 = (1, 2, 3, 4)
 
 f_list = []
