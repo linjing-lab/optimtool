@@ -7,7 +7,7 @@ r1 = x1**3 - 2*x2**2 - 1
 r2 = 2*x1 + x2 - 2
 funcr = (r1, r2) # (r1, r2) \ sp.Matrix([funcr])
 args = [x1, x2] # (x1, x2) \ sp.Matrix([args])
-x_0 = (2, 2)
+x_0 = [2, 2]
 
 f_list = []
 title = ["gauss_newton", "levenberg_marquardt"]
