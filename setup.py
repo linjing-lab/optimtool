@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
       name='optimtool',  # 包名
       version='2.3.5',  # 版本号
-      description="Tools for Mathematical Optimization Region.",
+      description="The fundamental package for scientific research in optimization field.",
       long_description = "Simplify how data is constructed outside the library",
       author='林景',
       author_email='1439313331@qq.com',
