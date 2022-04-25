@@ -7,7 +7,8 @@
 ![](https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a)&emsp;![](https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a)&emsp;[![PyPI Latest Release](https://img.shields.io/pypi/v/optimtool.svg)](https://pypi.org/project/optimtool/)
 
 如何下载： `pip install optimtool`
-
+> 尽可能下载v2.3.4及以后（完备的导包方式与最新的无约束\约束方法库）
+> 
 > If you want to participate in the development, please follow the [baseline](./guides/baseline.md).
 > 
 > 如果你想参与开发，请遵循[baseline](./guides/baseline.md)。
@@ -54,7 +55,6 @@
 ## [方法使用](./guides/methods.md)
 
 ## 方法测试
-> 尽量下载v2.3.4及以后
 
 * [v2.3.4](./guides/tests(v2.3.4).md) ---> 完备的导包方式与无约束/约束优化方法库
 
