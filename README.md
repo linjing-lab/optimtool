@@ -8,6 +8,10 @@
 
 如何下载： `pip install optimtool`
 
+> If you want to participate in the development, please follow the [baseline](./guides/baseline.md).
+> 
+> 如果你想参与开发，请遵循[baseline](./guides/baseline.md)。
+
 ## 项目介绍
 
 &emsp;&emsp;该工具包采用了北京大学出版的《最优化：建模、算法与理论》这本书中的部分理论方法框架，运用了`Numpy`包高效处理数组间运算等的特性，巧妙地应用了`Sympy`内部支持的`.jacobian`等方法，并结合Python内置函数`dict`与`zip`实现了`Sympy`矩阵到`Numpy`矩阵的转换，最终设计了一个用于最优化科学研究领域的Python工具包。 研究人员可以通过简单的`pip`指令进行下载与使用。
@@ -52,14 +56,10 @@
 ## 方法测试
 > 尽量下载v2.3.4及以后
 
-v2.3.4 ---> [v2.3.4](./guides/tests(v2.3.4).md)
+* [v2.3.4](./guides/tests(v2.3.4).md) ---> 完备的导包方式与无约束/约束优化方法库
 
-Latest ---> [latest](./guides/tests(latest).md)
+* [latest](./guides/tests(latest).md) ---> 更加友好的输入接口
 
 ## [ISSUES](./guides/issues.md)
 
 ## [LICENSE](./LICENSE)
-
-If you want to participate in the development, please follow the [baseline](./guides/baseline.md).
-
-如果你想参与开发，请遵循[baseline](./guides/baseline.md)。
