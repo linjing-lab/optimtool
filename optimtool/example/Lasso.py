@@ -143,3 +143,69 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
         return x_0, k, f
     else:
         return x_0, k
+
+'''
+罚函数法
+'''
+def penalty(A, b, mu, args, x_0, draw=True, output_f=False, gamma=0.1, epsilon=1e-6, k=0):
+    '''
+    Parameters
+    ----------
+    A : numpy.array
+        m*n维数 参数矩阵
+        
+    b : 系数矩阵
+        m*1维数 参数矩阵
+        
+    mu : float
+        正则化参数
+        
+    args : sympy.matrices.dense.MutableDenseMatrix
+        参数列表
+        
+    x_0 : list
+        初始迭代点列表
+        
+    draw : bool
+        绘图接口参数
+        
+    output_f : bool
+        输出迭代函数值列表
+        
+    gamma : float
+        因子
+        
+    epsilon : float
+        迭代停机准则
+        
+    k : float
+        迭代次数
+        
+
+    Returns
+    -------
+    tuple
+        最终收敛点, 迭代次数, (迭代函数值列表)
+        
+    '''
+    import numpy as np
+    import sympy as sp
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
+    assert gamma < 1
+    assert gamma > 0
+    _, args, _, _ = function_data_convert(None, args)
+    funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
+    f = []
+    while mu >= epsilon:
+        f.append(function_f_x_k(funcs, args, x_0, mu))
+        x_0, _ = subgradient(A, b, mu, args, x_0, False)
+        if mu > epsilon:
+            mu = max(epsilon, gamma * mu)
+            k = k + 1
+        else:
+            break
+    function_plot_iteration(f, draw, "Lasso_penalty")
+    if output_f is True:
+        return x_0, k, f
+    else:
+        return x_0, k

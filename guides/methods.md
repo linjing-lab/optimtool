@@ -126,6 +126,7 @@ oe.Lasso.[函数名]([矩阵A], [矩阵b], [因子mu], [参数表], [初始迭�
 | ------------------------------------------------------------------------------------------------------- | ---------------- |
 | gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0) | 光滑化Lasso函数法      |
 | subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)             | 次梯度法Lasso避免一阶不可导 |
+| penalty(A, b, mu, args, x_0, draw=True, output_f=False, gamma=0.1, epsilon=1e-6, k=0) | 罚函数法 |
 
 ### 曲线相切问题（WanYuan）
 
