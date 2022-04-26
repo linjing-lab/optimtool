@@ -58,7 +58,7 @@
 
 * [v2.3.4](./guides/tests(v2.3.4).md) ---> 完备的导包方式与无约束/约束优化方法库
 
-* [latest(v.2.3.5)](./guides/tests(latest).md) ---> 更加友好的输入参数形式
+* [v2.3.5](./guides/tests(latest).md) ---> 更加友好的输入参数形式
 
 ## [ISSUES](./guides/issues.md)
 
