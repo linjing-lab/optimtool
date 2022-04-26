@@ -45,7 +45,7 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
     epsilon : float
         迭代停机准则
         
-    k : float
+    k : int
         迭代次数
         
 

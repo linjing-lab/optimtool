@@ -33,7 +33,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     epsilon : double
         迭代停机准则
         
-    k : double
+    k : int
         迭代次数
         
 
@@ -88,6 +88,74 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
 '''
 保证点在定义域内
 '''
+def penalty_interior_log(funcs, args, cons, x_0, draw=True, output_f=False, sigma=12, p=0.6, epsilon=1e-10, k=0):
+    '''
+    Parameters
+    ----------
+    funcs : sympy.matrices.dense.MutableDenseMatrix
+        当前目标方程
+        
+    args : sympy.matrices.dense.MutableDenseMatrix
+        参数列表
+        
+    cons : sympy.matrices.dense.MutableDenseMatrix
+        不等式参数约束列表
+        
+    x_0 : list
+        初始迭代点列表
+        
+    draw : bool
+        绘图接口参数
+        
+    output_f : bool
+        输出迭代函数值列表
+        
+    sigma : double
+        罚函数因子
+        
+    p : double
+        修正参数
+        
+    epsilon : double
+        迭代停机准则
+        
+    k : int
+        迭代次数
+        
+
+    Returns
+    -------
+    tuple
+        最终收敛点, 迭代次数, (迭代函数值列表)
+        
+    '''
+    import numpy as np
+    import sympy as sp
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
+    from optimtool.hybrid.approximate_point_gradient import neg_log
+    assert sigma > 0
+    assert p > 0
+    assert p < 1
+    funcs, args, _, cons = function_data_convert(funcs, args, None, cons)
+    point = []
+    f = []
+    while 1:
+        point.append(np.array(x_0))
+        f.append(function_f_x_k(funcs, args, x_0))
+        x_0, _ = neg_log(funcs, sigma, -cons, args, tuple(x_0), draw=False)
+        k = k + 1
+        sigma = p * sigma
+        print(np.linalg.norm(x_0 - point[k - 1]))
+        if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
+            point.append(np.array(x_0))
+            f.append(function_f_x_k(funcs, args, x_0))
+            break
+    function_plot_iteration(f, draw, "penalty_interior_fraction")
+    if output_f is True:
+        return x_0, k, f
+    else:
+        return x_0, k
+
 # 分式
 def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0):
     '''
@@ -123,7 +191,7 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
     epsilon : double
         迭代停机准则
         
-    k : double
+    k : int
         迭代次数
         
 
@@ -150,7 +218,7 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
     for i in cons:
         sub_pe += 1 / i
     sub_pe = sp.Matrix([sub_pe])
-    while True:
+    while 1:
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
         pe = sp.Matrix([funcs - sigma * sub_pe])
@@ -163,11 +231,11 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
         elif method == "trust_region":
             x_0, _ = steihaug_CG(pe, args, tuple(x_0), draw=False)
         k = k + 1
+        sigma = p * sigma
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
             f.append(function_f_x_k(funcs, args, x_0))
             break
-        sigma = p * sigma
     function_plot_iteration(f, draw, "penalty_interior_fraction")
     if output_f is True:
         return x_0, k, f
@@ -246,7 +314,7 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
     funcs, args, _, cons = function_data_convert(funcs, args, None, cons)
     f = []
     muk = np.array([muk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
-    while True:
+    while 1:
         etak = 1 / sigma
         epsilonk = 1 / sigma**alpha
         cons_uneuqal_modifyed = function_cons_unequal_L(cons, args, muk, sigma, x_0)

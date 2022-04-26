@@ -33,7 +33,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
     epsilon : double
         迭代停机准则
         
-    k : double
+    k : int
         迭代次数
         
 
@@ -122,7 +122,7 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
     epsilon : double
         迭代停机准则
         
-    k : double
+    k : int
         迭代次数
         
 

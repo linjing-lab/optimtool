@@ -24,7 +24,7 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     epsilon : float
         迭代停机准则
         
-    k : float
+    k : int
         迭代次数
         
 

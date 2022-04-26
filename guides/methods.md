@@ -92,6 +92,7 @@ oc.unequal.[函数名]([目标函数], [参数表], [不等式约束表], [初�
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
 | penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.4, epsilon=1e-10, k=0)                                     | 增加二次罚项    |
 | penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0)                              | 增加分式函数罚项  |
+| penalty_interior_log(funcs, args, cons, x_0, draw=True, output_f=False, sigma=12, p=0.6, epsilon=1e-10, k=0) | 增加近似点梯度法解决了迭代点溢出的问题 |
 | lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0) | 增广拉格朗日乘子法 |
 
 ### 混合等式约束（mixequal）
@@ -108,7 +109,20 @@ oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等�
 
 ## 混合优化算法（hybrid）
 
-这部分的算法将会在日后上线，欢迎各界人士前来补充。
+```python
+import optimtool.hybrid as oh
+```
+
+### 近似点梯度下降法（approximate_point_gradient）
+
+```python
+oh.approximate_point_gradient.[邻近算子名]([可微函数], [系数], [函数2], [参数表], [初始迭代点])
+```
+
+| 方法头 | 解释 |
+|--|--|
+|L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-6, k=0)|L1范数邻近算子|
+|neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-6, k=0)|负对数邻近算子|
 
 ## 方法的应用（example）
 
@@ -127,6 +141,7 @@ oe.Lasso.[函数名]([矩阵A], [矩阵b], [因子mu], [参数表], [初始迭�
 | gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0) | 光滑化Lasso函数法      |
 | subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, epsilon=1e-3, k=0)             | 次梯度法Lasso避免一阶不可导 |
 | penalty(A, b, mu, args, x_0, draw=True, output_f=False, gamma=0.1, epsilon=1e-6, k=0) | 罚函数法 |
+| approximate_point_gradient(A, b, mu, args, x_0, draw=True, output_f=False, epsilon=1e-6, k=0) | 邻近算子更新 |
 
 ### 曲线相切问题（WanYuan）
 

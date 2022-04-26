@@ -1,1 +1,1 @@
-# 这里会在后续有混合优化领域的常见算法
+from optimtool.hybrid import approximate_point_gradient
