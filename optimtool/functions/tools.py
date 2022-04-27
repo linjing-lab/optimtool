@@ -571,3 +571,89 @@ def function_data_convert(funcs, args, cons_equal=None, cons_unequal=None):
         else:
             cons_unequal = sp.Matrix([cons_unequal])
     return funcs, args, cons_equal, cons_unequal
+
+def function_proximity_L1(mu, gfun, args, x_0, grad, t):
+    '''
+    Parameters
+    ----------
+    mu : float
+        当前不等式约束列表
+        
+    gfun : sympy.matrices.dense.MutableDenseMatrix
+        L1范数中的函数
+    
+    args : sympy.matrices.dense.MutableDenseMatrix
+        参数列表
+        
+    x_0 : list or tuple
+        常数
+        
+    grad : numpy.array
+        梯度
+
+    t : float
+        学习率
+        
+
+    Returns
+    -------
+    x_0
+        更新后的迭代点
+        
+    '''
+    import numpy as np
+    if gfun is not None:
+        gfunv = np.array(gfun.subs(dict(zip(args, x_0 - t * grad[0])))).astype(np.float64).reshape(1, -1)
+        if mu is not None:
+            x_0 = np.sign(gfunv[0]) * [max(i, 0) for i in (np.abs(gfunv[0]) - t * mu)]
+        else:
+            x_0 = np.sign(gfunv[0]) * [max(i, 0) for i in (np.abs(gfunv[0]) - t)]
+    else:
+        if mu is not None:
+            x_0 = np.sign(x_0 - t * grad[0]) * [max(i, 0) for i in (np.abs(x_0 - t * grad[0]) - t * mu)]
+        else:
+            x_0 = np.sign(x_0 - t * grad[0]) * [max(i, 0) for i in (np.abs(x_0 - t * grad[0]) - t)]
+    return x_0
+
+def function_proximity_neg_log(mu, gfun, args, x_0, grad, t):
+    '''
+    Parameters
+    ----------
+    mu : float
+        当前不等式约束列表
+        
+    gfun : sympy.matrices.dense.MutableDenseMatrix
+        L1范数中的函数
+    
+    args : sympy.matrices.dense.MutableDenseMatrix
+        参数列表
+        
+    x_0 : list or tuple
+        常数
+        
+    grad : numpy.array
+        梯度
+
+    t : float
+        学习率
+        
+
+    Returns
+    -------
+    x_0
+        更新后的迭代点
+        
+    '''
+    import numpy as np
+    if gfun is not None:
+        gfunv = np.array(gfun.subs(dict(zip(args, x_0 - t * grad[0])))).astype(np.float64).reshape(1, -1)
+        if mu is not None:
+            x_0 = ((gfunv[0]) + np.sqrt(gfunv[0]**2 + 4 * t * mu)) / 2
+        else:
+            x_0 = ((gfunv[0]) + np.sqrt(gfunv[0]**2 + 4 * t)) / 2
+    else:
+        if mu is not None:
+            x_0 = ((x_0 - t * grad[0]) + np.sqrt((x_0 - t * grad[0])**2 + 4 * t * mu)) / 2
+        else:
+            x_0 = ((x_0 - t * grad[0]) + np.sqrt((x_0 - t * grad[0])**2 + 4 * t)) / 2
+    return x_0

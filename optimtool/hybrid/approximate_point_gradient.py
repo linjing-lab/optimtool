@@ -41,26 +41,23 @@ def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e
         
     '''
     import numpy as np
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert, function_proximity_L1
     assert t > 0
     funcs, args, gfun, _ = function_data_convert(funcs, args, gfun)
     res = funcs.jacobian(args)
     f = []
     point = []
     while 1:
-    	reps = dict(zip(args, x_0))
-    	f.append(function_f_x_k(funcs, args, x_0, mu))
-    	point.append(x_0)
-    	grad = np.array(res.subs(reps)).astype(np.float64)
-        # 此处需修改
-    	gfunv = np.array(gfun.subs(dict(zip(args, x_0 - t * grad[0])))).astype(np.float64).reshape(1, -1)
-    	x_0 = np.sign(gfunv[0]) * [max(i, 0) for i in np.abs(gfunv[0]) - t * mu]
-    	k = k + 1
-    	print(np.linalg.norm(x_0 - point[k - 1]))
-    	if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
-    		point.append(x_0)
-    		f.append(function_f_x_k(funcs, args, x_0, mu))
-    		break
+        reps = dict(zip(args, x_0))
+        f.append(function_f_x_k(funcs, args, x_0, mu))
+        point.append(x_0)
+        grad = np.array(res.subs(reps)).astype(np.float64)
+        x_0 = function_proximity_L1(mu, gfun, args, x_0, grad, t)
+        k = k + 1
+        if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
+            point.append(x_0)
+            f.append(function_f_x_k(funcs, args, x_0, mu))
+            break
     function_plot_iteration(f, draw, "approximate_point_gradient_L1")
     if output_f is True:
         return x_0, k, f
@@ -68,7 +65,7 @@ def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e
         return x_0, k
 
 # h(x)=\sum_{i=1}^{n} ln x_i
-def neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-6, k=0):
+def neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-10, k=0):
     '''
     Parameters
     ----------
@@ -107,26 +104,24 @@ def neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsil
         
     '''
     import numpy as np
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
+    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert, function_proximity_neg_log
     assert t > 0
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, gfun, _ = function_data_convert(funcs, args, gfun)
     res = funcs.jacobian(args)
     f = []
     point = []
     while 1:
-    	reps = dict(zip(args, x_0))
-    	f.append(function_f_x_k(funcs, args, x_0, mu))
-    	point.append(x_0)
-    	grad = np.array(res.subs(reps)).astype(np.float64)
-        # 此处需修改
-    	gfunv = np.array(gfun.subs(dict(zip(args, x_0 - t * grad[0])))).astype(np.float64).reshape(1, -1)
-    	x_0 = ((gfunv[0]) + np.sqrt(gfunv[0]**2 + 4 * t * mu)) / 2
-    	k = k + 1
-    	if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
-    		point.append(x_0)
-    		f.append(function_f_x_k(funcs, args, x_0, mu))
-    		break
-    function_plot_iteration(f, draw, "approximate_point_gradient_L1")
+        reps = dict(zip(args, x_0))
+        f.append(function_f_x_k(funcs, args, x_0, mu))
+        point.append(x_0)
+        grad = np.array(res.subs(reps)).astype(np.float64)
+        x_0 = function_proximity_neg_log(mu, gfun, args, x_0, grad, t)
+        k = k + 1
+        if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
+            point.append(x_0)
+            f.append(function_f_x_k(funcs, args, x_0, mu))
+            break
+    function_plot_iteration(f, draw, "approximate_point_gradient_neg_log")
     if output_f is True:
         return x_0, k, f
     else:
