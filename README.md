@@ -1,4 +1,4 @@
-# 最优化领域科学研究工具包（optimtool）
+# optimtool🔜
 
 <div align="center">
     <img src="./asserts/logo.jpg">
