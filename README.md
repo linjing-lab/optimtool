@@ -1,8 +1,8 @@
 # optimtool🔜
 
-<div align="center">
+<p align='center'>
     <img src="./asserts/logo.jpg">
-</div>
+</p>
 
 <p align='center'>
     <a href='https://www.python.org/'>
