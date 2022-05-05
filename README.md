@@ -4,11 +4,17 @@
     <img src="./asserts/logo.jpg">
 </div>
 
-<div align="center">
-    <img src="https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a">
-    <img src="https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a">
-    <img src="https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a">
-</div>
+<p align='center'>
+    <a href='https://www.python.org/'>
+        <img src="https://img.shields.io/badge/Code-Python-informational?style=flat&logo=python&logoColor=white&color=2bbc8a">
+    </a>
+    <a href='https://numpy.org/'>
+        <img src="https://img.shields.io/badge/Package-Numpy-informational?style=flat&logo=numpy&logoColor=white&color=2bbc8a">
+    </a>
+    <a href='https://www.sympy.org/en/index.html'>
+        <img src="https://img.shields.io/badge/Package-Sympy-informational?style=flat&logo=sympy&logoColor=white&color=2bbc8a">
+    </a>
+</p>
 
 如何下载： `pip install optimtool` 
 
