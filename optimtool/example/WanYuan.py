@@ -73,7 +73,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         Returns
         -------
         方程
-            (x1, y1）点在圆上
+            (x1, y1) 点在圆上
 
         '''
         x1, y1, x0, y0 = sp.symbols("x1 y1 x0 y0")
@@ -98,7 +98,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         Returns
         -------
         方程
-            圆与直线相切：判别式为0
+            圆与直线相切: 判别式为0
 
         '''
         x, y, x0, y0= sp.symbols("x y x0 y0")
