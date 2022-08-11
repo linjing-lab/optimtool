@@ -1,12 +1,6 @@
 # optimtool🔜
 
-<p align='center'>
-    <a href='https://pypi.org/project/optimtool/'>
-        <img src="./asserts/logo.jpg">
-    </a>
-</p>
-
-If you want to participate in the development, please follow the [baseline](./guides/baseline.md).
+If you want to participate in the development, please follow the [baseline](./baseline.md).
 
 如果你想参与开发，请遵循[baseline](./baseline.md)。
 
