@@ -3,10 +3,13 @@
 版权归属：@[武汉理工大学 林景](https://github.com/linjing-lab)
 
 ```python
-# 导入numpy与sympy两个依赖包
-%matplotlib widget # 便于保存图像（Jupyter lab）
+# 软件依赖
 import numpy as np
 import sympy as sp
+import matplotlib.pyplot as plt
+
+# Jupyter Lab 基本设置
+%matplotlib widget # 便于保存图像
 
 # 批量生成符号变量
 s = sp.symbols('s0:10')
@@ -30,7 +33,7 @@ def function_f_x_k(funcs, args, x_0, mu=None):
             funcsv += mu * np.abs(i)
     return funcsv[0][0]
 
-def function_plot_iteration(f, draw, method):
+def function_plot_iteration(f, draw: bool, method: str):
     if draw is True:
         plt.plot([i for i in range(len(f))], f, c='r', ls='--')
         plt.xlabel("$k$")
@@ -45,7 +48,7 @@ def function_plot_iteration(f, draw, method):
 > 核心函数稍作修改，保证传出函数值列表，以及epsilon值需要稍作修改。算法绘图接口参数传入False。
 
 ```python
-def plot_performance_algorithms(funcs, args, x_0, test_type):
+def plot_performance_algorithms(funcs, args, x_0, test_type: str):
     method_list = []
     color_list = []
     if test_type == "unconstrained":
@@ -209,7 +212,7 @@ d = np.array([[1, 1]])
 #### 1.1 armijo
 
 ```python
-def linear_search_armijo(funcs, args, x_0, d, gamma=0.5, c=0.1):
+def linear_search_armijo(funcs, args, x_0, d, gamma: float=0.5, c: float=0.1):
     assert gamma > 0
     assert gamma < 1
     assert c > 0
@@ -244,7 +247,7 @@ linear_search_armijo(funcs, args, x_0, d)
 #### 1.2 goldstein
 
 ```python
-def linear_search_goldstein(funcs, args, x_0, d, c=0.1, alphas=0, alphae=10, t=1.2, eps=1e-3):
+def linear_search_goldstein(funcs, args, x_0, d, c: float=0.1, alphas=0, alphae=10, t=1.2, eps=1e-3):
     assert c > 0
     assert c < 0.5
     assert alphas < alphae
