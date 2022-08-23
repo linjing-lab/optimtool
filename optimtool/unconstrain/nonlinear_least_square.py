@@ -56,10 +56,7 @@ def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", ep
         else:
             break
     function_plot_iteration(f, draw, "nonlinear_least_square_gauss_newton_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # levenberg marquardt方法
 def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk=1, eta=0.2, p1=0.4, p2=0.9, gamma1=0.7, gamma2=1.3, epsilon=1e-10, k=0):
@@ -160,7 +157,4 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
         else:
             break
     function_plot_iteration(f, draw, "nonlinear_least_square_levenberg_marquardt")        
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

@@ -79,10 +79,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
             break
         sigma = p * sigma
     function_plot_iteration(f, draw, "penalty_quadratic_unequal") 
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # 内点罚函数法（不等式约束）
 '''
@@ -151,10 +148,7 @@ def penalty_interior_log(funcs, args, cons, x_0, draw=True, output_f=False, sigm
             f.append(function_f_x_k(funcs, args, x_0))
             break
     function_plot_iteration(f, draw, "penalty_interior_fraction")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # 分式
 def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=12, p=0.6, epsilon=1e-6, k=0):
@@ -237,10 +231,7 @@ def penalty_interior_fraction(funcs, args, cons, x_0, draw=True, output_f=False,
             f.append(function_f_x_k(funcs, args, x_0))
             break
     function_plot_iteration(f, draw, "penalty_interior_fraction")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
     
 # 增广拉格朗日函数法（不等式约束）
 def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", muk=10, sigma=8, alpha=0.2, beta=0.7, p=2, eta=1e-1, epsilon=1e-4, k=0):
@@ -345,7 +336,4 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
             etak = 1 / sigma
             epsilonk  = 1 / sigma**alpha
     function_plot_iteration(f, draw, "lagrange_augmented_unequal")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

@@ -53,10 +53,7 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         else:
             break
     function_plot_iteration(f, draw, "newton_classic")        
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
     
 # 修正牛顿法
 def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0):
@@ -120,10 +117,7 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
         else:
             break
     function_plot_iteration(f, draw, "newton_modified_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # 非精确牛顿法
 def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6, k=0):
@@ -184,7 +178,4 @@ def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6
         else:
             break
     function_plot_iteration(f, draw, "newton_CG_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

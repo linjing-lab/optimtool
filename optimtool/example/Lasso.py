@@ -67,10 +67,7 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
             f.append(function_f_x_k(funcs, args, x_0, mu))
             break
     function_plot_iteration(f, draw, "Lasso_gradient_decent")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 '''
 次梯度算法
@@ -139,10 +136,7 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
             f.append(function_f_x_k(funcs, args, x_0, mu))
             break
     function_plot_iteration(f, draw, "Lasso_subgradient")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 '''
 罚函数法
@@ -205,10 +199,7 @@ def penalty(A, b, mu, args, x_0, draw=True, output_f=False, gamma=0.1, epsilon=1
         else:
             break
     function_plot_iteration(f, draw, "Lasso_penalty")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 '''
 近似点梯度法
@@ -277,7 +268,4 @@ def approximate_point_gradient(A, b, mu, args, x_0, draw=True, output_f=False, e
             f.append(function_f_x_k(funcs, args, x_0, mu))
             break
     function_plot_iteration(f, draw, "Lasso_approximate_point_gradient")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

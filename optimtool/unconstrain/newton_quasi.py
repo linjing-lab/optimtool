@@ -65,10 +65,7 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
         else:
             break
     function_plot_iteration(f, draw, "newton_quasi_bfgs_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # DFP拟牛顿法
 def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-4, k=0):
@@ -138,10 +135,7 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
         else:
             break
     function_plot_iteration(f, draw, "newton_quasi_dfp_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # L_BFGS方法
 def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, epsilon=1e-10, k=0):
@@ -220,7 +214,4 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
         else:
             break
     function_plot_iteration(f, draw, "newton_quasi_L_BFGS_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

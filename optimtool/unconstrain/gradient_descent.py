@@ -53,10 +53,7 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         else:
             break
     function_plot_iteration(fx, draw, "gradient_descent_solve")
-    if output_f is True:
-        return x_0, k, fx
-    else:
-        return x_0, k
+    return x_0, k, fx if output_f is True else x_0, k
 
 # 最速下降法
 def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0):
@@ -112,10 +109,7 @@ def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilo
         else:
             break
     function_plot_iteration(fx, draw, "gradient_descent_steepest")
-    if output_f is True:
-        return x_0, k, fx
-    else:
-        return x_0, k
+    return x_0, k, fx if output_f is True else x_0, k
     
 # Barzilar Borwein梯度下降法
 def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0):
@@ -199,7 +193,4 @@ def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo
         else:
             break
     function_plot_iteration(f, draw, "gradient_descent_barzilar_borwein_" + method)
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

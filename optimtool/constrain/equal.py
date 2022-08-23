@@ -76,10 +76,7 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
             break
         sigma = p * sigma
     function_plot_iteration(f, draw, "penalty_quadratic_equal")     
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # 增广拉格朗日函数乘子法（等式约束）
 def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0):
@@ -164,7 +161,4 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
         lamk = lamk + sigma * consv
         sigma = p * sigma
     function_plot_iteration(f, draw, "lagrange_augmented_equal")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

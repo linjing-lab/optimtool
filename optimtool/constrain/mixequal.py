@@ -80,10 +80,7 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
             break
         sigma = p * sigma
     function_plot_iteration(f, draw, "penalty_quadratic_mixequal")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # 精确罚函数法-l1罚函数法（混合约束）
 def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=1, p=0.6, epsilon=1e-10, k=0):
@@ -288,7 +285,4 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
             etak = 1 / sigma
             epsilonk  = 1 / sigma**alpha
     function_plot_iteration(f, draw, "lagrange_augmented_mixequal")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

@@ -59,10 +59,7 @@ def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e
             f.append(function_f_x_k(funcs, args, x_0, mu))
             break
     function_plot_iteration(f, draw, "approximate_point_gradient_L1")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # h(x)=\sum_{i=1}^{n} ln x_i
 def neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-10, k=0):
@@ -122,7 +119,4 @@ def neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsil
             f.append(function_f_x_k(funcs, args, x_0, mu))
             break
     function_plot_iteration(f, draw, "approximate_point_gradient_neg_log")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k

@@ -96,7 +96,4 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
         else:
             break
     function_plot_iteration(f, draw, "trust_region_steihaug_CG")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
