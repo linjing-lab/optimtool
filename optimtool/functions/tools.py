@@ -1,3 +1,7 @@
+import numpy as np
+import sympy as sp
+import matplotlib.pyplot as plt
+
 def function_f_x_k(funcs, args, x_0, mu=None):
     '''
     Parameters
@@ -21,7 +25,6 @@ def function_f_x_k(funcs, args, x_0, mu=None):
         迭代函数值
         
     '''
-    import numpy as np
     funcsv = np.array(funcs.subs(dict(zip(args, x_0)))).astype(np.float64)
     if mu is not None:
         for i in x_0:
@@ -47,7 +50,6 @@ def function_plot_iteration(f, draw, method):
     None
         
     '''
-    import matplotlib.pyplot as plt
     if draw is True:
         plt.plot([i for i in range(len(f))], f, marker='o', c="maroon", ls='--')
         plt.xlabel("$k$")
@@ -105,7 +107,6 @@ def function_C_k(funcs, args, point, eta, k):
         常数
         
     '''
-    import numpy as np
     assert k >= 0
     if k == 0:
         return np.array(funcs.subs(dict(zip(args, point[0])))).astype(np.float64)
@@ -135,7 +136,6 @@ def function_get_f_delta_gradient(resv, argsv, mu, delta):
         当前梯度
         
     '''
-    import numpy as np
     f = []
     for i, j in zip(resv, argsv):
         abs_args = np.abs(j)
@@ -168,7 +168,6 @@ def function_get_subgradient(resv, argsv, mu):
         当前次梯度
         
     '''
-    import numpy as np
     f = []
     for i, j in zip(resv, argsv):
         if j > 0:
@@ -199,7 +198,6 @@ def function_modify_hessian(hessian, m, pk=1):
         修正后的海瑟矩阵
         
     '''
-    import numpy as np
     l = hessian.shape[0]
     while 1:
         values, _ = np.linalg.eig(hessian)
@@ -237,7 +235,6 @@ def function_CG_gradient(A, b, dk, epsilon=1e-6, k=0):
         当前梯度（行向量）, 迭代次数
         
     '''
-    import numpy as np
     rk = b.T - A.dot(dk)
     pk = rk
     while 1:
@@ -285,7 +282,6 @@ def function_L_BFGS_double_loop(q, p, s, y, m, k, Hkm):
         当前梯度
         
     '''
-    import numpy as np
     istart1 = max(0, k - 1)
     iend1 = max(0, k - m - 1)
     istart2 = max(0, k - m)
@@ -322,7 +318,6 @@ def function_Eq_Sovle(sk, pk, delta):
         大于0的方程解
         
     '''
-    import sympy as sp
     m = sp.symbols("m", positive=True)
     r = (sk + m * pk)[0]
     sub = 0
@@ -364,7 +359,6 @@ def function_steihaug_CG(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
         大于0的方程解
         
     '''
-    import numpy as np
     s = []
     r = []
     p = []
@@ -418,8 +412,6 @@ def function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0):
         加入因子约束后的不等式约束方程
         
     '''
-    import numpy as np
-    import sympy as sp
     sub = 0
     for i in range(cons_unequal.shape[0]):
         cons = muk[i] / sigma + cons_unequal[i]
@@ -461,7 +453,6 @@ def function_v_k(cons_equal, cons_unequal, args, muk, sigma, x_0):
         终止常数
         
     '''
-    import numpy as np
     sub = 0
     reps = dict(zip(args, x_0))
     len_unequal = cons_unequal.shape[0]
@@ -502,7 +493,6 @@ def function_renew_mu_k(cons_unequal, args, muk, sigma, x_0):
         更新后的muk
         
     '''
-    import numpy as np
     reps = dict(zip(args, x_0))
     len_unequal = cons_unequal.shape[0]
     consv_unequal = np.array(cons_unequal.subs(reps)).astype(np.float64)
@@ -542,7 +532,6 @@ def function_data_convert(funcs, args, cons_equal=None, cons_unequal=None):
         不等式约束
         
     '''
-    import sympy as sp
     # convert funcs
     if funcs is not None:
         if isinstance(funcs, (list, tuple)):
@@ -601,7 +590,6 @@ def function_proximity_L1(mu, gfun, args, x_0, grad, t):
         更新后的迭代点
         
     '''
-    import numpy as np
     if gfun is not None:
         gfunv = np.array(gfun.subs(dict(zip(args, x_0 - t * grad[0])))).astype(np.float64).reshape(1, -1)
         if mu is not None:
@@ -644,7 +632,6 @@ def function_proximity_neg_log(mu, gfun, args, x_0, grad, t):
         更新后的迭代点
         
     '''
-    import numpy as np
     if gfun is not None:
         gfunv = np.array(gfun.subs(dict(zip(args, x_0 - t * grad[0])))).astype(np.float64).reshape(1, -1)
         if mu is not None:

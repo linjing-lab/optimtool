@@ -1,3 +1,5 @@
+import numpy as np
+
 # 经典牛顿法
 def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
     '''
@@ -34,7 +36,6 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     funcs, args, _, _ = function_data_convert(funcs, args)
     res = funcs.jacobian(args)
@@ -94,8 +95,6 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_data_convert
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     funcs, args, _, _ = function_data_convert(funcs, args)
@@ -155,8 +154,6 @@ def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_CG_gradient, function_data_convert
     funcs, args, _, _ = function_data_convert(funcs, args)

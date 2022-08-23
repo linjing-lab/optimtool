@@ -1,3 +1,5 @@
+import numpy as np
+
 # BFGS拟牛顿法
 def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0):
     '''
@@ -37,8 +39,6 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_data_convert
     funcs, args, _, _ = function_data_convert(funcs, args)
@@ -106,8 +106,6 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_data_convert
     funcs, args, _, _ = function_data_convert(funcs, args)
@@ -176,8 +174,6 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.linear_search import armijo, goldstein, wolfe
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_L_BFGS_double_loop, function_data_convert
     funcs, args, _, _ = function_data_convert(funcs, args)

@@ -1,3 +1,6 @@
+import numpy as np
+import sympy as sp
+
 # 二次罚函数法（混合约束）
 def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0):
     '''
@@ -46,8 +49,6 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
@@ -57,6 +58,7 @@ def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, out
     assert p > 0
     funcs, args, cons_equal, cons_unequal = function_data_convert(funcs, args, cons_equal, cons_unequal)
     f = []
+    point = []
     while 1:
         point.append(np.array(x_0))
         f.append(function_f_x_k(funcs, args, x_0))
@@ -130,8 +132,6 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG
@@ -168,10 +168,7 @@ def penalty_L1(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=F
             break
         sigma = p * sigma
     function_plot_iteration(f, draw, "penalty_L1")
-    if output_f is True:
-        return x_0, k, f
-    else:
-        return x_0, k
+    return x_0, k, f if output_f is True else x_0, k
 
 # 增广拉格朗日函数法（混合约束）
 def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, muk=10, sigma=8, alpha=0.5, beta=0.7, p=2, eta=1e-3, epsilon=1e-4, k=0):
@@ -236,8 +233,6 @@ def lagrange_augmented(funcs, args, cons_equal, cons_unequal, x_0, draw=True, ou
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_cons_unequal_L, function_v_k, function_renew_mu_k, function_data_convert
     from optimtool.unconstrain.gradient_descent import barzilar_borwein
     from optimtool.unconstrain.newton import CG

@@ -1,3 +1,5 @@
+import numpy as np
+
 # Armijo线搜索准则
 def armijo(funcs, args, x_0, d, gamma=0.5, c=0.1):
     '''
@@ -28,7 +30,6 @@ def armijo(funcs, args, x_0, d, gamma=0.5, c=0.1):
         最优步长
         
     '''
-    import numpy as np
     assert gamma > 0
     assert gamma < 1
     assert c > 0
@@ -83,7 +84,6 @@ def goldstein(funcs, args, x_0, d, c=0.1, alphas=0, alphae=10, t=1.2, eps=1e-3):
         最优步长
         
     '''
-    import numpy as np
     assert c > 0
     assert c < 0.5
     assert alphas < alphae
@@ -151,7 +151,6 @@ def wolfe(funcs, args, x_0, d, c1=0.3, c2=0.5, alphas=0, alphae=2, eps=1e-3):
         最优步长
         
     '''
-    import numpy as np
     assert c1 > 0
     assert c1 < 1
     assert c2 > 0
@@ -222,7 +221,6 @@ def nonmonotonic_Grippo(funcs, args, x_0, d, k, point, M, c1, beta, alpha):
         最优步长
         
     '''
-    import numpy as np
     assert M >= 0
     assert alpha > 0
     assert c1 > 0
@@ -286,7 +284,6 @@ def nonmonotonic_ZhangHanger(funcs, args, x_0, d, k, point, c1, beta, alpha, eta
         最优步长
         
     '''
-    import numpy as np
     from functions.tools import function_C_k
     assert eta > 0
     assert eta < 1

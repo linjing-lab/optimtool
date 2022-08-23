@@ -1,3 +1,7 @@
+import sympy as sp
+import numpy as np
+import matplotlib.pyplot as plt
+
 # 导入非线性最小二乘的包
 def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
     '''
@@ -36,9 +40,6 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
     None
         
     '''
-    import sympy as sp
-    import numpy as np
-    import matplotlib.pyplot as plt
     from optimtool.unconstrain.nonlinear_least_square import gauss_newton
     # 构造残差函数
     def function_maker_line_1(m, n):

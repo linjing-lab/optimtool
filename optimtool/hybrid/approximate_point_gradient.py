@@ -1,3 +1,5 @@
+import numpy as np
+
 # h(x)=||x||_1
 def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-6, k=0):
     '''
@@ -40,7 +42,6 @@ def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert, function_proximity_L1
     assert t > 0
     funcs, args, gfun, _ = function_data_convert(funcs, args, gfun)
@@ -100,7 +101,6 @@ def neg_log(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsil
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert, function_proximity_neg_log
     assert t > 0
     funcs, args, gfun, _ = function_data_convert(funcs, args, gfun)

@@ -1,3 +1,6 @@
+import numpy as np
+import sympy as sp
+
 def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0):
     '''
     Parameters
@@ -42,8 +45,6 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_f_delta_gradient, function_data_convert
     _, args, _, _ = function_data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
@@ -113,8 +114,6 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_subgradient, function_data_convert
     _, args, _, _ = function_data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
@@ -182,8 +181,6 @@ def penalty(A, b, mu, args, x_0, draw=True, output_f=False, gamma=0.1, epsilon=1
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     assert gamma < 1
     assert gamma > 0
@@ -242,8 +239,6 @@ def approximate_point_gradient(A, b, mu, args, x_0, draw=True, output_f=False, e
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    import numpy as np
-    import sympy as sp
     from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     _, args, _, _ = function_data_convert(None, args)
     values, _ = np.linalg.eig((A.T).dot(A))
