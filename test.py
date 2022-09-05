@@ -1,5 +1,5 @@
 import sympy as sp
-import optimtool as oo
+import optimtool.unconstrain as ou
 
 # make data(4 dimension)
 x = sp.symbols("x1:5")
