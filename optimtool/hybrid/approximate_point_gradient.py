@@ -14,8 +14,8 @@ def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e
     mu : float
         l1范数前系数
 
-	gfun : sympy.matrices.dense.MutableDenseMatrix
-		与args参数个数相同
+    gfun : sympy.matrices.dense.MutableDenseMatrix
+        与args参数个数相同
 
     args : sympy.matrices.dense.MutableDenseMatrix
         参数列表
