@@ -2,12 +2,12 @@ __all__ = ['penalty_quadratic', 'penalty_interior_log', 'penalty_interior_fracti
 
 import sympy as sp
 import numpy as np
-from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, cons_unequal_L, renew_mu_k, v_k
-from optimtool.unconstrain.gradient_descent import barzilar_borwein
-from optimtool.unconstrain.newton import CG
-from optimtool.unconstrain.newton_quasi import L_BFGS
-from optimtool.unconstrain.trust_region import steihaug_CG
-from optimtool.hybrid.approximate_point_gradient import neg_log
+from ..functions.tools import f_x_k, plot_iteration, data_convert, cons_unequal_L, renew_mu_k, v_k
+from ..unconstrain.gradient_descent import barzilar_borwein
+from ..unconstrain.newton import CG
+from ..unconstrain.newton_quasi import L_BFGS
+from ..unconstrain.trust_region import steihaug_CG
+from ..hybrid.approximate_point_gradient import neg_log
 
 # 二次罚函数法（不等式约束）
 def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.4, epsilon=1e-10, k=0):

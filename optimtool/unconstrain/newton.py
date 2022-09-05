@@ -1,8 +1,8 @@
 __all__ = ['classic', 'modified', 'CG']
 
 import numpy as np
-from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, modify_hessian, CG_gradient
-from optimtool.functions.linear_search import armijo, goldstein, wolfe
+from ..functions.tools import f_x_k, plot_iteration, data_convert, modify_hessian, CG_gradient
+from ..functions.linear_search import armijo, goldstein, wolfe
 
 # 经典牛顿法
 def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):

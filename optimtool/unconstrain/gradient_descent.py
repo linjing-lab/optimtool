@@ -2,8 +2,8 @@ __all__ = ['solve', 'steepest', 'barzilar_borwein']
 
 import numpy as np
 import sympy as sp
-from optimtool.functions.tools import f_x_k, plot_iteration, data_convert
-from optimtool.functions.linear_search import armijo, goldstein, wolfe, nonmonotonic_Grippo, nonmonotonic_ZhangHanger
+from ..functions.tools import f_x_k, plot_iteration, data_convert
+from ..functions.linear_search import armijo, goldstein, wolfe, nonmonotonic_Grippo, nonmonotonic_ZhangHanger
 
 # 梯度下降法
 def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):

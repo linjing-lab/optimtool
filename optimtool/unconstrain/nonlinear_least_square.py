@@ -2,8 +2,8 @@ __all__ = ['gauss_newton', 'levenberg_marquardt']
 
 import numpy as np
 import sympy as sp
-from optimtool.functions.linear_search import armijo, goldstein, wolfe
-from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, modify_hessian, CG_gradient
+from ..functions.linear_search import armijo, goldstein, wolfe
+from ..functions.tools import f_x_k, plot_iteration, data_convert, modify_hessian, CG_gradient
 
 # 高斯-牛顿法（非线性最小二乘问题）
 def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0):

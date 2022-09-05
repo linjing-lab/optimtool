@@ -1,8 +1,8 @@
 __all__ = ['bfgs', 'dfp', 'L_BFGS']
 
 import numpy as np
-from optimtool.functions.linear_search import armijo, goldstein, wolfe
-from optimtool.functions.tools import f_x_k, plot_iteration, modify_hessian, data_convert, modify_hessian, L_BFGS_double_loop
+from ..functions.linear_search import armijo, goldstein, wolfe
+from ..functions.tools import f_x_k, plot_iteration, modify_hessian, data_convert, L_BFGS_double_loop
 
 # BFGS拟牛顿法
 def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0):

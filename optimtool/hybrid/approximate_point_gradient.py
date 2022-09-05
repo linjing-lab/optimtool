@@ -1,7 +1,7 @@
 __all__ = ['L1', 'neg_log']
 
 import numpy as np
-from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, proximity_L1, proximity_neg_log
+from ..functions.tools import f_x_k, plot_iteration, data_convert, proximity_L1, proximity_neg_log
 
 # h(x)=||x||_1
 def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e-6, k=0):

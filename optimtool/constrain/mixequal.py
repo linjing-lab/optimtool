@@ -2,11 +2,11 @@ __all__ = ['penalty_quadratic', 'penalty_L1', 'lagrange_augmented']
 
 import numpy as np
 import sympy as sp
-from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, cons_unequal_L, v_k, renew_mu_k
-from optimtool.unconstrain.gradient_descent import barzilar_borwein
-from optimtool.unconstrain.newton import CG
-from optimtool.unconstrain.newton_quasi import L_BFGS
-from optimtool.unconstrain.trust_region import steihaug_CG
+from ..functions.tools import f_x_k, plot_iteration, data_convert, cons_unequal_L, v_k, renew_mu_k
+from ..unconstrain.gradient_descent import barzilar_borwein
+from ..unconstrain.newton import CG
+from ..unconstrain.newton_quasi import L_BFGS
+from ..unconstrain.trust_region import steihaug_CG
 
 # 二次罚函数法（混合约束）
 def penalty_quadratic(funcs, args, cons_equal, cons_unequal, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=0.6, epsilon=1e-10, k=0):

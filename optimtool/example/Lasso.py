@@ -2,7 +2,7 @@ __all__ = ['gradient_descent', 'subgradient', 'penalty', 'approximate_point_grad
 
 import numpy as np
 import sympy as sp
-from optimtool.functions.tools import f_x_k, plot_iteration, get_f_delta_gradient, data_convert, get_subgradient
+from ..functions.tools import f_x_k, plot_iteration, get_f_delta_gradient, data_convert, get_subgradient
 
 def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0):
     '''
