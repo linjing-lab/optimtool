@@ -1,4 +1,7 @@
+__all__ = ['armijo', 'goldstein', 'wolfe', 'nonmonotonic_Grippo', 'nonmonotonic_ZhangHanger']
+
 import numpy as np
+from functions.tools import C_k
 
 # Armijo线搜索准则
 def armijo(funcs, args, x_0, d, gamma=0.5, c=0.1):
@@ -284,7 +287,6 @@ def nonmonotonic_ZhangHanger(funcs, args, x_0, d, k, point, c1, beta, alpha, eta
         最优步长
         
     '''
-    from functions.tools import function_C_k
     assert eta > 0
     assert eta < 1
     assert c1 > 0
@@ -297,7 +299,7 @@ def nonmonotonic_ZhangHanger(funcs, args, x_0, d, k, point, c1, beta, alpha, eta
     while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(np.float64)
-        Ck = function_C_k(funcs, args, point, eta, k)
+        Ck = C_k(funcs, args, point, eta, k)
         if f1 <= Ck + c1 * alpha * res0.dot(d.T):
             break
         else:

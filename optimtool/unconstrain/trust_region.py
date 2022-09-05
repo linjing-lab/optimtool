@@ -1,4 +1,7 @@
+__all__ = ['steihaug_CG']
+
 import numpy as np
+from optimtool.functions.tools import modify_hessian, steihaug, plot_iteration, data_convert
 
 # 信赖域算法
 def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2, eta=0.2, p1=0.4, p2=0.6, gamma1=0.5, gamma2=1.5, epsilon=1e-6, k=0):
@@ -57,7 +60,6 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_modify_hessian, function_steihaug_CG, function_plot_iteration, function_data_convert
     assert eta >= 0
     assert r0 < rmax
     assert eta < p1
@@ -65,7 +67,7 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
     assert p2 < 1
     assert gamma1 < 1
     assert gamma2 > 1
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     s0 = [0 for i in range(args.shape[0])]
@@ -76,8 +78,8 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
         f.append(funv[0][0])
         grad = np.array(res.subs(reps)).astype(np.float64)
         hessi = np.array(hes.subs(reps)).astype(np.float64)
-        hessi = function_modify_hessian(hessi, m)
-        dk, _ = function_steihaug_CG(s0, grad, - grad, hessi, r0)
+        hessi = modify_hessian(hessi, m)
+        dk, _ = steihaug(s0, grad, - grad, hessi, r0)
         if np.linalg.norm(dk) >= epsilon:
             funvk = np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(np.float64)
             pk = (funv - funvk) / -(grad.dot(dk.T) + 0.5*((dk.dot(hessi)).dot(dk.T)))
@@ -95,5 +97,5 @@ def steihaug_CG(funcs, args, x_0, draw=True, output_f=False, m=100, r0=1, rmax=2
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "trust_region_steihaug_CG")
+    plot_iteration(f, draw, "trust_region_steihaug_CG")
     return x_0, k, f if output_f is True else x_0, k

@@ -1,5 +1,9 @@
+__all__ = ['solve', 'steepest', 'barzilar_borwein']
+
 import numpy as np
 import sympy as sp
+from optimtool.functions.tools import f_x_k, plot_iteration, data_convert
+from optimtool.functions.linear_search import armijo, goldstein, wolfe, nonmonotonic_Grippo, nonmonotonic_ZhangHanger
 
 # 梯度下降法
 def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
@@ -34,15 +38,14 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     m = sp.symbols("m")
     arg = sp.Matrix([m])
     fx = []
     while 1:
         reps = dict(zip(args, x_0))
-        fx.append(function_f_x_k(funcs, args, x_0))
+        fx.append(f_x_k(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(np.float64)
         if np.linalg.norm(dk) >= epsilon:
             xt = x_0 + m * dk[0]
@@ -53,7 +56,7 @@ def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
             k = k + 1
         else:
             break
-    function_plot_iteration(fx, draw, "gradient_descent_solve")
+    plot_iteration(fx, draw, "gradient_descent_solve")
     return x_0, k, fx if output_f is True else x_0, k
 
 # 最速下降法
@@ -92,14 +95,12 @@ def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilo
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     fx = []
     while 1:
         reps = dict(zip(args, x_0))
-        fx.append(function_f_x_k(funcs, args, x_0))
+        fx.append(f_x_k(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(np.float64)
         if np.linalg.norm(dk) >= epsilon:
             alpha = eval(method)(funcs, args, x_0, dk)
@@ -107,7 +108,7 @@ def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilo
             k = k + 1
         else:
             break
-    function_plot_iteration(fx, draw, "gradient_descent_steepest")
+    plot_iteration(fx, draw, "gradient_descent_steepest")
     return x_0, k, fx if output_f is True else x_0, k
     
 # Barzilar Borwein梯度下降法
@@ -158,22 +159,20 @@ def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import nonmonotonic_Grippo, nonmonotonic_ZhangHanger
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     assert M >= 0
     assert alpha > 0
     assert c1 > 0
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     point = []
     f = []
     while 1:
         point.append(x_0)
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         dk = - np.array(res.subs(reps)).astype(np.float64)
         if np.linalg.norm(dk) >= epsilon:
             if method == "grippo":
@@ -189,5 +188,5 @@ def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "gradient_descent_barzilar_borwein_" + method)
+    plot_iteration(f, draw, "gradient_descent_barzilar_borwein_" + method)
     return x_0, k, f if output_f is True else x_0, k

@@ -1,4 +1,8 @@
+__all__ = ['bfgs', 'dfp', 'L_BFGS']
+
 import numpy as np
+from optimtool.functions.linear_search import armijo, goldstein, wolfe
+from optimtool.functions.tools import f_x_k, plot_iteration, modify_hessian, data_convert, modify_hessian, L_BFGS_double_loop
 
 # BFGS拟牛顿法
 def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsilon=1e-10, k=0):
@@ -39,17 +43,15 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_data_convert
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
-    hess = function_modify_hessian(hess, m)
+    hess = modify_hessian(hess, m)
     f = []
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
         dk = - np.linalg.inv(hess).dot(gradient.T)
         dk = dk.reshape(1, -1)
@@ -64,7 +66,7 @@ def bfgs(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsi
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "newton_quasi_bfgs_" + method)
+    plot_iteration(f, draw, "newton_quasi_bfgs_" + method)
     return x_0, k, f if output_f is True else x_0, k
 
 # DFP拟牛顿法
@@ -106,18 +108,16 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_data_convert
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(np.float64)
-    hess = function_modify_hessian(hess, m)
+    hess = modify_hessian(hess, m)
     hessi = np.linalg.inv(hess)
     f = []
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
         dk = - hessi.dot(gradient.T)
         dk = dk.reshape(1, -1)
@@ -132,7 +132,7 @@ def dfp(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, epsil
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "newton_quasi_dfp_" + method)
+    plot_iteration(f, draw, "newton_quasi_dfp_" + method)
     return x_0, k, f if output_f is True else x_0, k
 
 # L_BFGS方法
@@ -174,9 +174,7 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_L_BFGS_double_loop, function_data_convert
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     l = hes.shape[0]
@@ -188,10 +186,10 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
     gamma.append(1)
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         Hkm = gamma[k] * np.identity(l)
         grad = np.array(res.subs(reps)).astype(np.float64)
-        dk = function_L_BFGS_double_loop(grad, p, s, y, m, k, Hkm)
+        dk = L_BFGS_double_loop(grad, p, s, y, m, k, Hkm)
         if np.linalg.norm(dk) >= epsilon:
             alphak = eval(method)(funcs, args, x_0, dk)
             x_0 = x_0 + alphak * dk[0]
@@ -209,5 +207,5 @@ def L_BFGS(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=6, eps
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "newton_quasi_L_BFGS_" + method)
+    plot_iteration(f, draw, "newton_quasi_L_BFGS_" + method)
     return x_0, k, f if output_f is True else x_0, k

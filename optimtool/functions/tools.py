@@ -1,8 +1,14 @@
+__all__ = ['f_x_k', 'plot_iteration', 'Q_k', 'C_k', 
+           'get_f_delta_gradient', 'get_subgradient', 
+           'modify_hessian', 'CG_gradient', 'L_BFGS_double_loop'
+           'Eq_Sovle', 'steihaug_CG', 'cons_unequal_L', 'v_k', 
+           'renew_mu_k', 'data_convert', 'proximity_L1', 'proximity_neg_log']
+
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
 
-def function_f_x_k(funcs, args, x_0, mu=None):
+def f_x_k(funcs, args, x_0, mu=None):
     '''
     Parameters
     ----------
@@ -31,7 +37,7 @@ def function_f_x_k(funcs, args, x_0, mu=None):
             funcsv += mu * np.abs(i)
     return funcsv[0][0]
 
-def function_plot_iteration(f, draw, method):
+def plot_iteration(f, draw, method):
     '''
     Parameters
     ----------
@@ -58,7 +64,7 @@ def function_plot_iteration(f, draw, method):
         plt.show()
     return None
 
-def function_Q_k(eta, k):
+def Q_k(eta, k):
     '''
     Parameters
     ----------
@@ -79,9 +85,9 @@ def function_Q_k(eta, k):
     if k == 0:
         return 1
     else:
-        return eta * function_Q_k(eta, k-1) + 1
+        return eta * Q_k(eta, k-1) + 1
 
-def function_C_k(funcs, args, point, eta, k):
+def C_k(funcs, args, point, eta, k):
     '''
     Parameters
     ----------
@@ -111,9 +117,9 @@ def function_C_k(funcs, args, point, eta, k):
     if k == 0:
         return np.array(funcs.subs(dict(zip(args, point[0])))).astype(np.float64)
     else:
-        return (1 / (function_Q_k(eta, k))) * (eta * function_Q_k(eta, k-1) * function_C_k(funcs, args, point, eta, k - 1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(np.float64))
+        return (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k - 1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(np.float64))
 
-def function_get_f_delta_gradient(resv, argsv, mu, delta):
+def get_f_delta_gradient(resv, argsv, mu, delta):
     '''
     Parameters
     ----------
@@ -148,7 +154,7 @@ def function_get_f_delta_gradient(resv, argsv, mu, delta):
             f.append(i + mu * (j / delta))
     return f[0]
 
-def function_get_subgradient(resv, argsv, mu):
+def get_subgradient(resv, argsv, mu):
     '''
     Parameters
     ----------
@@ -178,7 +184,7 @@ def function_get_subgradient(resv, argsv, mu):
             f.append(i - mu * 1)
     return f[0]
 
-def function_modify_hessian(hessian, m, pk=1):
+def modify_hessian(hessian, m, pk=1):
     '''
     Parameters
     ----------
@@ -209,7 +215,7 @@ def function_modify_hessian(hessian, m, pk=1):
             pk = pk + 1
     return hessian
 
-def function_CG_gradient(A, b, dk, epsilon=1e-6, k=0):
+def CG_gradient(A, b, dk, epsilon=1e-6, k=0):
     '''
     Parameters
     ----------
@@ -250,7 +256,7 @@ def function_CG_gradient(A, b, dk, epsilon=1e-6, k=0):
         k = k + 1
     return dk.reshape(1, -1), k
 
-def function_L_BFGS_double_loop(q, p, s, y, m, k, Hkm):
+def L_BFGS_double_loop(q, p, s, y, m, k, Hkm):
     '''
     Parameters
     ----------
@@ -298,7 +304,7 @@ def function_L_BFGS_double_loop(q, p, s, y, m, k, Hkm):
     return - r.reshape(1, -1)
 
 # 截断共轭梯度法实现
-def function_Eq_Sovle(sk, pk, delta):
+def Eq_Sovle(sk, pk, delta):
     '''
     Parameters
     ----------
@@ -327,7 +333,7 @@ def function_Eq_Sovle(sk, pk, delta):
     mt = sp.solve(h)
     return mt[0]
 
-def function_steihaug_CG(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
+def steihaug(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
     '''
     Parameters
     ----------
@@ -368,13 +374,13 @@ def function_steihaug_CG(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
         p.append(pk)
         pbp = (p[k].dot(B)).dot(p[k].T)
         if pbp <= 0:
-            m = function_Eq_Sovle(s[k], p[k], delta)
+            m = Eq_Sovle(s[k], p[k], delta)
             ans = s[k] + m * p[k]
             break
         alphak = np.linalg.norm(r[k])**2 / pbp
         sk = s[k] + alphak * p[k]
         if np.linalg.norm(sk) > delta:
-            m = function_Eq_Sovle(s[k], p[k], delta)
+            m = Eq_Sovle(s[k], p[k], delta)
             ans = s[k] + m * p[k]
             break
         rk = r[k] + alphak * (B.dot(p[k].T)).T
@@ -386,7 +392,7 @@ def function_steihaug_CG(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
         k = k + 1
     return ans.astype(np.float64), k
 
-def function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0):
+def cons_unequal_L(cons_unequal, args, muk, sigma, x_0):
     '''
     Parameters
     ----------
@@ -424,7 +430,7 @@ def function_cons_unequal_L(cons_unequal, args, muk, sigma, x_0):
     sub = sp.Matrix([sub])
     return sub
 
-def function_v_k(cons_equal, cons_unequal, args, muk, sigma, x_0):
+def v_k(cons_equal, cons_unequal, args, muk, sigma, x_0):
     '''
     Parameters
     ----------
@@ -467,7 +473,7 @@ def function_v_k(cons_equal, cons_unequal, args, muk, sigma, x_0):
             sub += (max(consv_unequal[i], - muk[i] / sigma))**2
     return np.sqrt(sub)
 
-def function_renew_mu_k(cons_unequal, args, muk, sigma, x_0):
+def renew_mu_k(cons_unequal, args, muk, sigma, x_0):
     '''
     Parameters
     ----------
@@ -500,7 +506,7 @@ def function_renew_mu_k(cons_unequal, args, muk, sigma, x_0):
         muk[i] = max(muk[i] + sigma * consv_unequal[i], 0)
     return muk
 
-def function_data_convert(funcs, args, cons_equal=None, cons_unequal=None):
+def data_convert(funcs, args, cons_equal=None, cons_unequal=None):
     '''
     Parameters
     ----------
@@ -561,7 +567,7 @@ def function_data_convert(funcs, args, cons_equal=None, cons_unequal=None):
             cons_unequal = sp.Matrix([cons_unequal])
     return funcs, args, cons_equal, cons_unequal
 
-def function_proximity_L1(mu, gfun, args, x_0, grad, t):
+def proximity_L1(mu, gfun, args, x_0, grad, t):
     '''
     Parameters
     ----------
@@ -603,7 +609,7 @@ def function_proximity_L1(mu, gfun, args, x_0, grad, t):
             x_0 = np.sign(x_0 - t * grad[0]) * [max(i, 0) for i in (np.abs(x_0 - t * grad[0]) - t)]
     return x_0
 
-def function_proximity_neg_log(mu, gfun, args, x_0, grad, t):
+def proximity_neg_log(mu, gfun, args, x_0, grad, t):
     '''
     Parameters
     ----------

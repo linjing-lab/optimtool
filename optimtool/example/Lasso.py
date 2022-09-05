@@ -1,5 +1,8 @@
+__all__ = ['gradient_descent', 'subgradient', 'penalty', 'approximate_point_gradient']
+
 import numpy as np
 import sympy as sp
+from optimtool.functions.tools import f_x_k, plot_iteration, get_f_delta_gradient, data_convert, get_subgradient
 
 def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, alp=1e-3, epsilon=1e-2, k=0):
     '''
@@ -45,8 +48,7 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_f_delta_gradient, function_data_convert
-    _, args, _, _ = function_data_convert(None, args)
+    _, args, _, _ = data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
@@ -55,19 +57,19 @@ def gradient_descent(A, b, mu, args, x_0, draw=True, output_f=False, delta=10, a
     while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
-        f.append(function_f_x_k(funcs, args, x_0, mu))
+        f.append(f_x_k(funcs, args, x_0, mu))
         resv = np.array(res.subs(reps)).astype(np.float64)
         argsv = np.array(args.subs(reps)).astype(np.float64)
-        g = function_get_f_delta_gradient(resv, argsv, mu, delta)
+        g = get_f_delta_gradient(resv, argsv, mu, delta)
         alpha = alp
         assert alpha <= 1 / L
         x_0 = x_0 - alpha * g
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
             point.append(np.array(x_0))
-            f.append(function_f_x_k(funcs, args, x_0, mu))
+            f.append(f_x_k(funcs, args, x_0, mu))
             break
-    function_plot_iteration(f, draw, "Lasso_gradient_decent")
+    plot_iteration(f, draw, "Lasso_gradient_decent")
     return x_0, k, f if output_f is True else x_0, k
 
 '''
@@ -114,8 +116,7 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_get_subgradient, function_data_convert
-    _, args, _, _ = function_data_convert(None, args)
+    _, args, _, _ = data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     point = []
@@ -123,18 +124,18 @@ def subgradient(A, b, mu, args, x_0, draw=True, output_f=False, alphak=2e-2, eps
     while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
-        f.append(function_f_x_k(funcs, args, x_0, mu))
+        f.append(f_x_k(funcs, args, x_0, mu))
         resv = np.array(res.subs(reps)).astype(np.float64)
         argsv = np.array(args.subs(reps)).astype(np.float64)
-        g = function_get_subgradient(resv, argsv, mu)
+        g = get_subgradient(resv, argsv, mu)
         alpha = alphak / np.sqrt(k + 1)
         x_0 = x_0 - alpha * g
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
             point.append(np.array(x_0))
-            f.append(function_f_x_k(funcs, args, x_0, mu))
+            f.append(f_x_k(funcs, args, x_0, mu))
             break
-    function_plot_iteration(f, draw, "Lasso_subgradient")
+    plot_iteration(f, draw, "Lasso_subgradient")
     return x_0, k, f if output_f is True else x_0, k
 
 '''
@@ -181,21 +182,20 @@ def penalty(A, b, mu, args, x_0, draw=True, output_f=False, gamma=0.1, epsilon=1
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
     assert gamma < 1
     assert gamma > 0
-    _, args, _, _ = function_data_convert(None, args)
+    _, args, _, _ = data_convert(None, args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     f = []
     while mu >= epsilon:
-        f.append(function_f_x_k(funcs, args, x_0, mu))
+        f.append(f_x_k(funcs, args, x_0, mu))
         x_0, _ = subgradient(A, b, mu, args, x_0, False)
         if mu > epsilon:
             mu = max(epsilon, gamma * mu)
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "Lasso_penalty")
+    plot_iteration(f, draw, "Lasso_penalty")
     return x_0, k, f if output_f is True else x_0, k
 
 '''
@@ -239,8 +239,7 @@ def approximate_point_gradient(A, b, mu, args, x_0, draw=True, output_f=False, e
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    _, args, _, _ = function_data_convert(None, args)
+    _, args, _, _ = data_convert(None, args)
     values, _ = np.linalg.eig((A.T).dot(A))
     lambda_ma = max(values)
     if isinstance(lambda_ma, complex):
@@ -253,14 +252,14 @@ def approximate_point_gradient(A, b, mu, args, x_0, draw=True, output_f=False, e
     point = []
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0, mu))
+        f.append(f_x_k(funcs, args, x_0, mu))
         point.append(x_0)
         grad = np.array(res.subs(reps)).astype(np.float64)
         x_0 = np.sign(x_0 - tk * grad[0]) * [max(i, 0) for i in np.abs(x_0 - tk * grad[0]) - tk * mu]
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(x_0)
-            f.append(function_f_x_k(funcs, args, x_0, mu))
+            f.append(f_x_k(funcs, args, x_0, mu))
             break
-    function_plot_iteration(f, draw, "Lasso_approximate_point_gradient")
+    plot_iteration(f, draw, "Lasso_approximate_point_gradient")
     return x_0, k, f if output_f is True else x_0, k

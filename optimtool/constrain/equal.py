@@ -1,5 +1,12 @@
+__all__ = ['penalty_quadratic', 'lagrange_augmented']
+
 import numpy as np
 import sympy as sp
+from optimtool.functions.tools import f_x_k, plot_iteration, data_convert
+from optimtool.unconstrain.gradient_descent import barzilar_borwein
+from optimtool.unconstrain.newton import CG
+from optimtool.unconstrain.newton_quasi import L_BFGS
+from optimtool.unconstrain.trust_region import steihaug_CG
 
 # 二次罚函数法（等式约束）
 def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0):
@@ -46,21 +53,16 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    from optimtool.unconstrain.gradient_descent import barzilar_borwein
-    from optimtool.unconstrain.newton import CG
-    from optimtool.unconstrain.newton_quasi import L_BFGS
-    from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 1
-    funcs, args, cons, _ = function_data_convert(funcs, args, cons)
+    funcs, args, cons, _ = data_convert(funcs, args, cons)
     point = []
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
     f = []
     while 1:
         point.append(np.array(x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         pe = pen.subs(sig, sigma)
         if method == "gradient_descent":
             x_0, _ = barzilar_borwein(pe, args, tuple(x_0), draw=False)
@@ -73,10 +75,10 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
-            f.append(function_f_x_k(funcs, args, x_0))
+            f.append(f_x_k(funcs, args, x_0))
             break
         sigma = p * sigma
-    function_plot_iteration(f, draw, "penalty_quadratic_equal")     
+    plot_iteration(f, draw, "penalty_quadratic_equal")     
     return x_0, k, f if output_f is True else x_0, k
 
 # 增广拉格朗日函数乘子法（等式约束）
@@ -130,19 +132,14 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    from optimtool.unconstrain.gradient_descent import barzilar_borwein
-    from optimtool.unconstrain.newton import CG
-    from optimtool.unconstrain.newton_quasi import L_BFGS
-    from optimtool.unconstrain.trust_region import steihaug_CG
     assert sigma > 0
     assert p > 1
-    funcs, args, cons, _ = function_data_convert(funcs, args, cons)
+    funcs, args, cons, _ = data_convert(funcs, args, cons)
     f = []
     lamk = np.array([lamk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         if method == "gradient_descent":
             x_0, _ = barzilar_borwein(L, args, x_0, draw=False, epsilon=etak)
         elif method == "newton":
@@ -155,9 +152,9 @@ def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method
         reps = dict(zip(args, x_0))
         consv = np.array(cons.subs(reps)).astype(np.float64)
         if np.linalg.norm(consv) <= epsilon:
-            f.append(function_f_x_k(funcs, args, x_0))
+            f.append(f_x_k(funcs, args, x_0))
             break
         lamk = lamk + sigma * consv
         sigma = p * sigma
-    function_plot_iteration(f, draw, "lagrange_augmented_equal")
+    plot_iteration(f, draw, "lagrange_augmented_equal")
     return x_0, k, f if output_f is True else x_0, k

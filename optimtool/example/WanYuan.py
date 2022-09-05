@@ -1,3 +1,5 @@
+__all__ = ['gauss_newton']
+
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -42,7 +44,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
     '''
     from optimtool.unconstrain.nonlinear_least_square import gauss_newton
     # 构造残差函数
-    def function_maker_line_1(m, n):
+    def maker_line_1(m, n):
         '''
         Parameters
         ----------
@@ -61,7 +63,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x1, y1 = sp.symbols("x1 y1")
         return m*x1 + n - y1
 
-    def function_maker_line_2(x3, y3):
+    def maker_line_2(x3, y3):
         '''
         Parameters
         ----------
@@ -80,7 +82,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x1, y1, x0, y0 = sp.symbols("x1 y1 x0 y0")
         return (x1 - x0)**2 + (y1 - y0)**2 - ((x3 - x0)**2 + (y3 - y0)**2)
 
-    def function_maker_line_3(m, n, x3, y3):
+    def maker_line_3(m, n, x3, y3):
         '''
         Parameters
         ----------
@@ -106,7 +108,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         delta = (2*m*n - 2*x - 2*m*y)**2 - 4*(m**2 + 1)*(x**2 + y**2 - (x3 - x)**2 + (y3 - y)**2 + n**2 - 2*n*y)
         return delta.subs({x: x0, y: y0})
 
-    def function_maker_line_4(m):
+    def maker_line_4(m):
         '''
         Parameters
         ----------
@@ -122,7 +124,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x1, y1, x0, y0= sp.symbols("x1 y1 x0 y0")
         return m*y1 - m*y0 + x1 - x0
 
-    def function_maker_parabola_1(a, b):
+    def maker_parabola_1(a, b):
         '''
         Parameters
         ----------
@@ -142,7 +144,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         eq = 2*a*x2*y2 - 2*a*x2*y0 + b*y2 - b*y0 - x0 + x2
         return eq
 
-    def function_maker_parabola_2(a, b, c):
+    def maker_parabola_2(a, b, c):
         '''
         Parameters
         ----------
@@ -164,7 +166,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x2, y2 = sp.symbols("x2 y2")
         return a*x2**2 + b*x2 + c - y2
 
-    def function_maker_parabola_3(x3, y3):
+    def maker_parabola_3(x3, y3):
         '''
         Parameters
         ----------
@@ -183,7 +185,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x2, y2, x0, y0 = sp.symbols("x2 y2 x0 y0")
         return (x2 - x0)**2 + (y2 - y0)**2 - ((x3 - x0)**2 + (y3 - y0)**2)
 
-    def function_maker_data(m, n, a, b, c, x3, y3):
+    def maker_data(m, n, a, b, c, x3, y3):
         '''
         Parameters
         ----------
@@ -217,17 +219,17 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         '''
         x0, y0, x1, y1, x2, y2 = sp.symbols("x0 y0 x1 y1 x2 y2")
         args = [x0, y0, x1, y1, x2, y2]
-        line1 = function_maker_line_1(m, n)
-        line2 = function_maker_line_2(x3, y3)
-        line3 = function_maker_line_3(m, n, x3, y3)
-        line4 = function_maker_line_4(m)
-        parabola1 = function_maker_parabola_1(a, b)
-        parabola2 = function_maker_parabola_2(a, b, c)
-        parabola3 = function_maker_parabola_3(x3, y3)
+        line1 = maker_line_1(m, n)
+        line2 = maker_line_2(x3, y3)
+        line3 = maker_line_3(m, n, x3, y3)
+        line4 = maker_line_4(m)
+        parabola1 = maker_parabola_1(a, b)
+        parabola2 = maker_parabola_2(a, b, c)
+        parabola3 = maker_parabola_3(x3, y3)
         funcr = [line1, line2, line3, line4, parabola1, parabola2, parabola3]
         return funcr, args
     
-    def function_plot_solve(final, x_0, m, n, a, b, c, x3, y3):
+    def plot_solve(final, x_0, m, n, a, b, c, x3, y3):
         '''
         Parameters
         ----------
@@ -290,11 +292,11 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         return None
     
     final = []
-    funcr, args = function_maker_data(m, n, a, b, c, x3, y3)
+    funcr, args = maker_data(m, n, a, b, c, x3, y3)
     fin, k = gauss_newton(funcr, args, x_0, False, epsilon=eps)
     for i in fin: # for i in map(round, fin):
         final.append(round(i, 2)) # final.append(i)
     print("(x0, y0)=",(final[0], final[1]),"\n(x1, y1)=",(final[2], final[3]),"\n(x2, y2)=",(final[4], final[5]))
     if draw is True: # 绘图
-        function_plot_solve(final, x_0, m, n, a, b, c, x3, y3)
+        plot_solve(final, x_0, m, n, a, b, c, x3, y3)
     return None

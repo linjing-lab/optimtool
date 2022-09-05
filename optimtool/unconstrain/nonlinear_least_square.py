@@ -1,5 +1,9 @@
+__all__ = ['gauss_newton', 'levenberg_marquardt']
+
 import numpy as np
 import sympy as sp
+from optimtool.functions.linear_search import armijo, goldstein, wolfe
+from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, modify_hessian, CG_gradient
 
 # 高斯-牛顿法（非线性最小二乘问题）
 def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0):
@@ -37,16 +41,14 @@ def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", ep
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    funcr, args, _, _ = function_data_convert(funcr, args)
+    funcr, args, _, _ = data_convert(funcr, args)
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     f = []
     while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(np.float64)
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         jk = np.array(res.subs(reps)).astype(np.float64)
         q, r = np.linalg.qr(jk)
         dk = np.linalg.inv(r).dot(-(q.T).dot(rk)).reshape(1,-1)
@@ -56,7 +58,7 @@ def gauss_newton(funcr, args, x_0, draw=True, output_f=False, method="wolfe", ep
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "nonlinear_least_square_gauss_newton_" + method)
+    plot_iteration(f, draw, "nonlinear_least_square_gauss_newton_" + method)
     return x_0, k, f if output_f is True else x_0, k
 
 # levenberg marquardt方法
@@ -113,15 +115,13 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_CG_gradient, function_data_convert
     assert eta >= 0
     assert eta < p1
     assert p1 < p2
     assert p2 < 1
     assert gamma1 < 1
     assert gamma2 > 1
-    funcr, args, _, _ = function_data_convert(funcr, args)
+    funcr, args, _, _ = data_convert(funcr, args)
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     resf = funcs.jacobian(args)
@@ -131,13 +131,13 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
     while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(np.float64)
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         jk = np.array(res.subs(reps)).astype(np.float64)
-        dk, _ = function_CG_gradient((jk.T).dot(jk) + lamk, -((jk.T).dot(rk)).reshape(1, -1), dk0)
+        dk, _ = CG_gradient((jk.T).dot(jk) + lamk, -((jk.T).dot(rk)).reshape(1, -1), dk0)
         pk_up = np.array(funcs.subs(reps)).astype(np.float64) - np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(np.float64)
         grad_f = np.array(resf.subs(reps)).astype(np.float64)
         hess_f = np.array(hess.subs(reps)).astype(np.float64)
-        hess_f = function_modify_hessian(hess_f, m)
+        hess_f = modify_hessian(hess_f, m)
         pk_down = - (grad_f.dot(dk.T) + 0.5*((dk.dot(hess_f)).dot(dk.T)))
         pk = pk_up / pk_down
         if np.linalg.norm(dk) >= epsilon:
@@ -155,5 +155,5 @@ def levenberg_marquardt(funcr, args, x_0, draw=True, output_f=False, m=100, lamk
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "nonlinear_least_square_levenberg_marquardt")        
+    plot_iteration(f, draw, "nonlinear_least_square_levenberg_marquardt")        
     return x_0, k, f if output_f is True else x_0, k

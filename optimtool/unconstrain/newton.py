@@ -1,4 +1,8 @@
+__all__ = ['classic', 'modified', 'CG']
+
 import numpy as np
+from optimtool.functions.tools import f_x_k, plot_iteration, data_convert, modify_hessian, CG_gradient
+from optimtool.functions.linear_search import armijo, goldstein, wolfe
 
 # 经典牛顿法
 def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
@@ -36,14 +40,13 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_data_convert
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         hessian = np.array(hes.subs(reps)).astype(np.float64)
         gradient = np.array(res.subs(reps)).astype(np.float64)
         dk = - np.linalg.inv(hessian).dot(gradient.T)
@@ -53,7 +56,7 @@ def classic(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "newton_classic")        
+    plot_iteration(f, draw, "newton_classic")        
     return x_0, k, f if output_f is True else x_0, k
     
 # 修正牛顿法
@@ -95,18 +98,16 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_modify_hessian, function_data_convert
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     f = []
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
         hess = np.array(hes.subs(reps)).astype(np.float64)
-        hessian = function_modify_hessian(hess, m)
+        hessian = modify_hessian(hess, m)
         dk = - np.linalg.inv(hessian).dot(gradient.T)
         dk = dk.reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
@@ -115,7 +116,7 @@ def modified(funcs, args, x_0, draw=True, output_f=False, method="wolfe", m=20, 
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "newton_modified_" + method)
+    plot_iteration(f, draw, "newton_modified_" + method)
     return x_0, k, f if output_f is True else x_0, k
 
 # 非精确牛顿法
@@ -154,25 +155,23 @@ def CG(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-6
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from optimtool.functions.linear_search import armijo, goldstein, wolfe
-    from optimtool.functions.tools import function_f_x_k, function_plot_iteration, function_CG_gradient, function_data_convert
-    funcs, args, _, _ = function_data_convert(funcs, args)
+    funcs, args, _, _ = data_convert(funcs, args)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     dk0 = np.zeros((args.shape[0], 1))
     f = []
     while 1:
         reps = dict(zip(args, x_0))
-        f.append(function_f_x_k(funcs, args, x_0))
+        f.append(f_x_k(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(np.float64)
         hess = np.array(hes.subs(reps)).astype(np.float64)
         # 采用共轭梯度法求解梯度
-        dk, _ = function_CG_gradient(hess, - gradient, dk0)
+        dk, _ = CG_gradient(hess, - gradient, dk0)
         if np.linalg.norm(dk) >= epsilon:
             alpha = eval(method)(funcs, args, x_0, dk)
             x_0 = x_0 + alpha * dk[0]
             k = k + 1
         else:
             break
-    function_plot_iteration(f, draw, "newton_CG_" + method)
+    plot_iteration(f, draw, "newton_CG_" + method)
     return x_0, k, f if output_f is True else x_0, k
