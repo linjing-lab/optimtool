@@ -1,1 +1,1 @@
-from optimtool.hybrid import approximate_point_gradient
+from .approximate_point_gradient import *
