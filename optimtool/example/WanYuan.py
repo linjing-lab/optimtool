@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 导入非线性最小二乘的包
-def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
+def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: bool=False, eps: float=1e-10):
     '''
     Parameters
     ----------
@@ -42,9 +42,9 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
     None
         
     '''
-    from optimtool.unconstrain.nonlinear_least_square import gauss_newton
+    from ..unconstrain.nonlinear_least_square import gauss_newton
     # 构造残差函数
-    def maker_line_1(m, n):
+    def maker_line_1(m: float, n: float):
         '''
         Parameters
         ----------
@@ -63,7 +63,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x1, y1 = sp.symbols("x1 y1")
         return m*x1 + n - y1
 
-    def maker_line_2(x3, y3):
+    def maker_line_2(x3: float, y3: float):
         '''
         Parameters
         ----------
@@ -82,7 +82,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x1, y1, x0, y0 = sp.symbols("x1 y1 x0 y0")
         return (x1 - x0)**2 + (y1 - y0)**2 - ((x3 - x0)**2 + (y3 - y0)**2)
 
-    def maker_line_3(m, n, x3, y3):
+    def maker_line_3(m: float, n: float, x3: float, y3: float):
         '''
         Parameters
         ----------
@@ -108,7 +108,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         delta = (2*m*n - 2*x - 2*m*y)**2 - 4*(m**2 + 1)*(x**2 + y**2 - (x3 - x)**2 + (y3 - y)**2 + n**2 - 2*n*y)
         return delta.subs({x: x0, y: y0})
 
-    def maker_line_4(m):
+    def maker_line_4(m: float):
         '''
         Parameters
         ----------
@@ -124,7 +124,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x1, y1, x0, y0= sp.symbols("x1 y1 x0 y0")
         return m*y1 - m*y0 + x1 - x0
 
-    def maker_parabola_1(a, b):
+    def maker_parabola_1(a: float, b: float):
         '''
         Parameters
         ----------
@@ -144,7 +144,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         eq = 2*a*x2*y2 - 2*a*x2*y0 + b*y2 - b*y0 - x0 + x2
         return eq
 
-    def maker_parabola_2(a, b, c):
+    def maker_parabola_2(a: float, b: float, c: float):
         '''
         Parameters
         ----------
@@ -166,7 +166,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x2, y2 = sp.symbols("x2 y2")
         return a*x2**2 + b*x2 + c - y2
 
-    def maker_parabola_3(x3, y3):
+    def maker_parabola_3(x3: float, y3: float):
         '''
         Parameters
         ----------
@@ -185,7 +185,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         x2, y2, x0, y0 = sp.symbols("x2 y2 x0 y0")
         return (x2 - x0)**2 + (y2 - y0)**2 - ((x3 - x0)**2 + (y3 - y0)**2)
 
-    def maker_data(m, n, a, b, c, x3, y3):
+    def maker_data(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float):
         '''
         Parameters
         ----------
@@ -229,7 +229,7 @@ def gauss_newton(m, n, a, b, c, x3, y3, x_0, draw=False, eps=1e-10):
         funcr = [line1, line2, line3, line4, parabola1, parabola2, parabola3]
         return funcr, args
     
-    def plot_solve(final, x_0, m, n, a, b, c, x3, y3):
+    def plot_solve(final: list, x_0: tuple, m: float, n: float, a: float, b: float, c: float, x3: float, y3: float):
         '''
         Parameters
         ----------
