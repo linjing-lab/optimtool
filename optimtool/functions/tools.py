@@ -365,9 +365,7 @@ def steihaug(sk, rk, pk, B, delta, epsilon=1e-3, k=0):
         大于0的方程解
         
     '''
-    s = []
-    r = []
-    p = []
+    s, r, p = [], [], []
     while 1:
         s.append(sk)
         r.append(rk)

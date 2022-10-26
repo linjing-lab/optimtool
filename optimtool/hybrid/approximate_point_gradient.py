@@ -10,7 +10,7 @@ def L1(funcs, mu, gfun, args, x_0, draw=True, output_f=False, t=0.01, epsilon=1e
     ----------
     funcs : sympy.matrices.dense.MutableDenseMatrix
         当前目标方程
-    
+
     mu : float
         l1范数前系数
 
