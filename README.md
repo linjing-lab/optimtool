@@ -1,5 +1,7 @@
 # optimtool🔜
 
+[![OSCS Status](https://www.oscs1024.com/platform/badge/linjing-lab/optimtool.svg?size=small)](https://www.oscs1024.com/project/linjing-lab/optimtool?ref=badge_small)
+
 If you want to participate in the development, please follow the [baseline](./baseline.md).
 
 如果你想参与开发，请遵循[baseline](./baseline.md)。
