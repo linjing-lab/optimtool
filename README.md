@@ -1,6 +1,6 @@
 # optimtool🔜
 
-[![OSCS Status](https://www.oscs1024.com/platform/badge/linjing-lab/optimtool.svg?size=small)](https://www.oscs1024.com/project/linjing-lab/optimtool?ref=badge_small)
+[![OSCS Status](https://www.oscs1024.com/platform/badge/linjing-lab/optimtool.svg?size=small)](https://www.oscs1024.com/project/linjing-lab/optimtool?ref=badge_small) [![Downloads](https://pepy.tech/badge/optimtool)](https://pepy.tech/project/optimtool) [![Downloads](https://pepy.tech/badge/optimtool/month)](https://pepy.tech/project/optimtool) [![Downloads](https://pepy.tech/badge/optimtool/week)](https://pepy.tech/project/optimtool)
 
 If you want to participate in the development, please follow the [baseline](./baseline.md).
 
