@@ -1,7 +1,7 @@
 <h1 align="center">optimtool</h1>
 
 <p align="center">
-<b>The fundamental package for scientific research in optimization.<sup><a href="https://pypi.org/project/optimtool/">[?]</a></sup></b>
+<b>The fundamental package for scientific research in optimization.<sup><a href="https://github.com/linjing-lab/optimtool/tree/master/examples/doc">[?]</a></sup></b>
 </p>
 
 <p align='center'>
