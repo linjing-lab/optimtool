@@ -1,4 +1,4 @@
-# optimtool
+<h1 align="center">optimtool</h1>
 
 <p align="center">
 <b>The fundamental package for scientific research in optimization.<sup><a href="https://pypi.org/project/optimtool/">[?]</a></sup></b>
