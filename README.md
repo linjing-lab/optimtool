@@ -1,6 +1,23 @@
-# optimtool🔜
+# optimtool
 
-[![OSCS Status](https://www.oscs1024.com/platform/badge/linjing-lab/optimtool.svg?size=small)](https://www.oscs1024.com/project/linjing-lab/optimtool?ref=badge_small) [![Downloads](https://pepy.tech/badge/optimtool)](https://pepy.tech/project/optimtool) [![Downloads](https://pepy.tech/badge/optimtool/month)](https://pepy.tech/project/optimtool) [![Downloads](https://pepy.tech/badge/optimtool/week)](https://pepy.tech/project/optimtool)
+<p align="center">
+<b>The fundamental package for scientific research in optimization.<sup><a href="https://pypi.org/project/optimtool/">[?]</a></sup></b>
+</p>
+
+<p align='center'>
+    <a href='https://www.oscs1024.com/'>
+        <img src='https://www.oscs1024.com/platform/badge/linjing-lab/optimtool.svg?size=small' alt='OSCS Status' height='20'/>
+    </a>
+    <a href='https://pepy.tech/project/optimtool'>
+        <img src="https://pepy.tech/badge/optimtool" alt="Total Downloads" height="20"/>
+    </a>
+    <a href='https://pepy.tech/project/optimtool'>
+        <img src="https://pepy.tech/badge/optimtool/month" alt="Monthly Downloads" height="20"/> 
+    </a>
+    <a href='https://code.visualstudio.com/'>
+        <img src="https://pepy.tech/badge/optimtool/week" alt="Weekly Downloads" height="20"/> 
+    </a>
+</p>
 
 If you want to participate in the development, please follow the [baseline](./baseline.md).
 
