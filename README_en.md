@@ -5,7 +5,7 @@
 </p>
 
 <p align='center'>
-    <a href='https://www.oscs1024.com/'>
+    <a href='https://www.oscs1024.com/cd/1527939640076619776?sign=522150ac'>
         <img src='https://www.oscs1024.com/platform/badge/linjing-lab/optimtool.svg?size=small' alt='OSCS Status' height='20'/>
     </a>
     <a href='https://pepy.tech/project/optimtool'>
