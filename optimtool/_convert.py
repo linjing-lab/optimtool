@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['f2m', 'a2m', 'p2t', 'h2h']
-
 import sympy as sp
 import numpy as np
 from ._typing import FuncArray, ArgArray, PointArray, SympyMutableDenseMatrix, NDArray, Optional
@@ -112,3 +110,5 @@ def h2h(hessian: NDArray, m: float, pk: Optional[int]=1) -> NDArray:
             hessian = hessian + pk * np.identity(l)
             pk = pk + 1
     return hessian
+
+__all__ = [f2m, a2m, p2t, h2h]

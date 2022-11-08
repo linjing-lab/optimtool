@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['get_value', 'plot_iteration']
-
 from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPointType, Union, PointType
 
 def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, mu: Optional[float]=None) -> DataType:
@@ -79,3 +77,5 @@ def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:
         plt.title(method)
         plt.show()
     return None
+
+__all__ = [get_value, plot_iteration]

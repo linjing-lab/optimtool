@@ -18,12 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['classic', 'modified', 'CG']
-
 import numpy as np
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
-from .._search import armijo, goldstein, wolfe
 
 from .._typing import FuncArray, ArgArray, PointArray, Optional, OutputType, DataType
 
@@ -118,6 +115,7 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[b
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    from .._search import armijo, goldstein, wolfe
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     search = eval(method)
     res = funcs.jacobian(args)
@@ -176,6 +174,7 @@ def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=T
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
+    from .._search import armijo, goldstein, wolfe
     from .._drive import CG_gradient
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     search = eval(method)
@@ -198,3 +197,5 @@ def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=T
             break
     plot_iteration(f, draw, "newton_CG_" + method)
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [classic, modified, CG]

@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['armijo', 'goldstein', 'wolfe', 'Grippo', 'ZhangHanger']
-
 import numpy as np
 from ._typing import Optional, List, NDArray, SympyMutableDenseMatrix, DataType, IterPointType
 
@@ -326,3 +324,5 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x
         else:
             alpha = beta * alpha
     return alpha
+
+__all__ = [armijo, goldstein, wolfe, Grippo, ZhangHanger]

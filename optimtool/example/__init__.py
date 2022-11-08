@@ -18,5 +18,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .Lasso import gradient_descent, subgradient, penalty, approximate_point_gradient
-from .WanYuan import solution
+from . import Lasso
+from . import WanYuan

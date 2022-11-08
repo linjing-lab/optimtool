@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['solution']
-
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -322,3 +320,5 @@ def solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: fl
     if draw is True: # 绘图
         plot_solve(final, x_0, m, n, a, b, c, x3, y3)
     return None
+
+__all__ = [solution]

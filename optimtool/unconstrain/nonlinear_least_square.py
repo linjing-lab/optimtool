@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['gauss_newton', 'levenberg_marquardt']
-
 import numpy as np
 import sympy as sp
 from .._convert import f2m, a2m, p2t, h2h
@@ -182,3 +180,5 @@ def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw:
             break
     plot_iteration(f, draw, "nonlinear_least_square_levenberg_marquardt")        
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [gauss_newton, levenberg_marquardt]

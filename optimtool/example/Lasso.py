@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['gradient_descent', 'subgradient', 'penalty', 'approximate_point_gradient']
-
 import numpy as np
 import sympy as sp
 from .._convert import a2m
@@ -27,7 +25,7 @@ from .._utils import get_value, plot_iteration
 
 from .._typing import NDArray, ArgArray, PointArray, Optional, OutputType, DataType
 
-def gradient_descent(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, delta: Optional[float]=10, alp: Optional[float]=1e-3, epsilon: Optional[float]=1e-2, k: Optional[int]=0) -> OutputType:
+def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, delta: Optional[float]=10, alp: Optional[float]=1e-3, epsilon: Optional[float]=1e-2, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -226,7 +224,7 @@ def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, 
 '''
 近似点梯度法
 '''
-def approximate_point_gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType:
+def approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -288,3 +286,5 @@ def approximate_point_gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray
             break
     plot_iteration(f, draw, "Lasso_approximate_point_gradient")
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [gradient, subgradient, penalty, approximate_point]

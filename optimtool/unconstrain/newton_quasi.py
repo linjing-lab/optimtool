@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['bfgs', 'dfp', 'L_BFGS']
-
 import numpy as np
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
@@ -235,3 +233,5 @@ def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[boo
             break
     plot_iteration(f, draw, "newton_quasi_L_BFGS_" + method)
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [bfgs, dfp, L_BFGS]

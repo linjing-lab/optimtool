@@ -18,8 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .gradient_descent import solve, steepest, barzilar_borwein
-from .newton import classic, modified, CG
-from .newton_quasi import bfgs, dfp, L_BFGS
-from .nonlinear_least_square import gauss_newton, levenberg_marquardt
-from .trust_region import steihaug_CG
+from . import gradient_descent
+from . import newton
+from . import newton_quasi
+from . import nonlinear_least_square
+from . import trust_region

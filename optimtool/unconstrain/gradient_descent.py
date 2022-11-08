@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['solve', 'steepest', 'barzilar_borwein']
-
 import numpy as np
 import sympy as sp
 from .._utils import get_value, plot_iteration
@@ -211,3 +209,5 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Op
             break
     plot_iteration(f, draw, "gradient_descent_barzilar_borwein_" + method)
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [solve, steepest, barzilar_borwein]

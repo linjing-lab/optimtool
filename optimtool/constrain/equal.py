@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['penalty_quadratice', 'lagrange_augmentede']
-
 import numpy as np
 import sympy as sp
 from .._utils import get_value, plot_iteration
@@ -167,3 +165,5 @@ def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
         sigma = p * sigma
     plot_iteration(f, draw, "lagrange_augmented_equal")
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [penalty_quadratice, lagrange_augmentede]

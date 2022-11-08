@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__all__ = ['steihaug_CG']
-
 import numpy as np
 from .._utils import plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
@@ -123,3 +121,5 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optiona
             break
     plot_iteration(f, draw, "trust_region_steihaug_CG")
     return (x_0, k, f) if output_f is True else (x_0, k)
+
+__all__ = [steihaug_CG]
