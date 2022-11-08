@@ -40,7 +40,7 @@ oc.equal.lagrange_augmentede(f, (x1, x2), c1, (1, 0.5))
 
 <p align="center">
     <a href=""> 
-        <img src="./constrain/lagrange_augmented_equal.png"> 
+        <img src="./images/lagrange_augmented_equal.png"> 
     </a>
 </p>
 
@@ -72,7 +72,7 @@ oc.unequal.penalty_interior_fraction(f, (x1, x2), c2, (1.5, 0.5))
 
 <p align="center">
     <a href=""> 
-        <img src="./constrain/penalty_interior_faction.png"> 
+        <img src="./images/penalty_interior_faction.png"> 
     </a>
 </p>
 
@@ -104,7 +104,7 @@ oc.mixequal.penalty_L1(f, (x1, x2), c1, c2, (1.5, 0.5))
 
 <p align="center">
     <a href=""> 
-        <img src="./constrain/penalty_L1.png"> 
+        <img src="./images/penalty_L1.png"> 
     </a>
 </p>
 

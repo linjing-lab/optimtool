@@ -41,7 +41,7 @@ oe.Lasso.subgradient(A, b, Mu, x, x_0)
 
 <p align="center">
     <a href=""> 
-        <img src="./example/Lasso_subgradient.png"> 
+        <img src="./images/Lasso_subgradient.png"> 
     </a>
 </p>
 
@@ -84,7 +84,7 @@ oe.WanYuan.solution(1, 2, 0.2, -1.4, 2.2, 3, -2.5, (4, 4, -4, -2, -2, 4), True)
 
 <p align="center">
     <a href=""> 
-        <img src="./example/WanYuan.png"> 
+        <img src="./images/WanYuan.png"> 
     </a>
 </p>
 

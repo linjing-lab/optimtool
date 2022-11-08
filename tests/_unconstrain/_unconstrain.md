@@ -45,7 +45,7 @@ ou.gradient_descent.barzilar_borwein(f, x, x_0)
 
 <p align="center">
     <a href=""> 
-        <img src="./unconstrain/gradien_descent_barzilar_borwein_Grippo.png"> 
+        <img src="./images/gradien_descent_barzilar_borwein_Grippo.png"> 
     </a>
 </p>
 
@@ -77,7 +77,7 @@ ou.newton.CG(f, x, x_0)
 
 <p align="center">
     <a href=""> 
-        <img src="./unconstrain/newton_CG_wolfe.png"> 
+        <img src="./images/newton_CG_wolfe.png"> 
     </a>
 </p>
 
@@ -110,7 +110,7 @@ ou.newton_quasi.bfgs(f, x, x_0)
 
 <p align="center">
     <a href=""> 
-        <img src="./unconstrain/newton_quasi_bfgs_wolfe.png"> 
+        <img src="./images/newton_quasi_bfgs_wolfe.png"> 
     </a>
 </p>
 
@@ -144,7 +144,7 @@ ou.nonlinear_least_square.gauss_newton((r1, r2), (x1, x2), (1, 1))
 
 <p align="center">
     <a href=""> 
-        <img src="./unconstrain/nonlinear_least_square_gauss_newton_wolfe.png"> 
+        <img src="./images/nonlinear_least_square_gauss_newton_wolfe.png"> 
     </a>
 </p>
 
@@ -174,7 +174,7 @@ ou.trust_region.steihaug_CG(f, x, x_0)
 
 <p align="center">
     <a href=""> 
-        <img src="./unconstrain/trust_region_steihaug_CG.png"> 
+        <img src="./images/trust_region_steihaug_CG.png"> 
     </a>
 </p>
 
