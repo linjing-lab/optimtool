@@ -1,46 +1,65 @@
-__all__ = ['penalty_quadratic', 'lagrange_augmented']
+# Copyright (c) 2021 linjing-lab
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+__all__ = ['penalty_quadratice', 'lagrange_augmentede']
 
 import numpy as np
 import sympy as sp
-from ..functions.tools import f_x_k, plot_iteration, data_convert
-from ..unconstrain.gradient_descent import barzilar_borwein
-from ..unconstrain.newton import CG
-from ..unconstrain.newton_quasi import L_BFGS
-from ..unconstrain.trust_region import steihaug_CG
+from .._utils import get_value, plot_iteration
+from .._convert import f2m, a2m, p2t
+
+from .._typing import FuncArray, ArgArray, PointArray, Optional, OutputType, DataType
 
 # 二次罚函数法（等式约束）
-def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", sigma=10, p=2, epsilon=1e-4, k=0):
+def penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=10, p: Optional[float]=2, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
-    funcs : sympy.matrices.dense.MutableDenseMatrix
+    funcs : FuncArray
         当前目标方程
         
-    args : sympy.matrices.dense.MutableDenseMatrix
+    args : ArgArray
         参数列表
         
-    cons : sympy.matrices.dense.MutableDenseMatrix
+    cons : FuncArray
         等式参数约束列表
         
-    x_0 : list
+    x_0 : PointArray
         初始迭代点列表
         
-    draw : bool
+    draw : Optional[bool]
         绘图接口参数
         
-    output_f : bool
+    output_f : Optional[bool]
         输出迭代函数值列表
         
-    method : string
+    method : Optional[str]
         无约束优化方法内核
         
-    sigma : double
+    sigma : Optional[float]
         罚函数因子
         
-    p : double
+    p : Optional[float]
         修正参数
         
-    epsilon : double
+    epsilon : Optional[float]
         迭代停机准则
         
     k : int
@@ -49,112 +68,102 @@ def penalty_quadratic(funcs, args, cons, x_0, draw=True, output_f=False, method=
 
     Returns
     -------
-    tuple
+    OutputType
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
     assert sigma > 0
     assert p > 1
-    funcs, args, cons, _ = data_convert(funcs, args, cons)
+    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
+    search = eval(kernel(method))
     point = []
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
     f = []
     while 1:
         point.append(np.array(x_0))
-        f.append(f_x_k(funcs, args, x_0))
+        f.append(get_value(funcs, args, x_0))
         pe = pen.subs(sig, sigma)
-        if method == "gradient_descent":
-            x_0, _ = barzilar_borwein(pe, args, tuple(x_0), draw=False)
-        elif method == "newton":
-            x_0, _ = CG(pe, args, tuple(x_0), draw=False)
-        elif method == "newton_quasi":
-            x_0, _ = L_BFGS(pe, args, tuple(x_0), draw=False)
-        elif method == "trust_region":
-            x_0, _ = steihaug_CG(pe, args, tuple(x_0), draw=False)
+        x_0, _ = search(pe, args, tuple(x_0), draw=False)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
-            f.append(f_x_k(funcs, args, x_0))
+            f.append(get_value(funcs, args, x_0))
             break
         sigma = p * sigma
     plot_iteration(f, draw, "penalty_quadratic_equal")     
-    return x_0, k, f if output_f is True else x_0, k
+    return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 增广拉格朗日函数乘子法（等式约束）
-def lagrange_augmented(funcs, args, cons, x_0, draw=True, output_f=False, method="gradient_descent", lamk=6, sigma=10, p=2, etak=1e-4, epsilon=1e-6, k=0):
+def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", lamk: Optional[float]=6, sigma: Optional[float]=10, p: Optional[float]=2, etak: Optional[float]=1e-4, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
-    funcs : sympy.matrices.dense.MutableDenseMatrix
+    funcs : FuncArray
         当前目标方程
         
-    args : sympy.matrices.dense.MutableDenseMatrix
+    args : ArgArray
         参数列表
         
-    cons : sympy.matrices.dense.MutableDenseMatrix
+    cons : FuncArray
         等式参数约束列表
         
-    x_0 : list
+    x_0 : PointArray
         初始迭代点列表
         
-    draw : bool
+    draw : Optional[bool]
         绘图接口参数
         
-    output_f : bool
+    output_f : Optional[bool]
         输出迭代函数值列表
         
-    method : string
+    method : Optional[str]
         无约束优化方法内核
         
-    lamk : double
+    lamk : Optional[float]
         因子
         
-    sigma : double
+    sigma : Optional[float]
         罚函数因子
         
-    p : double
+    p : Optional[float]
         修正参数
         
-    etak : double
+    etak : Optional[float]
         常数
         
-    epsilon : double
+    epsilon : Optional[float]
         迭代停机准则
         
-    k : int
+    k : Optional[int]
         迭代次数
         
 
     Returns
     -------
-    tuple
+    OutputType
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
     assert sigma > 0
     assert p > 1
-    funcs, args, cons, _ = data_convert(funcs, args, cons)
+    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    search = eval(kernel(method))
+    funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     f = []
     lamk = np.array([lamk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
-        f.append(f_x_k(funcs, args, x_0))
-        if method == "gradient_descent":
-            x_0, _ = barzilar_borwein(L, args, x_0, draw=False, epsilon=etak)
-        elif method == "newton":
-            x_0, _ = CG(L, args, x_0, draw=False, epsilon=etak)
-        elif method == "newton_quasi":
-            x_0, _ = L_BFGS(L, args, x_0, draw=False, epsilon=etak)
-        elif method == "trust_region":
-            x_0, _ = steihaug_CG(L, args, x_0, draw=False, epsilon=etak)
+        f.append(get_value(funcs, args, x_0))
+        x_0, _ = search(L, args, tuple(x_0), draw=False, epsilon=etak)
         k = k + 1
         reps = dict(zip(args, x_0))
-        consv = np.array(cons.subs(reps)).astype(np.float64)
+        consv = np.array(cons.subs(reps)).astype(DataType)
         if np.linalg.norm(consv) <= epsilon:
-            f.append(f_x_k(funcs, args, x_0))
+            f.append(get_value(funcs, args, x_0))
             break
         lamk = lamk + sigma * consv
         sigma = p * sigma
     plot_iteration(f, draw, "lagrange_augmented_equal")
-    return x_0, k, f if output_f is True else x_0, k
+    return (x_0, k, f) if output_f is True else (x_0, k)

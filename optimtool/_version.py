@@ -18,6 +18,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .equal import penalty_quadratice, lagrange_augmentede
-from .unequal import penalty_quadraticu, penalty_interior_fraction, lagrange_augmentedu
-from .mixequal import penalty_quadraticm, penalty_L1, lagrange_augmentedm
+__version__ = '2.4.0'

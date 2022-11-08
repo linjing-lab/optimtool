@@ -1,192 +1,213 @@
+# Copyright (c) 2021 linjing-lab
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 __all__ = ['solve', 'steepest', 'barzilar_borwein']
 
 import numpy as np
 import sympy as sp
-from ..functions.tools import f_x_k, plot_iteration, data_convert
-from ..functions.linear_search import armijo, goldstein, wolfe, nonmonotonic_Grippo, nonmonotonic_ZhangHanger
+from .._utils import get_value, plot_iteration
+from .._convert import f2m, a2m, p2t
+
+from .._typing import FuncArray, ArgArray, PointArray, Optional, DataType, OutputType
 
 # 梯度下降法
-def solve(funcs, args, x_0, draw=True, output_f=False, epsilon=1e-10, k=0):
+def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
-    funcs : sympy.matrices.dense.MutableDenseMatrix
+    funcs : FuncArray
         当前目标方程
         
-    args : sympy.matrices.dense.MutableDenseMatrix
-        参数列表
+    args : ArgArray
+        参数
         
-    x_0 : list
-        初始迭代点列表
+    x_0 : PointArray
+        初始迭代点
         
-    draw : bool
+    draw : Optional[bool]
         绘图接口参数
         
-    output_f : bool
+    output_f : Optional[bool]
         输出迭代函数值列表
         
-    epsilon : float
+    epsilon : Optional[float]
         迭代停机准则
         
-    k : int
+    k : Optional[int]
         迭代次数
         
 
     Returns
     -------
-    tuple
+    OutputType
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    funcs, args, _, _ = data_convert(funcs, args)
+    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     res = funcs.jacobian(args)
     m = sp.symbols("m")
     arg = sp.Matrix([m])
     fx = []
     while 1:
         reps = dict(zip(args, x_0))
-        fx.append(f_x_k(funcs, args, x_0))
-        dk = -np.array(res.subs(reps)).astype(np.float64)
+        fx.append(get_value(funcs, args, x_0))
+        dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             xt = x_0 + m * dk[0]
             f = funcs.subs(dict(zip(args, xt)))
             h = f.jacobian(arg)
             mt = sp.solve(h)
-            x_0 = (x_0 + mt[m] * dk[0]).astype(np.float64)
+            x_0 = (x_0 + mt[m] * dk[0]).astype(DataType)
             k = k + 1
         else:
             break
     plot_iteration(fx, draw, "gradient_descent_solve")
-    return x_0, k, fx if output_f is True else x_0, k
+    return (x_0, k, fx) if output_f is True else (x_0, k)
 
 # 最速下降法
-def steepest(funcs, args, x_0, draw=True, output_f=False, method="wolfe", epsilon=1e-10, k=0):
+def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
-    funcs : sympy.matrices.dense.MutableDenseMatrix
+    funcs : FuncArray
         当前目标方程
         
-    args : sympy.matrices.dense.MutableDenseMatrix
-        参数列表
+    args : ArgArray
+        参数
         
-    x_0 : list
-        初始迭代点列表
+    x_0 : PointArray
+        初始迭代点
         
-    draw : bool
+    draw : Optional[bool]
         绘图接口参数
         
-    output_f : bool
+    output_f : Optional[bool]
         输出迭代函数值列表
         
-    method : string
+    method : Optional[str]
         非精确线搜索方法
         
-    epsilon : float
+    epsilon : Optional[float]
         迭代停机准则
         
-    k : int
+    k : Optional[int]
         迭代次数
         
 
     Returns
     -------
-    tuple
+    OutputType
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    funcs, args, _, _ = data_convert(funcs, args)
+    from .._search import armijo, goldstein, wolfe
+    search = eval(method)
+    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     res = funcs.jacobian(args)
     fx = []
     while 1:
         reps = dict(zip(args, x_0))
-        fx.append(f_x_k(funcs, args, x_0))
-        dk = -np.array(res.subs(reps)).astype(np.float64)
+        fx.append(get_value(funcs, args, x_0))
+        dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = eval(method)(funcs, args, x_0, dk)
+            alpha = search(funcs, args, x_0, dk)
             x_0 = x_0 + alpha * dk[0]
             k = k + 1
         else:
             break
     plot_iteration(fx, draw, "gradient_descent_steepest")
-    return x_0, k, fx if output_f is True else x_0, k
+    return (x_0, k, fx) if output_f is True else (x_0, k)
     
 # Barzilar Borwein梯度下降法
-def barzilar_borwein(funcs, args, x_0, draw=True, output_f=False, method="grippo", M=20, c1=0.6, beta=0.6, alpha=1, epsilon=1e-10, k=0):
+def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="Grippo", c1: Optional[float]=0.6, beta: Optional[float]=0.6, alpha: Optional[float]=1, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
     '''
     Parameters
     ----------
-    funcs : sympy.matrices.dense.MutableDenseMatrix
+    funcs : FuncArray
         当前目标方程
         
-    args : sympy.matrices.dense.MutableDenseMatrix
-        参数列表
+    args : ArgArray
+        参数
         
-    x_0 : list
-        初始迭代点列表
+    x_0 : PointArray
+        初始迭代点
         
-    draw : bool
+    draw : Optional[bool]
         绘图接口参数
         
-    output_f : bool
+    output_f : Optional[bool]
         输出迭代函数值列表
         
-    method : string
-        非单调线搜索方法："grippo"与"ZhangHanger"
+    method : Optional[str]
+        非单调线搜索方法："Grippo"与"ZhangHanger"
         
-    M : int
+    M : Optional[int]
         阈值
         
-    c1 : float
+    c1 : Optional[float]
         常数
         
-    beta : float
+    beta : Optional[float]
         常数
         
-    alpha : float
+    alpha : Optional[float]
         初始步长
         
-    epsilon : float
+    epsilon : Optional[float]
         迭代停机准则
         
-    k : int
+    k : Optional[int]
         迭代次数
         
 
     Returns
     -------
-    tuple
+    OutputType
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    assert M >= 0
     assert alpha > 0
     assert c1 > 0
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    funcs, args, _, _ = data_convert(funcs, args)
+    from .._search import Grippo, ZhangHanger
+    search = eval(method)
+    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     res = funcs.jacobian(args)
-    point = []
-    f = []
+    point, f = [], []
     while 1:
         point.append(x_0)
         reps = dict(zip(args, x_0))
-        f.append(f_x_k(funcs, args, x_0))
-        dk = - np.array(res.subs(reps)).astype(np.float64)
+        f.append(get_value(funcs, args, x_0))
+        dk = - np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
-            if method == "grippo":
-                alpha = nonmonotonic_Grippo(funcs, args, x_0, dk, k, point, M, c1, beta, alpha)
-            if method == "ZhangHanger":
-                alpha = nonmonotonic_ZhangHanger(funcs, args, x_0, dk, k, point, c1, beta, alpha)
+            alpha = search(funcs, args, x_0, dk, k, point, c1, beta, alpha)
             delta = alpha * dk[0]
             x_0 = x_0 + delta
             sk = delta
-            yk = np.array(res.subs(dict(zip(args, x_0)))).astype(np.float64) + dk
+            yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) + dk
             if sk.dot(yk.T) != 0:
                 alpha = sk.dot(sk.T) / sk.dot(yk.T)
             k = k + 1
         else:
             break
     plot_iteration(f, draw, "gradient_descent_barzilar_borwein_" + method)
-    return x_0, k, f if output_f is True else x_0, k
+    return (x_0, k, f) if output_f is True else (x_0, k)

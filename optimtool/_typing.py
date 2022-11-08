@@ -18,6 +18,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .equal import penalty_quadratice, lagrange_augmentede
-from .unequal import penalty_quadraticu, penalty_interior_fraction, lagrange_augmentedu
-from .mixequal import penalty_quadraticm, penalty_L1, lagrange_augmentedm
+import sympy as sp
+import numpy as np
+
+from typing import (
+    Tuple,
+    List,
+    Union, 
+    Optional
+)
+
+NDArray = np.ndarray
+SympyMutableDenseMatrix = sp.matrices.dense.MutableDenseMatrix
+
+DataType = np.float64
+
+FuncType = sp.core.add.Add
+ArgType = sp.core.symbol.Symbol
+PointType = Union[float, int]
+
+FuncArray = Union[SympyMutableDenseMatrix, FuncType, List[FuncType], Tuple[FuncType]]
+ArgArray = Union[SympyMutableDenseMatrix, ArgType, List[ArgType], Tuple[ArgType]]
+PointArray = Union[PointType, List[PointType], Tuple[PointType]]
+
+IterPointType = Union[NDArray, List[PointType], Tuple[PointType]]
+
+OutputType = Tuple[IterPointType, int, Optional[List[DataType]]]

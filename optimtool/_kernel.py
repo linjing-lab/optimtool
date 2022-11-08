@@ -18,6 +18,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .equal import penalty_quadratice, lagrange_augmentede
-from .unequal import penalty_quadraticu, penalty_interior_fraction, lagrange_augmentedu
-from .mixequal import penalty_quadraticm, penalty_L1, lagrange_augmentedm
+from .unconstrain.gradient_descent import barzilar_borwein
+from .unconstrain.newton import CG
+from .unconstrain.newton_quasi import L_BFGS
+from .unconstrain.trust_region import steihaug_CG
+
+def kernel(method: str) -> str:
+    '''
+    method : str
+        无约束优化方法内核
+
+
+    Returns
+    -------
+    str
+        内核方法名
+        
+    '''
+    if method == "gradient_descent":
+        return 'barzilar_borwein'
+    elif method == "newton":
+        return 'CG'
+    elif method == "newton_quasi":
+        return 'L_BFGS'
+    elif method == "trust_region":
+        return 'steihaug_CG'
+    return 'barzilar_borwein'

@@ -1,11 +1,32 @@
-__all__ = ['gauss_newton']
+# Copyright (c) 2021 linjing-lab
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+__all__ = ['solution']
 
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 导入非线性最小二乘的包
-def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: bool=False, eps: float=1e-10):
+from .._typing import FuncType, Tuple, FuncArray, ArgArray, Optional
+
+def solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: Optional[bool]=False, eps: Optional[float]=1e-10) -> None:
     '''
     Parameters
     ----------
@@ -33,7 +54,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
     x_0 : tuple
         初始点：(x0, y0, x1, y2, x2, y2)
         
-    draw : bool
+    draw : Optional[bool]
         绘图接口
         
 
@@ -42,9 +63,10 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
     None
         
     '''
+    # 导入非线性最小二乘的包
     from ..unconstrain.nonlinear_least_square import gauss_newton
     # 构造残差函数
-    def maker_line_1(m: float, n: float):
+    def maker_line_1(m: float, n: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -63,7 +85,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         x1, y1 = sp.symbols("x1 y1")
         return m*x1 + n - y1
 
-    def maker_line_2(x3: float, y3: float):
+    def maker_line_2(x3: float, y3: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -82,7 +104,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         x1, y1, x0, y0 = sp.symbols("x1 y1 x0 y0")
         return (x1 - x0)**2 + (y1 - y0)**2 - ((x3 - x0)**2 + (y3 - y0)**2)
 
-    def maker_line_3(m: float, n: float, x3: float, y3: float):
+    def maker_line_3(m: float, n: float, x3: float, y3: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -108,7 +130,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         delta = (2*m*n - 2*x - 2*m*y)**2 - 4*(m**2 + 1)*(x**2 + y**2 - (x3 - x)**2 + (y3 - y)**2 + n**2 - 2*n*y)
         return delta.subs({x: x0, y: y0})
 
-    def maker_line_4(m: float):
+    def maker_line_4(m: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -124,7 +146,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         x1, y1, x0, y0= sp.symbols("x1 y1 x0 y0")
         return m*y1 - m*y0 + x1 - x0
 
-    def maker_parabola_1(a: float, b: float):
+    def maker_parabola_1(a: float, b: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -144,7 +166,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         eq = 2*a*x2*y2 - 2*a*x2*y0 + b*y2 - b*y0 - x0 + x2
         return eq
 
-    def maker_parabola_2(a: float, b: float, c: float):
+    def maker_parabola_2(a: float, b: float, c: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -166,7 +188,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         x2, y2 = sp.symbols("x2 y2")
         return a*x2**2 + b*x2 + c - y2
 
-    def maker_parabola_3(x3: float, y3: float):
+    def maker_parabola_3(x3: float, y3: float) -> FuncType:
         '''
         Parameters
         ----------
@@ -185,7 +207,7 @@ def gauss_newton(m: float, n: float, a: float, b: float, c: float, x3: float, y3
         x2, y2, x0, y0 = sp.symbols("x2 y2 x0 y0")
         return (x2 - x0)**2 + (y2 - y0)**2 - ((x3 - x0)**2 + (y3 - y0)**2)
 
-    def maker_data(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float):
+    def maker_data(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float) -> Tuple[FuncArray, ArgArray]:
         '''
         Parameters
         ----------
