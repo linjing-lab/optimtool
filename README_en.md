@@ -14,7 +14,7 @@
     <a href='https://pepy.tech/project/optimtool'>
         <img src="https://pepy.tech/badge/optimtool/month" alt="Monthly Downloads" height="20"/> 
     </a>
-    <a href='https://code.visualstudio.com/'>
+    <a href='https://pepy.tech/project/optimtool'>
         <img src="https://pepy.tech/badge/optimtool/week" alt="Weekly Downloads" height="20"/> 
     </a>
 </p>
