@@ -22,10 +22,10 @@ import numpy as np
 from .._utils import plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
 
-from .._typing import FuncArray, ArgArray, PointArray, Optional, OutputType, DataType
+from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 信赖域算法
-def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, m: Optional[float]=100, r0: Optional[float]=1, rmax: Optional[float]=2, eta: Optional[float]=0.2, p1: Optional[float]=0.4, p2: Optional[float]=0.6, gamma1: Optional[float]=0.5, gamma2: Optional[float]=1.5, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType:
+def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -38,40 +38,40 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optiona
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    m : Optional[float]
+    m : float
         海瑟矩阵条件数阈值
         
-    r0 : Optional[float]
+    r0 : float
         搜索半径起点
         
-    rmax : Optional[float]
+    rmax : float
         搜索最大半径
         
-    eta : Optional[float]
+    eta : float
         常数
         
-    p1 : Optional[float]
+    p1 : float
         常数
         
-    p2 : Optional[float] 
+    p2 : float 
         常数
         
-    gamma1 : Optional[float]
+    gamma1 : float
         常数
         
-    gamma2 : Optional[float]
+    gamma2 : float
         常数
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 

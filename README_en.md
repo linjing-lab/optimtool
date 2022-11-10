@@ -82,9 +82,9 @@ ou.gradient_descent.[Function Name]([Target Function], [Parameters], [Initial Po
 
 | head meathod                                                                                                                                 | explain                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                                                             | Solve the exact step by solving the equation                      |
-| steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                                           | Use line search method to solve imprecise step size (wolfe line search is used by default)         |
-| barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="Grippo", c1: Optional[float]=0.6, beta: Optional[float]=0.6, alpha: Optional[float]=1, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType | Update the step size using the nonmonotonic line search method proposed by Grippo and Zhang Hanger |
+| solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType                                                             | Solve the exact step by solving the equation                      |
+| steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                           | Use line search method to solve imprecise step size (wolfe line search is used by default)         |
+| barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="Grippo", c1: float=0.6, beta: float=0.6, alpha: float=1, epsilon: float=1e-10, k: int=0) -> OutputType | Update the step size using the nonmonotonic line search method proposed by Grippo and Zhang Hanger |
 
 #### Newton Methods（newton)
 
@@ -94,9 +94,9 @@ ou.newton.[Function Name]([Target Function], [Parameters], [Initial Point])
 
 | head meathod                                                                                             | explain                                |
 | ----------------------------------------------------------------------------------------------- | --------------------------------- |
-| classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                        | The next step is obtained by directly inverting the second derivative matrix of Target Function (Heather matrix) |
-| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[int]=20, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType | Revise the current Heather matrix to ensure its positive definiteness (only one correction method is connected at present)      |
-| CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType              | Newton conjugate gradient method is used to solve the gradient (a kind of inexact Newton method)         |
+| classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType                        | The next step is obtained by directly inverting the second derivative matrix of Target Function (Heather matrix) |
+| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType | Revise the current Heather matrix to ensure its positive definiteness (only one correction method is connected at present)      |
+| CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-6, k: int=0) -> OutputType              | Newton conjugate gradient method is used to solve the gradient (a kind of inexact Newton method)         |
 
 #### Quasi Newton Methods（newton_quasi）
 
@@ -106,9 +106,9 @@ ou.newton_quasi.[Function Name]([Target Function], [Parameters], [Initial Point]
 
 | head meathod                                                                                          | explain              |
 | -------------------------------------------------------------------------------------------- | --------------- |
-| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[float]=20, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType  | Updating Heiser Matrix by BFGS Method    |
-| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[float]=20, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType    | Updating Heiser Matrix by DFP Method     |
-| L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[float]=6, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType | Updating the Heiser Matrix of BFGS by Double Loop Method |
+| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-10, k: int=0) -> OutputType  | Updating Heiser Matrix by BFGS Method    |
+| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-4, k: int=0) -> OutputType    | Updating Heiser Matrix by DFP Method     |
+| L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType | Updating the Heiser Matrix of BFGS by Double Loop Method |
 
 #### Nonlinear Least Square Methods（nonlinear_least_square）
 
@@ -118,8 +118,8 @@ ou.nonlinear_least_square.[Function Name]([Target Function], [Parameters], [Init
 
 | head meathod                                                                                                                                                  | explain                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                                                        | Gauss Newton's method framework, including OR decomposition and other operations     |
-| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, m: Optional[float]=100, lamk: Optional[float]=1, eta: Optional[float]=0.2, p1: Optional[float]=0.4, p2: Optional[float]=0.9, gamma1: Optional[float]=0.7, gamma2: Optional[float]=1.3, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType | Methodology framework proposed by Levenberg Marquardt |
+| gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                                        | Gauss Newton's method framework, including OR decomposition and other operations     |
+| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Methodology framework proposed by Levenberg Marquardt |
 
 #### Trust Region Methods（trust_region）
 
@@ -129,7 +129,7 @@ ou.trust_region.[Function Name]([Target Function], [Parameters], [Initial Point]
 
 | head meathod                                                                                                                                               | explain                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, m: Optional[float]=100, r0: Optional[float]=1, rmax: Optional[float]=2, eta: Optional[float]=0.2, p1: Optional[float]=0.4, p2: Optional[float]=0.6, gamma1: Optional[float]=0.5, gamma2: Optional[float]=1.5, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType | Truncated conjugate gradient method is used to search step size in this method |
+| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | Truncated conjugate gradient method is used to search step size in this method |
 
 ### Constrained Optimization Algorithms（constrain）
 
@@ -146,8 +146,8 @@ oc.equal.[Function Name]([Target Function], [Parameters], [Equal Constraint Tabl
 
 | head meathod                                                                                                                                                   | explain        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=10, p: Optional[float]=2, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType                     | Add secondary penalty    |
-| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", lamk: Optional[float]=6, sigma: Optional[float]=10, p: Optional[float]=2, etak: Optional[float]=1e-4, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType | Augmented lagrange multiplier method |
+| penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | Add secondary penalty    |
+| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 #### Unequal Constraint（unequal）
 
@@ -157,9 +157,9 @@ oc.unequal.[Function Name]([Target Function], [Parameters], [Unequal Constraint 
 
 | head meathod                                                                                                                                                                      | explain        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
-| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=10, p: Optional[float]=0.4, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                                     | Add secondary penalty    |
-| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=12, p: Optional[float]=0.6, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType                              | Increase penalty term of fractional function  |
-| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", muk: Optional[float]=10, sigma: Optional[float]=8, alpha: Optional[float]=0.2, beta: Optional[float]=0.7, p: Optional[float]=2, eta: Optional[float]=1e-1, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType | Augmented lagrange multiplier method |
+| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | Add secondary penalty    |
+| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | Increase penalty term of fractional function  |
+| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 #### Mixequal Constraint（mixequal）
 
@@ -169,9 +169,9 @@ oc.mixequal.[Function Name]([Target Function], [Parameters], [Equal Constraint T
 
 | head meathod                                                                                                                                                                                                  | explain        |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=10, p: Optional[float]=0.6, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                                             | Add secondary penalty    |
-| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=1, p: Optional[float]=0.6, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType                                                     | L1 exact penalty function method  |
-| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", lamk: Optional[float]=6, muk: Optional[float]=10, sigma: Optional[float]=8, alpha: Optional[float]=0.5, beta: Optional[float]=0.7, p: Optional[float]=2, eta: Optional[float]=1e-3, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType | Augmented lagrange multiplier method |
+| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | Add secondary penalty    |
+| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1 exact penalty function method  |
+| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 ### Application of Methods（example）
 
@@ -187,10 +187,10 @@ oe.Lasso.[Function Name]([Matrxi A], [Matrix b], [Factor mu], [Parameters], [Ini
 
 | head meathod                                                                                                     | explain               |
 | ------------------------------------------------------------------------------------------------------- | ---------------- |
-| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, delta: Optional[float]=10, alp: Optional[float]=1e-3, epsilon: Optional[float]=1e-2, k: Optional[int]=0) -> OutputType | Smoothing Lasso Function Method      |
-| subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, alphak: Optional[float]=2e-2, epsilon: Optional[float]=1e-3, k: Optional[int]=0) -> OutputType             | Sub gradient method Lasso: avoiding first order nondifferentiability |
-| penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, gamma: Optional[float]=0.01, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType | Penalty function method |
-| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType | Adjacent operator updating |
+| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, delta: float=10, alp: float=1e-3, epsilon: float=1e-2, k: int=0) -> OutputType | Smoothing Lasso Function Method      |
+| subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, alphak: float=2e-2, epsilon: float=1e-3, k: int=0) -> OutputType             | Sub gradient method Lasso: avoiding first order nondifferentiability |
+| penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, gamma: float=0.01, epsilon: float=1e-6, k: int=0) -> OutputType | Penalty function method |
+| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | Adjacent operator updating |
 
 #### Curve Tangency Problem（WanYuan）
 
@@ -206,7 +206,7 @@ Given the slope and intercept of a straight line, given the coefficient of the q
 
 | head meathod                                                             | explain                   |
 | --------------------------------------------------------------- | -------------------- |
-| solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: Optional[bool]=False, eps: Optional[float]=1e-10) -> None | Using Gauss Newton Method to solve the 7 Residual Functions Constructed |
+| solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: bool=False, eps: float=1e-10) -> None | Using Gauss Newton Method to solve the 7 Residual Functions Constructed |
 
 ### Hybrid Optimization Algorithms（hybrid）
 

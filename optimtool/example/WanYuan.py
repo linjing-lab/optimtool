@@ -22,9 +22,9 @@ import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
 
-from .._typing import FuncType, Tuple, FuncArray, ArgArray, Optional
+from .._typing import FuncType, Tuple, FuncArray, ArgArray
 
-def solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: Optional[bool]=False, eps: Optional[float]=1e-10) -> None:
+def solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: bool=False, eps: float=1e-10) -> None:
     '''
     Parameters
     ----------
@@ -52,7 +52,7 @@ def solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: fl
     x_0 : tuple
         初始点：(x0, y0, x1, y2, x2, y2)
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口
         
 

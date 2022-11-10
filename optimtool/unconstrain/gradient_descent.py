@@ -23,10 +23,10 @@ import sympy as sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t
 
-from .._typing import FuncArray, ArgArray, PointArray, Optional, DataType, OutputType
+from .._typing import FuncArray, ArgArray, PointArray, DataType, OutputType
 
 # 梯度下降法
-def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -39,16 +39,16 @@ def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -80,7 +80,7 @@ def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool
     return (x_0, k, fx) if output_f is True else (x_0, k)
 
 # 最速下降法
-def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -93,19 +93,19 @@ def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[b
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         非精确线搜索方法
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -134,7 +134,7 @@ def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[b
     return (x_0, k, fx) if output_f is True else (x_0, k)
     
 # Barzilar Borwein梯度下降法
-def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="Grippo", c1: Optional[float]=0.6, beta: Optional[float]=0.6, alpha: Optional[float]=1, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="Grippo", c1: float=0.6, beta: float=0.6, alpha: float=1, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -147,31 +147,31 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Op
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         非单调线搜索方法："Grippo"与"ZhangHanger"
         
-    M : Optional[int]
+    M : int
         阈值
         
-    c1 : Optional[float]
+    c1 : float
         常数
         
-    beta : Optional[float]
+    beta : float
         常数
         
-    alpha : Optional[float]
+    alpha : float
         初始步长
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 

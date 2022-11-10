@@ -19,10 +19,10 @@
 # SOFTWARE.
 
 import numpy as np
-from ._typing import Optional, List, NDArray, SympyMutableDenseMatrix, DataType, IterPointType
+from ._typing import List, NDArray, SympyMutableDenseMatrix, DataType, IterPointType
 
 # Armijo线搜索准则
-def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, gamma: Optional[float]=0.5, c: Optional[float]=0.1) -> float:
+def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, gamma: float=0.5, c: float=0.1) -> float:
     '''
     Parameters
     ----------
@@ -33,15 +33,15 @@ def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
         参数列表
         
     x_0 : IterPointType
-        初始迭代点列表
+        初始迭代点
         
     d : NDArray
         当前下降方向
         
-    gamma : Optional[float]
+    gamma : float
         修正参数
         
-    c : Optional[float]
+    c : float
         常数
         
 
@@ -70,7 +70,7 @@ def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
     return alpha
 
 # Goldstein线搜索准则
-def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c: Optional[float]=0.1, alphas: Optional[float]=0, alphae: Optional[float]=10, t: Optional[float]=1.2, eps: Optional[float]=1e-3) -> float:
+def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c: float=0.1, alphas: float=0, alphae: float=10, t: float=1.2, eps: float=1e-3) -> float:
     '''
     Parameters
     ----------
@@ -81,21 +81,21 @@ def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
         参数列表
         
     x_0 : IterPointType
-        初始迭代点列表
+        初始迭代点
         
     d : NDArray
         当前下降方向
         
-    alphas : Optional[float]
+    alphas : float
         起始搜索区间
         
-    alphae : Optional[float]
+    alphae : float
         终止搜索区间
         
-    t : Optional[float]
+    t : float
         扩大倍数参数
         
-    eps : Optional[float]
+    eps : float
         终止参数
         
 
@@ -134,7 +134,7 @@ def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
     return alpha
 
 # Wolfe线搜索准则
-def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c1: Optional[float]=0.3, c2: Optional[float]=0.5, alphas: Optional[float]=0, alphae: Optional[float]=2, eps: Optional[float]=1e-3) -> float:
+def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c1: float=0.3, c2: float=0.5, alphas: float=0, alphae: float=2, eps: float=1e-3) -> float:
     '''
     Parameters
     ----------
@@ -145,24 +145,24 @@ def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: It
         参数列表
         
     x_0 : IterPointType
-        初始迭代点列表
+        初始迭代点
         
     d : NDArray
         当前下降方向
         
-    c1 : Optional[float]
+    c1 : float
         常数
         
-    c2 : Optional[float]
+    c2 : float
         常数
         
-    alphas : Optional[float]
+    alphas : float
         起始搜索区间
         
-    alphae : Optional[float]
+    alphae : float
         终止搜索区间
         
-    eps : Optional[float]
+    eps : float
         终止参数
         
 
@@ -201,7 +201,7 @@ def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: It
     return alpha
 
 # 非单调线搜索准则之Grippo（一般与Barzilar Borwein梯度下降法配合使用）
-def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, M: Optional[int]=20) -> float:
+def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, M: int=20) -> float:
     '''
     Parameters
     ----------
@@ -212,7 +212,7 @@ def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
         参数列表
         
     x_0 : IterPointType
-        初始迭代点列表
+        初始迭代点
         
     d : NDArray
         当前下降方向
@@ -264,7 +264,7 @@ def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
     return alpha
 
 # 非单调线搜索准则之ZhangHanger（一般与程序配套使用）
-def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, eta: Optional[float]=0.6) -> float:
+def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, eta: float=0.6) -> float:
     '''
     Parameters
     ----------
@@ -275,7 +275,7 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x
         参数列表
         
     x_0 : IterPointType
-        初始迭代点列表
+        初始迭代点
         
     d : NDArray
         当前下降方向

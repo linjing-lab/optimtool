@@ -20,7 +20,7 @@
 
 import numpy as np
 import sympy as sp
-from ._typing import SympyMutableDenseMatrix, List, IterPointType, NDArray, Optional, DataType, Tuple
+from ._typing import SympyMutableDenseMatrix, List, IterPointType, NDArray, DataType, Tuple
 
 def Q_k(eta: float, k: int) -> float:
     '''
@@ -142,7 +142,7 @@ def get_subgradient(resv: NDArray, argsv: NDArray, mu: float) -> DataType:
             f.append(i - mu * 1)
     return f[0]
 
-def CG_gradient(A: NDArray, b: NDArray, dk: NDArray, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> Tuple[NDArray,int]:
+def CG_gradient(A: NDArray, b: NDArray, dk: NDArray, epsilon: float=1e-6, k: int=0) -> Tuple[NDArray,int]:
     '''
     Parameters
     ----------
@@ -155,10 +155,10 @@ def CG_gradient(A: NDArray, b: NDArray, dk: NDArray, epsilon: Optional[float]=1e
     dk : NDArray
         初始梯度下降方向（列向量）
         
-    epsilon : Optional[float]
+    epsilon : float
         精度
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -258,7 +258,7 @@ def Eq_Sovle(sk: NDArray, pk: NDArray, delta: float):
     mt = sp.solve(h)
     return mt[0]
 
-def steihaug(sk: List[int], rk: NDArray, pk: NDArray, B: NDArray, delta: float, epsilon: Optional[float]=1e-3, k: Optional[int]=0) -> Tuple[NDArray,int]:
+def steihaug(sk: List[int], rk: NDArray, pk: NDArray, B: NDArray, delta: float, epsilon: float=1e-3, k: int=0) -> Tuple[NDArray,int]:
     '''
     Parameters
     ----------
@@ -277,10 +277,10 @@ def steihaug(sk: List[int], rk: NDArray, pk: NDArray, B: NDArray, delta: float, 
     delta : float
         搜索半径
         
-    epsilon : Optional[float]
+    epsilon : float
         精度
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 

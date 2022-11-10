@@ -20,7 +20,7 @@
 
 import sympy as sp
 import numpy as np
-from ._typing import FuncArray, ArgArray, PointArray, SympyMutableDenseMatrix, NDArray, Optional
+from ._typing import FuncArray, ArgArray, PointArray, SympyMutableDenseMatrix, NDArray
 
 def f2m(funcs: FuncArray) -> SympyMutableDenseMatrix:
     '''
@@ -80,7 +80,7 @@ def p2t(x_0: PointArray) -> PointArray:
         x_0 = (x_0)
     return x_0
 
-def h2h(hessian: NDArray, m: float, pk: Optional[int]=1) -> NDArray:
+def h2h(hessian: NDArray, m: float, pk: int=1) -> NDArray:
     '''
     Parameters
     ----------

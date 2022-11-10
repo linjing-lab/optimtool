@@ -22,10 +22,10 @@ import numpy as np
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
 
-from .._typing import FuncArray, ArgArray, PointArray, Optional, OutputType, DataType
+from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # BFGS拟牛顿法
-def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[float]=20, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -38,22 +38,22 @@ def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : Optional[float]
+    m : float
         海瑟矩阵条件数阈值
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -92,7 +92,7 @@ def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # DFP拟牛顿法
-def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[float]=20, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType:
+def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -105,22 +105,22 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : Optional[float]
+    m : float
         海瑟矩阵条件数阈值
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -160,7 +160,7 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # L_BFGS方法
-def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[float]=6, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -173,22 +173,22 @@ def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[boo
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : Optional[float]
+    m : float
         海瑟矩阵条件数阈值
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 

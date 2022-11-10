@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPointType, Union, PointType
+from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPointType
 
 def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, mu: Optional[float]=None) -> DataType:
     '''

@@ -22,10 +22,10 @@ import numpy as np
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
 
-from .._typing import FuncArray, ArgArray, PointArray, Optional, OutputType, DataType
+from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 经典牛顿法
-def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -38,16 +38,16 @@ def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bo
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -77,7 +77,7 @@ def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bo
     return (x_0, k, f) if output_f is True else (x_0, k)
     
 # 修正牛顿法
-def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", m: Optional[int]=20, epsilon: Optional[float]=1e-10, k: Optional[int]=0) -> OutputType:
+def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -90,22 +90,22 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[b
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
 
-    method : Optional[str]
+    method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : Optional[float]
+    m : float
         海瑟矩阵条件数阈值
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -139,7 +139,7 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[b
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 非精确牛顿法
-def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="wolfe", epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType:
+def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -152,19 +152,19 @@ def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: Optional[bool]=T
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
 
-    method : Optional[str]
+    method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 

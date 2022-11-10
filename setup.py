@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 
 if sys.version_info < (3, 7, 0):
-    raise OSError(f'optimtool-2.4.0 requires Python >=3.7, but yours is {sys.version}')
+    raise OSError(f'optimtool-2.4.1 requires Python >=3.7, but yours is {sys.version}')
 
 if (3, 7, 0) <= sys.version_info < (3, 8, 0):
     # https://github.com/pypa/setuptools/issues/926#issuecomment-294369342
@@ -61,6 +61,7 @@ setup(
             'Tracker': 'https://github.com/linjing-lab/optimtool/issues',
       },
       classifiers=[
+            'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',
             'Intended Audience :: Education',
             'Intended Audience :: Science/Research',

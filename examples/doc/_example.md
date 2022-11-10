@@ -20,10 +20,10 @@ oe.Lasso.[函数名]([矩阵A], [矩阵b], [因子mu], [参数表], [初始迭�
 
 | 方法头                                                                                                     | 解释               |
 | ------------------------------------------------------------------------------------------------------- | ---------------- |
-| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, delta: Optional[float]=10, alp: Optional[float]=1e-3, epsilon: Optional[float]=1e-2, k: Optional[int]=0) -> OutputType | 光滑化Lasso函数法      |
-| subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, alphak: Optional[float]=2e-2, epsilon: Optional[float]=1e-3, k: Optional[int]=0) -> OutputType             | 次梯度法Lasso避免一阶不可导 |
-| penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, gamma: Optional[float]=0.01, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType | 罚函数法 |
-| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType | 邻近算子更新 |
+| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, delta: float=10, alp: float=1e-3, epsilon: float=1e-2, k: int=0) -> OutputType | 光滑化Lasso函数法      |
+| subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, alphak: float=2e-2, epsilon: float=1e-3, k: int=0) -> OutputType             | 次梯度法Lasso避免一阶不可导 |
+| penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, gamma: float=0.01, epsilon: float=1e-6, k: int=0) -> OutputType | 罚函数法 |
+| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 邻近算子更新 |
 
 
 ```python
@@ -69,7 +69,7 @@ oe.WanYuan.[函数名]([直线的斜率], [直线的截距], [二次项系数], 
 
 | 方法头                                                             | 解释                   |
 | --------------------------------------------------------------- | -------------------- |
-| solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: Optional[bool]=False, eps: Optional[float]=1e-10) -> None | 使用高斯-牛顿方法求解构造的7个残差函数 |
+| solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, draw: bool=False, eps: float=1e-10) -> None | 使用高斯-牛顿方法求解构造的7个残差函数 |
 
 
 ```python

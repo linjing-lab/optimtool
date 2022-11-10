@@ -23,10 +23,10 @@ import sympy as sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t
 
-from .._typing import FuncArray, ArgArray, PointArray, Optional, OutputType, DataType
+from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 二次罚函数法（等式约束）
-def penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", sigma: Optional[float]=10, p: Optional[float]=2, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType:
+def penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -40,24 +40,24 @@ def penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: 
         等式参数约束列表
         
     x_0 : PointArray
-        初始迭代点列表
+        初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         无约束优化方法内核
         
-    sigma : Optional[float]
+    sigma : float
         罚函数因子
         
-    p : Optional[float]
+    p : float
         修正参数
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
     k : int
@@ -94,7 +94,7 @@ def penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: 
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 增广拉格朗日函数乘子法（等式约束）
-def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, method: Optional[str]="gradient_descent", lamk: Optional[float]=6, sigma: Optional[float]=10, p: Optional[float]=2, etak: Optional[float]=1e-4, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType:
+def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -108,33 +108,33 @@ def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
         等式参数约束列表
         
     x_0 : PointArray
-        初始迭代点列表
+        初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    method : Optional[str]
+    method : str
         无约束优化方法内核
         
-    lamk : Optional[float]
+    lamk : float
         因子
         
-    sigma : Optional[float]
+    sigma : float
         罚函数因子
         
-    p : Optional[float]
+    p : float
         修正参数
         
-    etak : Optional[float]
+    etak : float
         常数
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 

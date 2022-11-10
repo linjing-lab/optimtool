@@ -23,9 +23,9 @@ import sympy as sp
 from .._convert import a2m
 from .._utils import get_value, plot_iteration
 
-from .._typing import NDArray, ArgArray, PointArray, Optional, OutputType, DataType
+from .._typing import NDArray, ArgArray, PointArray, OutputType, DataType
 
-def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, delta: Optional[float]=10, alp: Optional[float]=1e-3, epsilon: Optional[float]=1e-2, k: Optional[int]=0) -> OutputType:
+def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, delta: float=10, alp: float=1e-3, epsilon: float=1e-2, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -35,7 +35,7 @@ def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray,
     b : NDArray
         m*1维数 参数矩阵
         
-    mu : Optional[float]
+    mu : float
         正则化参数
         
     args : ArgArray
@@ -44,22 +44,22 @@ def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray,
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    delta : Optional[float]
+    delta : float
         常数
         
-    alp : Optional[float]
+    alp : float
         步长阈值
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -97,7 +97,7 @@ def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray,
 '''
 次梯度算法
 '''
-def subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, alphak: Optional[float]=2e-2, epsilon: Optional[float]=1e-3, k: Optional[int]=0) -> OutputType:
+def subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, alphak: float=2e-2, epsilon: float=1e-3, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -116,19 +116,19 @@ def subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArr
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    alphak : Optional[float]
+    alphak : float
         自适应步长参数
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -164,7 +164,7 @@ def subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArr
 '''
 罚函数法
 '''
-def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, gamma: Optional[float]=0.01, epsilon: Optional[float]=1e-6, k: Optional[int]=0) -> OutputType:
+def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, gamma: float=0.01, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -183,19 +183,19 @@ def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, 
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    gamma : Optional[float]
+    gamma : float
         因子
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
@@ -224,7 +224,7 @@ def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, 
 '''
 近似点梯度法
 '''
-def approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: Optional[bool]=True, output_f: Optional[bool]=False, epsilon: Optional[float]=1e-4, k: Optional[int]=0) -> OutputType:
+def approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -243,16 +243,16 @@ def approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: Po
     x_0 : PointArray
         初始迭代点
         
-    draw : Optional[bool]
+    draw : bool
         绘图接口参数
         
-    output_f : Optional[bool]
+    output_f : bool
         输出迭代函数值列表
         
-    epsilon : Optional[float]
+    epsilon : float
         迭代停机准则
         
-    k : Optional[int]
+    k : int
         迭代次数
         
 
