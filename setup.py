@@ -81,4 +81,5 @@ setup(
             'sympy>=1.9',
             'matplotlib>=3.2.0'
       ],
+      # extras_require = []
 )
