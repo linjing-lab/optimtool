@@ -26,7 +26,7 @@ from .._convert import f2m, a2m, p2t
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 二次罚函数法（等式约束）
-def penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
+def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
