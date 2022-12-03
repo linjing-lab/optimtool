@@ -146,7 +146,7 @@ oc.equal.[Function Name]([Target Function], [Parameters], [Equal Constraint Tabl
 
 | head meathod                                                                                                                                                   | explain        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | Add secondary penalty    |
+| penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | Add secondary penalty    |
 | lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 #### Unequal Constraint（unequal）
