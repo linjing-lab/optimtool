@@ -27,7 +27,7 @@ If you want to participate in the development, please follow the [baseline](./ba
 
 ## Introduction
 
-&emsp;&emsp;optimtool adopts part of the theoretical framework in the book <Optimization: Modeling, Algorithms and Theory> published by Peking University, [`Numpy`](https://github.com/numpy/numpy) is used to efficiently handle operations between arrays, skillfully applied .jacobian and other methods supported by [`Sympy`](https://github.com/sympy/sympy), realized the conversion from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. Finally, a Python toolkit for optimization science research is designed. Researchers can use a simple [`pip`](https://github.com/pypa/pip) command to download and use.
+&emsp;&emsp;optimtool adopts part of the theoretical framework in the book <Optimization: Modeling, Algorithms and Theory> published by Peking University, and [`Numpy`](https://github.com/numpy/numpy) is used to efficiently handle operations between arrays. I skillfully applied .jacobian and other methods supported by [`Sympy`](https://github.com/sympy/sympy), and realized the conversion from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. Finally, a Python toolkit for optimization science research is designed. Researchers can use a simple [`pip`](https://github.com/pypa/pip) command to download and use.
 
 ## Structure
 
@@ -63,7 +63,7 @@ If you want to participate in the development, please follow the [baseline](./ba
 ```
 &emsp;&emsp;When solving the global or local convergence points of different objective functions, different methods for obtaining the convergence points will have different convergence efficiency and different scope of application. In addition, research methods in different fields are constantly proposed, modified, improved and expanded in the research process, so these methods have become what people now call "optimization methods". All internally supported algorithms in this project are designed and improved on the basis of basic methodologies such as norm, derivative, convex set, convex function, conjugate function, subgradient and optimization theory.
 
-&emsp;&emsp;optimtool has built-in algorithms with good convergence efficiency and properties in unconstrained optimization fields, such as Barzilar Borwein non monotone gradient descent method, modified Newton method, finite memory BFGS method, truncated conjugate gradient trust region method, Gauss Newton method, as well as quadratic penalty function method, augmented Lagrangian method and other algorithms used to solve constrained optimization problems.
+&emsp;&emsp;optimtool has built-in algorithms with good convergence efficiency and properties in unconstrained optimization fields, such as Barzilar-Borwein non-monotone gradient descent method, modified Newton-method, finite memory BFGS method, truncated conjugate gradient trust-region-method, Gauss Newton-method, as well as quadratic penalty function method, augmented Lagrangian method and other algorithms used to solve constrained optimization problems.
 
 ## Getting Started
 
@@ -71,7 +71,7 @@ If you want to participate in the development, please follow the [baseline](./ba
 
 ```python
 import optimtool.unconstrain as ou
-ou.[method name].[Function Name]([Target Function], [Parameters], [Initial Point])
+ou.[Method Name].[Function Name]([Target Function], [Parameters], [Initial Point])
 ```
 
 #### Gradient Descent Methods（gradient_descent）
