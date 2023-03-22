@@ -29,6 +29,12 @@ If you want to participate in the development, please follow the [baseline](./ba
 
 &emsp;&emsp;optimtool adopts part of the theoretical framework in the book <Optimization: Modeling, Algorithms and Theory> published by Peking University, and [`Numpy`](https://github.com/numpy/numpy) is used to efficiently handle operations between arrays. I skillfully applied .jacobian and other methods supported by [`Sympy`](https://github.com/sympy/sympy), and realized the conversion from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. Finally, a Python toolkit for optimization science research is designed. Researchers can use a simple [`pip`](https://github.com/pypa/pip) command to download and use.
 
+If you used **opimtool** in your research, welcome to cite it in your paper.
+
+```text
+林景. optimtool: The fundamental package for scientific research in optimization. 2021. https://pypi.org/project/optimtool/.
+```
+
 ## Structure
 
 ```textile
