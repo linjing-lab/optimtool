@@ -26,7 +26,7 @@ def train(funcs, args, x_0) -> List[List[DataType]]:
     f_list.append(f)
     return f_list
 
-# 可视化函数：传参接口（颜色列表，函数值列表，标题列表）
+# Plot
 def test(colorlist: List[str], f_list: List[List[DataType]], title: List[str]) -> None:
     handle = []
     for j, z in zip(colorlist, f_list):
@@ -50,4 +50,4 @@ x_0 = (1, -1, 1, -1) # Random given
 values = train(funcs=f, args=x, x_0=x_0)
 
 # Test
-test(color, values, title)
+test(colorlist, values, title)

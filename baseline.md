@@ -1,6 +1,4 @@
-# 最优化领域核心算法python实现
-
-版权归属：@[武汉理工大学 林景](https://github.com/linjing-lab)
+# baseline
 
 ```python
 # 软件依赖
