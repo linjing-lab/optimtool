@@ -27,7 +27,7 @@ If you want to participate in the development, please follow the [baseline](./ba
 
 ## Introduction
 
-&emsp;&emsp;optimtool adopts part of the theoretical framework in the book <Optimization: Modeling, Algorithms and Theory> published by Peking University, and [`Numpy`](https://github.com/numpy/numpy) is used to efficiently handle operations between arrays. I skillfully applied .jacobian and other methods supported by [`Sympy`](https://github.com/sympy/sympy), and realized the conversion from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. Finally, a Python toolkit for optimization science research is designed. Researchers can use a simple [`pip`](https://github.com/pypa/pip) command to download and use.
+&emsp;&emsp;optimtool adopts part of the theoretical framework in the book <Optimization: Modeling, Algorithms and Theory> published by Peking University Press, and [`Numpy`](https://github.com/numpy/numpy) is used to handle operations between numerical arrays efficiently. I skillfully applied .jacobian and other methods supported by [`Sympy`](https://github.com/sympy/sympy), and realized the switch from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. A optimization toolbox for scientific research is designed for Researchers and Developers. Anyone can use a simple [`pip`](https://github.com/pypa/pip) command to download and use.
 
 If you used **opimtool** in your research, welcome to cite it in your paper (follow the format below).
 
