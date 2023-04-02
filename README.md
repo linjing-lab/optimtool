@@ -35,6 +35,17 @@ If you want to participate in the development, please follow the [baseline](./ba
 林景. optimtool: The fundamental package for scientific research in optimization. 2021. https://pypi.org/project/optimtool/.
 ```
 
+下载最新版：
+```text
+git clone https://github.com/linjing-lab/optimtool.git
+cd optimtool
+pip install -e . --verbose
+```
+下载稳定版：
+```text
+pip install optimtool --upgrade
+```
+
 ## 项目结构
 
 ```textile

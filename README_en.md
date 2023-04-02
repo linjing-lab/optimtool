@@ -35,6 +35,17 @@ If you used **opimtool** in your research, welcome to cite it in your paper (fol
 林景. optimtool: The fundamental package for scientific research in optimization. 2021. https://pypi.org/project/optimtool/.
 ```
 
+download latest version：
+```text
+git clone https://github.com/linjing-lab/optimtool.git
+cd optimtool
+pip install -e . --verbose
+```
+download stable version：
+```text
+pip install optimtool --upgrade
+```
+
 ## Structure
 
 ```textile
