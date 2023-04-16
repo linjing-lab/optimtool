@@ -311,7 +311,7 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    from ._utils import C_k
+    from ._drive import C_k
     reps = dict(zip(args, x_0))
     res = funcs.jacobian(args)
     res0 = np.array(res.subs(reps)).astype(DataType)
