@@ -25,7 +25,6 @@ from .._utils import get_value, plot_iteration
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-# 高斯-牛顿法（非线性最小二乘问题）
 def gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
@@ -83,8 +82,7 @@ def gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=T
     plot_iteration(f, draw, "nonlinear_least_square_gauss_newton_" + method)
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# levenberg marquardt方法
-def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType:
+def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -167,12 +165,8 @@ def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw:
             else:
                 if pk > p2:
                     lamk = gamma1 * lamk
-                else:
-                    lamk = lamk
             if pk > eta:
                 x_0 = x_0 + dk[0]
-            else:
-                x_0 = x_0
             k = k + 1
         else:
             break

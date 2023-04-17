@@ -45,7 +45,6 @@ download stable version：
 ```text
 pip install optimtool --upgrade
 ```
-
 ## Structure
 
 ```textile
@@ -112,7 +111,7 @@ ou.newton.[Function Name]([Target Function], [Parameters], [Initial Point])
 | head meathod                                                                                             | explain                                |
 | ----------------------------------------------------------------------------------------------- | --------------------------------- |
 | classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType                        | The next step is obtained by directly inverting the second derivative matrix of Target Function (Heather matrix) |
-| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType | Revise the current Heather matrix to ensure its positive definiteness (only one correction method is connected at present)      |
+| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType | Revise the current Heather matrix to ensure its positive definiteness (only one correction method is connected at present)      |
 | CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-6, k: int=0) -> OutputType              | Newton conjugate gradient method is used to solve the gradient (a kind of inexact Newton method)         |
 
 #### Quasi Newton Methods（newton_quasi）
@@ -123,8 +122,8 @@ ou.newton_quasi.[Function Name]([Target Function], [Parameters], [Initial Point]
 
 | head meathod                                                                                          | explain              |
 | -------------------------------------------------------------------------------------------- | --------------- |
-| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-10, k: int=0) -> OutputType  | Updating Heiser Matrix by BFGS Method    |
-| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-4, k: int=0) -> OutputType    | Updating Heiser Matrix by DFP Method     |
+| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType  | Updating Heiser Matrix by BFGS Method    |
+| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-4, k: int=0) -> OutputType    | Updating Heiser Matrix by DFP Method     |
 | L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType | Updating the Heiser Matrix of BFGS by Double Loop Method |
 
 #### Nonlinear Least Square Methods（nonlinear_least_square）
@@ -136,7 +135,7 @@ ou.nonlinear_least_square.[Function Name]([Target Function], [Parameters], [Init
 | head meathod                                                                                                                                                  | explain                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                                        | Gauss Newton's method framework, including OR decomposition and other operations     |
-| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Methodology framework proposed by Levenberg Marquardt |
+| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Methodology framework proposed by Levenberg Marquardt |
 
 #### Trust Region Methods（trust_region）
 
@@ -146,7 +145,7 @@ ou.trust_region.[Function Name]([Target Function], [Parameters], [Initial Point]
 
 | head meathod                                                                                                                                               | explain                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | Truncated conjugate gradient method is used to search step size in this method |
+| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | Truncated conjugate gradient method is used to search step size in this method |
 
 ### Constrained Optimization Algorithms（constrain）
 
@@ -163,8 +162,8 @@ oc.equal.[Function Name]([Target Function], [Parameters], [Equal Constraint Tabl
 
 | head meathod                                                                                                                                                   | explain        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | Add secondary penalty    |
-| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | Augmented lagrange multiplier method |
+| penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | Add secondary penalty    |
+| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 #### Unequal Constraint（unequal）
 
@@ -174,9 +173,9 @@ oc.unequal.[Function Name]([Target Function], [Parameters], [Unequal Constraint 
 
 | head meathod                                                                                                                                                                      | explain        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
-| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | Add secondary penalty    |
-| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | Increase penalty term of fractional function  |
-| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | Augmented lagrange multiplier method |
+| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | Add secondary penalty    |
+| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | Increase penalty term of fractional function  |
+| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 #### Mixequal Constraint（mixequal）
 
@@ -186,9 +185,9 @@ oc.mixequal.[Function Name]([Target Function], [Parameters], [Equal Constraint T
 
 | head meathod                                                                                                                                                                                                  | explain        |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | Add secondary penalty    |
-| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1 exact penalty function method  |
-| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | Augmented lagrange multiplier method |
+| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | Add secondary penalty    |
+| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1 exact penalty function method  |
+| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | Augmented lagrange multiplier method |
 
 ### Application of Methods（example）
 

@@ -29,8 +29,8 @@ oc.equal.[函数名]([目标函数], [参数表], [等式约束表], [初始迭�
 
 | 方法头                                                                                                                                                   | 解释        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | 增加二次罚项    |
-| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
+| penalty_quadratice(funcs: FuncArray, args: FuncArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | 增加二次罚项    |
+| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
 
 
 ```python
@@ -60,9 +60,9 @@ oc.unequal.[函数名]([目标函数], [参数表], [不等式约束表], [初�
 
 | 方法头                                                                                                                                                                      | 解释        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
-| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | 增加二次罚项    |
-| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | 增加分式函数罚项  |
-| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
+| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | 增加二次罚项    |
+| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | 增加分式函数罚项  |
+| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
 
 
 ```python
@@ -92,9 +92,9 @@ oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等�
 
 | 方法头                                                                                                                                                                                                  | 解释        |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | 增加二次罚项    |
-| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1精确罚函数法  |
-| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
+| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | 增加二次罚项    |
+| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1精确罚函数法  |
+| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
 
 
 ```python

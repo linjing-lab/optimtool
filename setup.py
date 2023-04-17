@@ -69,6 +69,7 @@ setup(
             'Programming Language :: Python :: 3.8',
             'Programming Language :: Python :: 3.9',
             'Programming Language :: Python :: 3.10',
+            'Programming Language :: Python :: 3.11',
             'License :: OSI Approved :: MIT License',
             'Topic :: Scientific/Engineering',
             'Topic :: Scientific/Engineering :: Mathematics',
@@ -77,7 +78,7 @@ setup(
             'Topic :: Software Development :: Libraries :: Python Modules',
       ],
       install_requires = [
-            'numpy>=1.18.5', 
+            'numpy>=1.21.0', 
             'sympy>=1.9',
             'matplotlib>=3.2.0'
       ],

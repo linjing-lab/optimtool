@@ -151,7 +151,7 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outp
     plot_iteration(f, draw, "newton_quasi_dfp_" + method)
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# L_BFGS方法
+# will be updated in the future
 def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters

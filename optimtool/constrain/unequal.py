@@ -25,8 +25,7 @@ from .._convert import f2m, a2m, p2t
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-# 二次罚函数法（不等式约束）
-def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -94,13 +93,10 @@ def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     plot_iteration(f, draw, "penalty_quadratic_unequal") 
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# 内点罚函数法（不等式约束）
 '''
 保证点在定义域内
 '''
-
-# 分式
-def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType:
+def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -167,9 +163,8 @@ def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray,
             break
     plot_iteration(f, draw, "penalty_interior_fraction")
     return (x_0, k, f) if output_f is True else (x_0, k)
-    
-# 增广拉格朗日函数法（不等式约束）
-def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType:
+
+def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -234,7 +229,7 @@ def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
     from .._drive import cons_unequal_L, renew_mu_k, v_k
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     search, f = eval(kernel(method)), []
-    muk = np.array([muk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
+    muk = np.array([muk for _ in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
         etak = 1 / sigma
         epsilonk = 1 / sigma**alpha

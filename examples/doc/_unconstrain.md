@@ -66,7 +66,7 @@ ou.newton.[函数名]([目标函数], [参数表], [初始迭代点])
 | 方法头                                                                                             | 解释                                |
 | ----------------------------------------------------------------------------------------------- | --------------------------------- |
 | classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType                        | 通过直接对目标函数二阶导矩阵（海瑟矩阵）进行求逆来获取下一步的步长 |
-| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType | 修正当前海瑟矩阵保证其正定性（目前只接入了一种修正方法）      |
+| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType | 修正当前海瑟矩阵保证其正定性（目前只接入了一种修正方法）      |
 | CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-6, k: int=0) -> OutputType              | 采用牛顿-共轭梯度法求解梯度（非精确牛顿法的一种）         |
 
 
@@ -97,8 +97,8 @@ ou.newton_quasi.[函数名]([目标函数], [参数表], [初始迭代点])
 
 | 方法头                                                                                          | 解释              |
 | -------------------------------------------------------------------------------------------- | --------------- |
-| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-10, k: int=0) -> OutputType  | BFGS方法更新海瑟矩阵    |
-| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-4, k: int=0) -> OutputType    | DFP方法更新海瑟矩阵     |
+| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType  | BFGS方法更新海瑟矩阵    |
+| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-4, k: int=0) -> OutputType    | DFP方法更新海瑟矩阵     |
 | L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType | 双循环方法更新BFGS海瑟矩阵 |
 
 
@@ -131,7 +131,7 @@ ou.nonlinear_least_square.[函数名]([目标函数], [参数表], [初始迭代
 | 方法头                                                                                                                                                  | 解释                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                                        | 高斯-牛顿提出的方法框架，包括OR分解等操作     |
-| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Levenberg Marquardt提出的方法框架 |
+| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Levenberg Marquardt提出的方法框架 |
 
 
 ```python
@@ -164,7 +164,7 @@ ou.trust_region.[函数名]([目标函数], [参数表], [初始迭代点])
 
 | 方法头                                                                                                                                               | 解释                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | 截断共轭梯度法在此方法中被用于搜索步长 |
+| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | 截断共轭梯度法在此方法中被用于搜索步长 |
 
 
 ```python

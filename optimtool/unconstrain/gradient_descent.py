@@ -19,13 +19,12 @@
 # SOFTWARE.
 
 import numpy as np
-import sympy as sp
+import sympy as sp # replace with `from .._base import np, sp` in the future version
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t
 
 from .._typing import FuncArray, ArgArray, PointArray, DataType, OutputType
 
-# 梯度下降法
 def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
@@ -78,7 +77,6 @@ def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, ou
     plot_iteration(f, draw, "gradient_descent_solve")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# 最速下降法
 def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters

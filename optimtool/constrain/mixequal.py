@@ -25,8 +25,7 @@ from .._convert import f2m, a2m, p2t
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-# 二次罚函数法（混合约束）
-def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -96,8 +95,7 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
     plot_iteration(f, draw, "penalty_quadratic_mixequal")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# 精确罚函数法-l1罚函数法 （混合约束）
-def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -170,8 +168,7 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
     plot_iteration(f, draw, "penalty_L1")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# 增广拉格朗日函数法（混合约束）
-def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType:
+def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------

@@ -25,7 +25,7 @@ from .._convert import f2m, a2m, p2t, h2h
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 信赖域算法
-def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType:
+def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -43,9 +43,6 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=Tr
         
     output_f : bool
         输出迭代函数值列表
-        
-    m : float
-        海瑟矩阵条件数阈值
         
     r0 : float
         搜索半径起点
@@ -92,8 +89,7 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=Tr
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
-    s0 = [0 for i in range(args.shape[0])]
-    f = []
+    s0, f = [0 for _ in range(args.shape[0])], []
     while 1:
         reps = dict(zip(args, x_0))
         funv = np.array(funcs.subs(reps)).astype(DataType)

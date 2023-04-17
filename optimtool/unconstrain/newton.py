@@ -24,7 +24,6 @@ from .._convert import f2m, a2m, p2t, h2h
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-# 经典牛顿法
 def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
@@ -74,8 +73,7 @@ def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, 
             break
     plot_iteration(f, draw, "newton_classic")        
     return (x_0, k, f) if output_f is True else (x_0, k)
-    
-# 修正牛顿法
+
 def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
@@ -132,7 +130,6 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
     plot_iteration(f, draw, "newton_modified_" + method)
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# 非精确牛顿法
 def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
@@ -180,7 +177,6 @@ def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outpu
         f.append(get_value(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(DataType)
         hess = np.array(hes.subs(reps)).astype(DataType)
-        # 采用共轭梯度法求解梯度
         dk, _ = CG_gradient(hess, -gradient, dk0)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)

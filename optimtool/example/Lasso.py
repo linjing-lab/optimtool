@@ -203,8 +203,8 @@ def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, 
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    assert gamma < 1
     assert gamma > 0
+    assert gamma < 1
     args = a2m(args)
     funcs, f = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)]), []
     while mu >= epsilon:

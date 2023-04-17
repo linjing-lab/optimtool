@@ -22,7 +22,7 @@ from .unconstrain.gradient_descent import barzilar_borwein
 from .unconstrain.newton import modified
 from .unconstrain.newton_quasi import L_BFGS
 from .unconstrain.trust_region import steihaug_CG
-
+# will be updated in the future
 def kernel(method: str) -> str:
     '''
     method : str
@@ -35,12 +35,12 @@ def kernel(method: str) -> str:
         内核方法名
         
     '''
-    if method == "gradient_descent":
-        return 'barzilar_borwein'
+    if method == "trust_region":
+        return 'steihaug_CG'
     elif method == "newton":
         return 'modified'
     elif method == "newton_quasi":
         return 'L_BFGS'
-    elif method == "trust_region":
-        return 'steihaug_CG'
-    return 'modified'
+    elif method == "gradient_descent":
+        return 'barzilar_borwein'
+    return 'steihaug_CG'

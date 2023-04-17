@@ -25,8 +25,7 @@ from .._convert import f2m, a2m, p2t
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-# 二次罚函数法（等式约束）
-def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
+def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -91,8 +90,7 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     plot_iteration(f, draw, "penalty_quadratic_equal")     
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-# 增广拉格朗日函数乘子法（等式约束）
-def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
+def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------

@@ -43,4 +43,4 @@ PointArray = Union[PointType, List[PointType], Tuple[PointType]]
 
 IterPointType = Union[NDArray, List[PointType], Tuple[PointType]]
 
-OutputType = Tuple[IterPointType, int, Optional[List[DataType]]]
+OutputType = Union[Tuple[IterPointType, int], Tuple[IterPointType, int, List[DataType]]]

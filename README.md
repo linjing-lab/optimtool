@@ -45,7 +45,6 @@ pip install -e . --verbose
 ```text
 pip install optimtool --upgrade
 ```
-
 ## 项目结构
 
 ```textile
@@ -103,7 +102,7 @@ ou.gradient_descent.[函数名]([目标函数], [参数表], [初始迭代点])
 | steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                           | 使用线搜索方法求解非精确步长（默认使用wolfe线搜索）         |
 | barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="Grippo", c1: float=0.6, beta: float=0.6, alpha: float=1, epsilon: float=1e-10, k: int=0) -> OutputType | 使用Grippo与ZhangHanger提出的非单调线搜索方法更新步长 |
 
-#### 牛顿法（newton)
+#### 牛顿法（newton）
 
 ```python
 ou.newton.[函数名]([目标函数], [参数表], [初始迭代点])
@@ -112,7 +111,7 @@ ou.newton.[函数名]([目标函数], [参数表], [初始迭代点])
 | 方法头                                                                                             | 解释                                |
 | ----------------------------------------------------------------------------------------------- | --------------------------------- |
 | classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType                        | 通过直接对目标函数二阶导矩阵（海瑟矩阵）进行求逆来获取下一步的步长 |
-| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType | 修正当前海瑟矩阵保证其正定性（目前只接入了一种修正方法）      |
+| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType | 修正当前海瑟矩阵保证其正定性（目前只接入了一种修正方法）      |
 | CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-6, k: int=0) -> OutputType              | 采用牛顿-共轭梯度法求解梯度（非精确牛顿法的一种）         |
 
 #### 拟牛顿法（newton_quasi）
@@ -123,8 +122,8 @@ ou.newton_quasi.[函数名]([目标函数], [参数表], [初始迭代点])
 
 | 方法头                                                                                          | 解释              |
 | -------------------------------------------------------------------------------------------- | --------------- |
-| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-10, k: int=0) -> OutputType  | BFGS方法更新海瑟矩阵    |
-| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=20, epsilon: float=1e-4, k: int=0) -> OutputType    | DFP方法更新海瑟矩阵     |
+| bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType  | BFGS方法更新海瑟矩阵    |
+| dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-4, k: int=0) -> OutputType    | DFP方法更新海瑟矩阵     |
 | L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType | 双循环方法更新BFGS海瑟矩阵 |
 
 #### 非线性最小二乘法（nonlinear_least_square）
@@ -136,7 +135,7 @@ ou.nonlinear_least_square.[函数名]([目标函数], [参数表], [初始迭代
 | 方法头                                                                                                                                                  | 解释                         |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                                        | 高斯-牛顿提出的方法框架，包括OR分解等操作     |
-| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Levenberg Marquardt提出的方法框架 |
+| levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, lamk: float=1, eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsilon: float=1e-10, k: int=0) -> OutputType | Levenberg Marquardt提出的方法框架 |
 
 #### 信赖域方法（trust_region）
 
@@ -146,7 +145,7 @@ ou.trust_region.[函数名]([目标函数], [参数表], [初始迭代点])
 
 | 方法头                                                                                                                                               | 解释                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, m: float=100, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | 截断共轭梯度法在此方法中被用于搜索步长 |
+| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, r0: float=1, rmax: float=2, eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsilon: float=1e-6, k: int=0) -> OutputType | 截断共轭梯度法在此方法中被用于搜索步长 |
 
 ### 约束优化算法（constrain）
 
@@ -163,8 +162,8 @@ oc.equal.[函数名]([目标函数], [参数表], [等式约束表], [初始迭�
 
 | 方法头                                                                                                                                                   | 解释        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | 增加二次罚项    |
-| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
+| penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=2, epsilon: float=1e-4, k: int=0) -> OutputType                     | 增加二次罚项    |
+| lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
 
 #### 不等式约束（unequal）
 
@@ -174,9 +173,9 @@ oc.unequal.[函数名]([目标函数], [参数表], [不等式约束表], [初�
 
 | 方法头                                                                                                                                                                      | 解释        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
-| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | 增加二次罚项    |
-| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | 增加分式函数罚项  |
-| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
+| penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType                                     | 增加二次罚项    |
+| penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType                              | 增加分式函数罚项  |
+| lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
 
 #### 混合等式约束（mixequal）
 
@@ -186,9 +185,9 @@ oc.mixequal.[函数名]([目标函数], [参数表], [等式约束表], [不等�
 
 | 方法头                                                                                                                                                                                                  | 解释        |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | 增加二次罚项    |
-| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1精确罚函数法  |
-| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
+| penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                             | 增加二次罚项    |
+| penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType                                                     | L1精确罚函数法  |
+| lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType | 增广拉格朗日乘子法 |
 
 ### 方法的应用（example）
 

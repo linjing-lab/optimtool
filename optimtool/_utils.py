@@ -63,11 +63,6 @@ def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:
     method : str
         最优化方法
         
-
-    Returns
-    -------
-    None
-        
     '''
     import matplotlib.pyplot as plt
     if draw is True:

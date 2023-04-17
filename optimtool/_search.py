@@ -21,7 +21,6 @@
 import numpy as np
 from ._typing import List, NDArray, SympyMutableDenseMatrix, DataType, IterPointType
 
-# Armijo线搜索准则
 def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, gamma: float=0.5, c: float=0.1) -> float:
     '''
     Parameters
@@ -55,7 +54,7 @@ def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
     assert gamma < 1
     assert c > 0
     assert c < 1
-    alpha = 1.0
+    alpha = 1
     res = funcs.jacobian(args)
     reps = dict(zip(args, x_0))
     f0 = np.array(funcs.subs(reps)).astype(DataType)
@@ -69,7 +68,6 @@ def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
             alpha = gamma * alpha
     return alpha
 
-# Goldstein线搜索准则
 def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c: float=0.1, alphas: float=0, alphae: float=10, t: float=1.2, eps: float=1e-3) -> float:
     '''
     Parameters
@@ -133,7 +131,6 @@ def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
             break
     return alpha
 
-# Wolfe线搜索准则
 def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c1: float=0.3, c2: float=0.5, alphas: float=0, alphae: float=2, eps: float=1e-3) -> float:
     '''
     Parameters
@@ -200,7 +197,6 @@ def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: It
             break
     return alpha
 
-# 非单调线搜索准则之Grippo（一般与Barzilar Borwein梯度下降法配合使用）
 def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, M: int=20) -> float:
     '''
     Parameters
@@ -263,7 +259,6 @@ def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
             alpha = beta * alpha
     return alpha
 
-# 非单调线搜索准则之ZhangHanger（一般与程序配套使用）
 def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, eta: float=0.6) -> float:
     '''
     Parameters
