@@ -108,15 +108,11 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=Tr
             if pk < p1:
                 r0 = gamma1 * r0
             else:
-                if (pk > p2) | (np.linalg.norm(dk) == r0):
+                if (pk > p2) or (np.linalg.norm(dk) == r0):
                     r0 = min(gamma2 * r0, rmax)
-                else:
-                    r0 = r0
             if pk > eta:
                 x_0 = x_0 + dk[0]
-            else:
-                x_0 = x_0
-            k = k + 1
+            k += 1
         else:
             break
     plot_iteration(f, draw, "trust_region_steihaug_CG")
