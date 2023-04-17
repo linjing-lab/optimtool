@@ -74,8 +74,7 @@ def gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray,
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
-    point = []
-    f = []
+    point, f = [], []
     while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
@@ -142,8 +141,7 @@ def subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArr
     args = a2m(args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
-    point = []
-    f = []
+    point, f = [], []
     while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
@@ -208,8 +206,7 @@ def penalty(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, 
     assert gamma < 1
     assert gamma > 0
     args = a2m(args)
-    funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
-    f = []
+    funcs, f = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)]), []
     while mu >= epsilon:
         f.append(get_value(funcs, args, x_0, mu))
         x_0, _ = subgradient(A, b, mu, args, x_0, False)
@@ -265,14 +262,10 @@ def approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: Po
     args = a2m(args)
     values, _ = np.linalg.eig((A.T).dot(A))
     lambda_ma = max(values)
-    if isinstance(lambda_ma, complex):
-        tk = 1 / np.real(lambda_ma)
-    else:
-        tk = 1 / lambda_ma
+    tk = 1 / np.real(lambda_ma) if isinstance(lambda_ma, complex) else 1 / lambda_ma
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
-    f = []
-    point = []
+    point, f = [], []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0, mu))

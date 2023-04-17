@@ -313,7 +313,7 @@ def solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: fl
     
     final = []
     funcr, args = maker_data(m, n, a, b, c, x3, y3)
-    fin, k = gauss_newton(funcr, args, x_0, False, epsilon=eps)
+    fin, _ = gauss_newton(funcr, args, x_0, False, epsilon=eps)
     for i in fin: # for i in map(round, fin):
         final.append(round(i, 2)) # final.append(i)
     print("(x0, y0)=",(final[0], final[1]),"\n(x1, y1)=",(final[2], final[3]),"\n(x2, y2)=",(final[4], final[5]))
