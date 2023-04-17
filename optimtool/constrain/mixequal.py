@@ -77,9 +77,7 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
     assert p > 0
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
-    search = eval(kernel(method))
-    f = []
-    point = []
+    search, point, f = eval(kernel(method)), [], []
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
@@ -150,9 +148,7 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
     assert p > 0
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
-    search = eval(kernel(method))
-    point = []
-    f = []
+    search, point, f = eval(kernel(method)), [], []
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
@@ -245,8 +241,7 @@ def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray,
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     from .._drive import cons_unequal_L, v_k, renew_mu_k
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
-    search = eval(kernel(method))
-    f = []
+    search, f = eval(kernel(method)), []
     lamk = np.array([lamk for i in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for i in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
     while 1:

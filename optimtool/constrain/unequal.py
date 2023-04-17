@@ -75,9 +75,7 @@ def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     assert p < 1
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    search = eval(kernel(method))
-    point = []
-    f = []
+    search, point, f = eval(kernel(method)), [], []
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
@@ -151,9 +149,7 @@ def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray,
     assert p < 1
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    search = eval(kernel(method))
-    point = []
-    f = []
+    search, point, f = eval(kernel(method)), [], []
     sub_pe = 0
     for i in cons:
         sub_pe += 1 / i
@@ -237,8 +233,7 @@ def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     from .._drive import cons_unequal_L, renew_mu_k, v_k
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    search = eval(kernel(method))
-    f = []
+    search, f = eval(kernel(method)), []
     muk = np.array([muk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
         etak = 1 / sigma

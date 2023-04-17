@@ -74,11 +74,9 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     assert p > 1
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    search = eval(kernel(method))
-    point = []
+    search, point, f = eval(kernel(method)), [], []
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
-    f = []
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
@@ -147,9 +145,8 @@ def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
     assert sigma > 0
     assert p > 1
     from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
-    search = eval(kernel(method))
+    search, f = eval(kernel(method)), []
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    f = []
     lamk = np.array([lamk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
