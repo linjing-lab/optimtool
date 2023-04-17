@@ -87,15 +87,13 @@ def h2h(hessian: NDArray, pk: int=1) -> NDArray:
         修正后的海瑟矩阵
         
     '''
-    l = hessian.shape[0]
+    l = hessian.shape[0] # hessian.shape = (l, l)
     while 1:
-        values, _ = np.linalg.eig(hessian)
-        flag = (all(values) > 0) and (np.linalg.cond(hessian) <= np.inf)
-        if flag:
+        rank = np.linalg.matrix_rank(hessian)
+        if rank == l:
             break
         else:
             hessian = hessian + pk * np.identity(l)
-            pk = pk + 1
+            pk += 1
     return hessian
-
 __all__ = [f2m, a2m, p2t, h2h]
