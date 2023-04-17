@@ -43,4 +43,4 @@ def kernel(method: str) -> str:
         return 'L_BFGS'
     elif method == "trust_region":
         return 'steihaug_CG'
-    return 'barzilar_borwein'
+    return 'modified'
