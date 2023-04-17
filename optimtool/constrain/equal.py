@@ -26,7 +26,7 @@ from .._convert import f2m, a2m, p2t
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 二次罚函数法（等式约束）
-def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
+def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -72,7 +72,7 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     '''
     assert sigma > 0
     assert p > 1
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     search = eval(kernel(method))
     point = []
@@ -94,7 +94,7 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 增广拉格朗日函数乘子法（等式约束）
-def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
+def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -146,7 +146,7 @@ def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
     '''
     assert sigma > 0
     assert p > 1
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     search = eval(kernel(method))
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     f = []

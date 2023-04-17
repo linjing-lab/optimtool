@@ -26,7 +26,7 @@ from .._convert import f2m, a2m, p2t
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 二次罚函数法（混合约束）
-def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -75,7 +75,7 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
     '''
     assert sigma > 0
     assert p > 0
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
     search = eval(kernel(method))
     f = []
@@ -99,7 +99,7 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 精确罚函数法-l1罚函数法 （混合约束）
-def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -148,7 +148,7 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
     '''
     assert sigma > 0
     assert p > 0
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
     search = eval(kernel(method))
     point = []
@@ -175,7 +175,7 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
     return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 增广拉格朗日函数法（混合约束）
-def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType:
+def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -242,7 +242,7 @@ def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray,
     assert alpha > 0 
     assert alpha <= beta
     assert beta < 1
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     from .._drive import cons_unequal_L, v_k, renew_mu_k
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
     search = eval(kernel(method))
@@ -266,11 +266,9 @@ def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray,
             else:
                 lamk = lamk + sigma * np.array(cons_equal.subs(dict(zip(args, x_0)))).astype(DataType)
                 muk = renew_mu_k(cons_unequal, args, muk, sigma, x_0)
-                sigma = sigma
                 etak = etak / sigma
                 epsilonk = epsilonk / sigma**beta
         else:
-            lamk = lamk
             sigma = p * sigma
             etak = 1 / sigma
             epsilonk  = 1 / sigma**alpha

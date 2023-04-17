@@ -26,7 +26,7 @@ from .._convert import f2m, a2m, p2t
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
 # 二次罚函数法（不等式约束）
-def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10, p: float=0.4, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -73,7 +73,7 @@ def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     assert sigma > 0
     assert p > 0
     assert p < 1
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     search = eval(kernel(method))
     point = []
@@ -102,7 +102,7 @@ def penalty_quadraticu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
 '''
 
 # 分式
-def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType:
+def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=12, p: float=0.6, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -149,7 +149,7 @@ def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray,
     assert sigma > 0
     assert p > 0
     assert p < 1
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     search = eval(kernel(method))
     point = []
@@ -173,7 +173,7 @@ def penalty_interior_fraction(funcs: FuncArray, args: ArgArray, cons: FuncArray,
     return (x_0, k, f) if output_f is True else (x_0, k)
     
 # 增广拉格朗日函数法（不等式约束）
-def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="gradient_descent", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType:
+def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", muk: float=10, sigma: float=8, alpha: float=0.2, beta: float=0.7, p: float=2, eta: float=1e-1, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -234,7 +234,7 @@ def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
     assert alpha > 0 
     assert alpha <= beta
     assert beta < 1
-    from .._kernel import kernel, barzilar_borwein, CG, L_BFGS, steihaug_CG
+    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
     from .._drive import cons_unequal_L, renew_mu_k, v_k
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     search = eval(kernel(method))
@@ -256,7 +256,6 @@ def lagrange_augmentedu(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
                 break
             else:
                 muk = renew_mu_k(cons, args, muk, sigma, x_0)
-                sigma = sigma
                 etak = etak / sigma
                 epsilonk = epsilonk / sigma**beta
         else:

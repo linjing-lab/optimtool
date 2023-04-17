@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 from .unconstrain.gradient_descent import barzilar_borwein
-from .unconstrain.newton import CG
+from .unconstrain.newton import modified
 from .unconstrain.newton_quasi import L_BFGS
 from .unconstrain.trust_region import steihaug_CG
 
@@ -38,7 +38,7 @@ def kernel(method: str) -> str:
     if method == "gradient_descent":
         return 'barzilar_borwein'
     elif method == "newton":
-        return 'CG'
+        return 'modified'
     elif method == "newton_quasi":
         return 'L_BFGS'
     elif method == "trust_region":
