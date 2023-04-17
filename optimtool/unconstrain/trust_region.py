@@ -100,7 +100,7 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=Tr
         f.append(funv[0][0])
         grad = np.array(res.subs(reps)).astype(DataType)
         hessi = np.array(hes.subs(reps)).astype(DataType)
-        hessi = h2h(hessi, m)
+        hessi = h2h(hessi)
         dk, _ = steihaug(s0, grad, -grad, hessi, r0)
         if np.linalg.norm(dk) >= epsilon:
             funvk = np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)

@@ -62,22 +62,21 @@ def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, ou
     res = funcs.jacobian(args)
     m = sp.symbols("m")
     arg = sp.Matrix([m])
-    fx = []
+    f = []
     while 1:
         reps = dict(zip(args, x_0))
-        fx.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             xt = x_0 + m * dk[0]
-            f = funcs.subs(dict(zip(args, xt)))
-            h = f.jacobian(arg)
+            h = funcs.subs(dict(zip(args, xt))).jacobian(arg)
             mt = sp.solve(h)
             x_0 = (x_0 + mt[m] * dk[0]).astype(DataType)
             k = k + 1
         else:
             break
-    plot_iteration(fx, draw, "gradient_descent_solve")
-    return (x_0, k, fx) if output_f is True else (x_0, k)
+    plot_iteration(f, draw, "gradient_descent_solve")
+    return (x_0, k, f) if output_f is True else (x_0, k)
 
 # 最速下降法
 def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType:
@@ -116,13 +115,12 @@ def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
         
     '''
     from .._search import armijo, goldstein, wolfe
-    search = eval(method)
+    search, f = eval(method), []
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     res = funcs.jacobian(args)
-    fx = []
     while 1:
         reps = dict(zip(args, x_0))
-        fx.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)
@@ -130,8 +128,8 @@ def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
             k = k + 1
         else:
             break
-    plot_iteration(fx, draw, "gradient_descent_steepest")
-    return (x_0, k, fx) if output_f is True else (x_0, k)
+    plot_iteration(f, draw, "gradient_descent_steepest")
+    return (x_0, k, f) if output_f is True else (x_0, k)
     
 # Barzilar Borwein梯度下降法
 def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="Grippo", c1: float=0.6, beta: float=0.6, alpha: float=1, epsilon: float=1e-10, k: int=0) -> OutputType:
@@ -187,10 +185,9 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bo
     assert beta > 0
     assert beta < 1
     from .._search import Grippo, ZhangHanger
-    search = eval(method)
+    search, point, f = eval(method), [], []
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     res = funcs.jacobian(args)
-    point, f = [], []
     while 1:
         point.append(x_0)
         reps = dict(zip(args, x_0))
@@ -200,10 +197,11 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bo
             alpha = search(funcs, args, x_0, dk, k, point, c1, beta, alpha)
             delta = alpha * dk[0]
             x_0 = x_0 + delta
-            sk = delta
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) + dk
-            if sk.dot(yk.T) != 0:
-                alpha = sk.dot(sk.T) / sk.dot(yk.T)
+            alpha_up = delta.dot(delta.T)
+            alpha_down = delta.dot(yk.T)
+            if alpha_down != 0:
+                alpha = alpha_up / alpha_down
             k = k + 1
         else:
             break

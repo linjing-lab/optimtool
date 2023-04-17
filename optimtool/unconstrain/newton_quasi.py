@@ -62,12 +62,11 @@ def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, out
     '''
     from .._search import armijo, goldstein, wolfe
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search = eval(method)
+    search, f = eval(method), []
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
     hess = h2h(hess)
-    f = []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
@@ -126,13 +125,12 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outp
     '''
     from .._search import armijo, goldstein, wolfe
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search = eval(method)
+    search, f = eval(method), []
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
     hess = h2h(hess)
     hessi = np.linalg.inv(hess)
-    f = []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))

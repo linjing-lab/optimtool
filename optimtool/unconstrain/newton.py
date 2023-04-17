@@ -66,8 +66,7 @@ def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, 
         f.append(get_value(funcs, args, x_0))
         hessian = np.array(hes.subs(reps)).astype(DataType)
         gradient = np.array(res.subs(reps)).astype(DataType)
-        dk = - np.linalg.inv(hessian).dot(gradient.T)
-        dk = dk.reshape(1, -1)
+        dk = - np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             x_0 = x_0 + dk[0]
             k = k + 1
@@ -114,18 +113,16 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
     '''
     from .._search import armijo, goldstein, wolfe
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search = eval(method)
+    search, f = eval(method), []
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
-    f = []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(DataType)
         hessian = np.array(hes.subs(reps)).astype(DataType)
         hessian = h2h(hessian)
-        dk = - np.linalg.inv(hessian).dot(gradient.T)
-        dk = dk.reshape(1, -1)
+        dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)
             x_0 = x_0 + alpha * dk[0]
@@ -174,11 +171,10 @@ def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outpu
     from .._search import armijo, goldstein, wolfe
     from .._drive import CG_gradient
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search = eval(method)
+    search, f = eval(method), []
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     dk0 = np.zeros((args.shape[0], 1))
-    f = []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))

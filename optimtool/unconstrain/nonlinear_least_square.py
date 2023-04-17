@@ -63,10 +63,10 @@ def gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=T
     '''
     from .._search import armijo, goldstein, wolfe
     funcr, args, x_0 = f2m(funcr), a2m(args), p2t(x_0)
-    search = eval(method)
+    assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
+    search, f = eval(method), []
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
-    f = []
     while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(DataType)
@@ -142,6 +142,7 @@ def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw:
     assert gamma2 > 1
     from .._drive import CG_gradient
     funcr, args, x_0 = f2m(funcr), a2m(args), p2t(x_0)
+    assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
     res = funcr.jacobian(args)
     funcs = sp.Matrix([(1/2)*funcr.T*funcr])
     resf = funcs.jacobian(args)
