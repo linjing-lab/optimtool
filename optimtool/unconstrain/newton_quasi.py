@@ -47,9 +47,6 @@ def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, out
     method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : float
-        海瑟矩阵条件数阈值
-        
     epsilon : float
         迭代停机准则
         
@@ -69,7 +66,7 @@ def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, out
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
-    hess = h2h(hess, m)
+    hess = h2h(hess)
     f = []
     while 1:
         reps = dict(zip(args, x_0))
@@ -114,9 +111,6 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outp
     method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : float
-        海瑟矩阵条件数阈值
-        
     epsilon : float
         迭代停机准则
         
@@ -136,7 +130,7 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outp
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
-    hess = h2h(hess, m)
+    hess = h2h(hess)
     hessi = np.linalg.inv(hess)
     f = []
     while 1:
@@ -183,7 +177,7 @@ def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, o
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
     m : float
-        海瑟矩阵条件数阈值
+        阈值
         
     epsilon : float
         迭代停机准则

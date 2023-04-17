@@ -36,11 +36,7 @@ def f2m(funcs: FuncArray) -> SympyMutableDenseMatrix:
 
     '''
     # convert funcs
-    if isinstance(funcs, (list, tuple)):
-        funcs = sp.Matrix(funcs)
-    else:
-        funcs = sp.Matrix([funcs])
-    return funcs
+    return sp.Matrix(funcs) if isinstance(funcs, (list, tuple)) else sp.Matrix([funcs])
 
 def a2m(args: ArgArray) -> SympyMutableDenseMatrix:
     '''
@@ -56,11 +52,7 @@ def a2m(args: ArgArray) -> SympyMutableDenseMatrix:
 
     '''
     # convert args
-    if isinstance(args, (list, tuple)):
-        args = sp.Matrix(args)
-    else:
-        args = sp.Matrix([args])
-    return args
+    return sp.Matrix(args) if isinstance(args, (list, tuple)) else sp.Matrix([args])
 
 def p2t(x_0: PointArray) -> PointArray:
     '''
@@ -76,19 +68,14 @@ def p2t(x_0: PointArray) -> PointArray:
 
     '''
     # convert x_0
-    if not isinstance(x_0, (list, tuple)):
-        x_0 = (x_0)
-    return x_0
+    return (x_0,) if not isinstance(x_0, (list, tuple)) else x_0
 
-def h2h(hessian: NDArray, m: float, pk: int=1) -> NDArray:
+def h2h(hessian: NDArray, pk: int=1) -> NDArray:
     '''
     Parameters
     ----------
     hessian : numpy.array
         未修正的海瑟矩阵值
-        
-    m : float
-        条件数阈值
         
     pk : int
         常数
@@ -103,7 +90,7 @@ def h2h(hessian: NDArray, m: float, pk: int=1) -> NDArray:
     l = hessian.shape[0]
     while 1:
         values, _ = np.linalg.eig(hessian)
-        flag = (all(values) > 0) & (np.linalg.cond(hessian) <= m)
+        flag = (all(values) > 0) & (np.linalg.cond(hessian) <= np.inf)
         if flag:
             break
         else:

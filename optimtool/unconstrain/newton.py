@@ -99,9 +99,6 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
     method : str
         单调线搜索方法："armijo", "goldstein", "wolfe"
         
-    m : float
-        海瑟矩阵条件数阈值
-        
     epsilon : float
         迭代停机准则
         
@@ -125,8 +122,8 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(DataType)
-        hess = np.array(hes.subs(reps)).astype(DataType)
-        hessian = h2h(hess, m)
+        hessian = np.array(hes.subs(reps)).astype(DataType)
+        hessian = h2h(hessian)
         dk = - np.linalg.inv(hessian).dot(gradient.T)
         dk = dk.reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:

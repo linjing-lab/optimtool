@@ -102,9 +102,6 @@ def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw:
         
     output_f : bool
         输出迭代函数值列表
-
-    m : float
-        海瑟矩阵条件数阈值
         
     lamk : float
         修正常数
@@ -160,8 +157,8 @@ def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw:
         pk_up = np.array(funcs.subs(reps)).astype(DataType) - np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)
         grad_f = np.array(resf.subs(reps)).astype(DataType)
         hess_f = np.array(hess.subs(reps)).astype(DataType)
-        hess_f = h2h(hess_f, m)
-        pk_down = - (grad_f.dot(dk.T) + 0.5*((dk.dot(hess_f)).dot(dk.T)))
+        hess_f = h2h(hess_f)
+        pk_down = -(grad_f.dot(dk.T) + 0.5*((dk.dot(hess_f)).dot(dk.T)))
         pk = pk_up / pk_down
         if np.linalg.norm(dk) >= epsilon:
             if pk < p1:
