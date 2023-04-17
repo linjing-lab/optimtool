@@ -90,7 +90,7 @@ def h2h(hessian: NDArray, pk: int=1) -> NDArray:
     l = hessian.shape[0]
     while 1:
         values, _ = np.linalg.eig(hessian)
-        flag = (all(values) > 0) & (np.linalg.cond(hessian) <= np.inf)
+        flag = (all(values) > 0) and (np.linalg.cond(hessian) <= np.inf)
         if flag:
             break
         else:
