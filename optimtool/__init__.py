@@ -23,9 +23,9 @@ import sys
 from . import constrain
 from . import unconstrain
 from . import example
-from . import hybrid # not implemented yet
+from . import hybrid # appear in v2.5.0
 
 from ._version import __version__
 
 if sys.version_info < (3, 7, 0):
-    raise OSError(f'optimtool-2.4.2 requires Python >=3.7, but yours is {sys.version}')
+    raise OSError(f'optimtool-2.4.3 requires Python >=3.7, but yours is {sys.version}')

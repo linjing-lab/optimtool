@@ -19,4 +19,4 @@
 # SOFTWARE.
 
 from . import approximate_point_gradient 
-# will be updated in the future
+# appear in v2.5.0

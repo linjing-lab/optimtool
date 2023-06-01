@@ -70,16 +70,13 @@ def p2t(x_0: PointArray) -> PointArray:
     # convert x_0
     return (x_0,) if not isinstance(x_0, (list, tuple)) else x_0
 
-def h2h(hessian: NDArray, pk: int=1) -> NDArray:
+def h2h(hessian: NDArray) -> NDArray:
     '''
     Parameters
     ----------
     hessian : numpy.array
         未修正的海瑟矩阵值
-        
-    pk : int
-        常数
-        
+
 
     Returns
     -------
@@ -93,7 +90,6 @@ def h2h(hessian: NDArray, pk: int=1) -> NDArray:
         if rank == l:
             break
         else:
-            hessian = hessian + pk * np.identity(l)
-            pk += 1
+            hessian = hessian + np.identity(l)
     return hessian
 __all__ = [f2m, a2m, p2t, h2h]
