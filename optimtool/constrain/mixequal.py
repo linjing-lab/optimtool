@@ -25,7 +25,7 @@ from .._convert import f2m, a2m, p2t
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10, p: float=0.6, epsk: float=1e-6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -58,6 +58,9 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
         
     p : float
         修正参数
+
+    epsk: float
+        无约束内核的精度
         
     epsilon : float
         迭代停机准则
@@ -74,9 +77,9 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
     '''
     assert sigma > 0
     assert p > 0
-    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
+    from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
-    search, point, f = eval(kernel(method)), [], []
+    search, point, f = kernel(method), [], []
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
@@ -85,7 +88,7 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
         consv = np.where(consv <= 0, consv, 1)
         consv = np.where(consv > 0, consv, 0)
         pe = sp.Matrix([funcs + (sigma / 2) * cons_unequal.T * consv + (sigma / 2) * cons_equal.T * cons_equal])
-        x_0, _ = search(pe, args, tuple(x_0), draw=False)
+        x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
@@ -95,7 +98,7 @@ def penalty_quadraticm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, 
     plot_iteration(f, draw, "penalty_quadratic_mixequal")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=1, p: float=0.6, epsilon: float=1e-10, k: int=0) -> OutputType:
+def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=1, p: float=0.6, epsk: float=1e-6, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -128,6 +131,9 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
         
     p : float
         修正参数
+
+    epsk: float
+        无约束内核的精度
         
     epsilon : float
         迭代停机准则
@@ -144,9 +150,9 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
     '''
     assert sigma > 0
     assert p > 0
-    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
+    from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
-    search, point, f = eval(kernel(method)), [], []
+    search, point, f = kernel(method), [], []
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
@@ -158,7 +164,7 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
         consv_equal = np.where(consv_equal <= 0, consv_equal, 1)
         consv_equal = np.where(consv_equal > 0, consv_equal, -1)
         pe = sp.Matrix([funcs + sigma * cons_unequal.T * consv_unequal + sigma * cons_equal.T * consv_equal])
-        x_0, _ = search(pe, args, tuple(x_0), draw=False)
+        x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
@@ -168,7 +174,7 @@ def penalty_L1(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_une
     plot_iteration(f, draw, "penalty_L1")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType:
+def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray, cons_unequal: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", lamk: float=6, muk: float=10, sigma: float=8, alpha: float=0.5, beta: float=0.7, p: float=2, eta: float=1e-3, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -235,12 +241,12 @@ def lagrange_augmentedm(funcs: FuncArray, args: ArgArray, cons_equal: FuncArray,
     assert alpha > 0 
     assert alpha <= beta
     assert beta < 1
-    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
+    from .._kernel import kernel
     from .._drive import cons_unequal_L, v_k, renew_mu_k
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
-    search, f = eval(kernel(method)), []
-    lamk = np.array([lamk for i in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
-    muk = np.array([muk for i in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
+    search, f = kernel(method), []
+    lamk = np.array([lamk for _ in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
+    muk = np.array([muk for _ in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
     while 1:
         etak = 1 / sigma
         epsilonk = 1 / sigma**alpha

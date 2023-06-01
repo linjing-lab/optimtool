@@ -87,6 +87,7 @@ def steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=Tr
     assert gamma2 > 1
     from .._drive import steihaug
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     s0, f = [0 for _ in range(args.shape[0])], []

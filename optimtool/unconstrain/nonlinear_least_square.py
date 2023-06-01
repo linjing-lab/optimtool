@@ -60,12 +60,11 @@ def gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=T
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from .._search import armijo, goldstein, wolfe
+    from .._kernel import linear_search
     funcr, args, x_0 = f2m(funcr), a2m(args), p2t(x_0)
     assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
-    search, f = eval(method), []
-    res = funcr.jacobian(args)
-    funcs = sp.Matrix([(1/2)*funcr.T*funcr])
+    search, f = linear_search(method), []
+    res, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
     while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(DataType)
@@ -141,12 +140,9 @@ def levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, draw:
     from .._drive import CG_gradient
     funcr, args, x_0 = f2m(funcr), a2m(args), p2t(x_0)
     assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
-    res = funcr.jacobian(args)
-    funcs = sp.Matrix([(1/2)*funcr.T*funcr])
+    res, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
     resf = funcs.jacobian(args)
-    hess = resf.jacobian(args)
-    dk0 = np.zeros((args.shape[0], 1))
-    f = []
+    hess, dk0, f = resf.jacobian(args), np.zeros((args.shape[0], 1)), []
     while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(DataType)

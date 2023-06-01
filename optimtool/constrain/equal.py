@@ -25,7 +25,7 @@ from .._convert import f2m, a2m, p2t
 
 from .._typing import FuncArray, ArgArray, PointArray, OutputType, DataType
 
-def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", sigma: float=10.0, p: float=2.0, epsilon: float=1e-4, k: int=0) -> OutputType:
+def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", sigma: float=10.0, p: float=2.0, epsk: float=1e-4, epsilon: float=1e-4, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -55,6 +55,9 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
         
     p : float
         修正参数
+    
+    epsk: float
+        无约束内核的精度
         
     epsilon : float
         迭代停机准则
@@ -71,16 +74,16 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     '''
     assert sigma > 0
     assert p > 1
-    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
+    from .._kernel import kernel
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    search, point, f = eval(kernel(method)), [], []
+    search, point, f = kernel(method), [], []
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
         pe = pen.subs(sig, sigma)
-        x_0, _ = search(pe, args, tuple(x_0), draw=False)
+        x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
@@ -90,7 +93,7 @@ def penalty_quadratice(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: P
     plot_iteration(f, draw, "penalty_quadratic_equal")     
     return (x_0, k, f) if output_f is True else (x_0, k)
 
-def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="trust_region", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
+def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="newton", lamk: float=6, sigma: float=10, p: float=2, etak: float=1e-4, epsilon: float=1e-6, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -142,10 +145,10 @@ def lagrange_augmentede(funcs: FuncArray, args: ArgArray, cons: FuncArray, x_0: 
     '''
     assert sigma > 0
     assert p > 1
-    from .._kernel import kernel, barzilar_borwein, modified, L_BFGS, steihaug_CG
-    search, f = eval(kernel(method)), []
+    from .._kernel import kernel
+    search, f = kernel(method), []
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
-    lamk = np.array([lamk for i in range(cons.shape[0])]).reshape(cons.shape[0], 1)
+    lamk = np.array([lamk for _ in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
         f.append(get_value(funcs, args, x_0))

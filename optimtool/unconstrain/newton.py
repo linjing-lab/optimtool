@@ -57,18 +57,18 @@ def classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, 
         
     '''
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    res = funcs.jacobian(args)
-    hes = res.jacobian(args)
-    f = []
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    res = funcs.jacobian(args) # gradient
+    hes, f = res.jacobian(args), []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
-        hessian = np.array(hes.subs(reps)).astype(DataType)
         gradient = np.array(res.subs(reps)).astype(DataType)
-        dk = - np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
+        hessian = np.array(hes.subs(reps)).astype(DataType)
+        dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            x_0 = x_0 + dk[0]
-            k = k + 1
+            x_0 += dk[0]
+            k += 1
         else:
             break
     plot_iteration(f, draw, "newton_classic")        
@@ -109,22 +109,23 @@ def modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from .._search import armijo, goldstein, wolfe
+    from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search, f = eval(method), []
-    res = funcs.jacobian(args)
-    hes = res.jacobian(args)
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    search, f = linear_search(method), []
+    res = funcs.jacobian(args) # graident
+    hes = res.jacobian(args) # hessian
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         gradient = np.array(res.subs(reps)).astype(DataType)
-        hessian = np.array(hes.subs(reps)).astype(DataType)
+        hessian = np.array(hes.subs(reps)).astype(DataType) # hessian: from `object` to `float`
         hessian = h2h(hessian)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)
-            x_0 = x_0 + alpha * dk[0]
-            k = k + 1
+            x_0 += alpha * dk[0]
+            k += 1
         else:
             break
     plot_iteration(f, draw, "newton_modified_" + method)
@@ -163,15 +164,15 @@ def CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outpu
     -------
     OutputType
         最终收敛点, 迭代次数, (迭代函数值列表)
-        
+        f
     '''
-    from .._search import armijo, goldstein, wolfe
     from .._drive import CG_gradient
+    from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search, f = eval(method), []
-    res = funcs.jacobian(args)
-    hes = res.jacobian(args)
-    dk0 = np.zeros((args.shape[0], 1))
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    search, f = linear_search(method), []
+    res = funcs.jacobian(args) # gradient
+    hes, dk0 = res.jacobian(args), np.zeros((args.shape[0], 1)) # hessian and initial dk
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))

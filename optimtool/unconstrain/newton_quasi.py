@@ -60,9 +60,10 @@ def bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, out
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from .._search import armijo, goldstein, wolfe
+    from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search, f = eval(method), []
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    search, f = linear_search(method), []
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
@@ -123,9 +124,10 @@ def dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, outp
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from .._search import armijo, goldstein, wolfe
+    from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search, f = eval(method), []
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    search, f = linear_search(method), []
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     hess = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
@@ -190,10 +192,11 @@ def L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, o
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from .._search import armijo, goldstein, wolfe
     from .._drive import L_BFGS_double_loop
+    from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    search = eval(method)
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    search = linear_search(method)
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     l = hes.shape[0]

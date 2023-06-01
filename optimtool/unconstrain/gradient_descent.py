@@ -58,10 +58,10 @@ def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, ou
         
     '''
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    res = funcs.jacobian(args)
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    res = funcs.jacobian(args) # gradient
     m = sp.symbols("m")
-    arg = sp.Matrix([m])
-    f = []
+    arg, f = sp.Matrix([m]), []
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
@@ -70,8 +70,8 @@ def solve(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, ou
             xt = x_0 + m * dk[0]
             h = funcs.subs(dict(zip(args, xt))).jacobian(arg)
             mt = sp.solve(h)
-            x_0 = (x_0 + mt[m] * dk[0]).astype(DataType)
-            k = k + 1
+            x_0 += (mt[m] * dk[0]).astype(DataType)
+            k += 1
         else:
             break
     plot_iteration(f, draw, "gradient_descent_solve")
@@ -112,25 +112,26 @@ def steepest(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True,
         最终收敛点, 迭代次数, (迭代函数值列表)
         
     '''
-    from .._search import armijo, goldstein, wolfe
-    search, f = eval(method), []
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    res = funcs.jacobian(args)
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    from .._kernel import linear_search
+    search, f = linear_search(method), []
+    res = funcs.jacobian(args) # gradient
     while 1:
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)
-            x_0 = x_0 + alpha * dk[0]
-            k = k + 1
+            x_0 += alpha * dk[0]
+            k += 1
         else:
             break
     plot_iteration(f, draw, "gradient_descent_steepest")
     return (x_0, k, f) if output_f is True else (x_0, k)
     
 # Barzilar Borwein梯度下降法
-def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="Grippo", c1: float=0.6, beta: float=0.6, alpha: float=1, epsilon: float=1e-10, k: int=0) -> OutputType:
+def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bool=True, output_f: bool=False, method: str="Grippo", c1: float=0.6, beta: float=0.6, M: int=20, eta: float=0.6, alpha: float=1, epsilon: float=1e-10, k: int=0) -> OutputType:
     '''
     Parameters
     ----------
@@ -152,14 +153,17 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bo
     method : str
         非单调线搜索方法："Grippo"与"ZhangHanger"
         
-    M : int
-        阈值
-        
     c1 : float
         常数
         
     beta : float
         常数
+
+    M : int
+        阈值
+
+    eta: float
+        阈值
         
     alpha : float
         初始步长
@@ -182,17 +186,21 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bo
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    from .._search import Grippo, ZhangHanger
-    search, point, f = eval(method), [], []
+    assert M > 0
+    assert eta > 0
+    assert eta < 1
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    res = funcs.jacobian(args)
+    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    from .._kernel import nonmonotonic_search
+    search, constant = nonmonotonic_search(method, M, eta)
+    res, point, f = funcs.jacobian(args), [], []
     while 1:
         point.append(x_0)
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
-        dk = - np.array(res.subs(reps)).astype(DataType)
+        dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, args, x_0, dk, k, point, c1, beta, alpha)
+            alpha = search(funcs, args, x_0, dk, k, point, c1, beta, alpha, constant)
             delta = alpha * dk[0]
             x_0 = x_0 + delta
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) + dk
@@ -200,7 +208,7 @@ def barzilar_borwein(funcs: FuncArray, args: ArgArray, x_0: PointArray, draw: bo
             alpha_down = delta.dot(yk.T)
             if alpha_down != 0:
                 alpha = alpha_up / alpha_down
-            k = k + 1
+            k += 1
         else:
             break
     plot_iteration(f, draw, "gradient_descent_barzilar_borwein_" + method)
