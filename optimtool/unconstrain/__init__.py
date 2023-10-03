@@ -23,3 +23,11 @@ from . import newton
 from . import newton_quasi
 from . import nonlinear_least_square
 from . import trust_region
+
+__unconstrain__ = {
+    'gradient descent': gradient_descent.__all__,
+    'newton': newton.__all__,
+    'newton quasi': newton_quasi.__all__,
+    'nonlinear least square': nonlinear_least_square.__all__,
+    'trust region': trust_region.__all__
+}
