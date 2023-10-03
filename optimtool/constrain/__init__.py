@@ -21,3 +21,9 @@
 from . import equal
 from . import unequal
 from . import mixequal
+
+__constrain__ = {
+    'equal': equal.__all__,
+    'unequal': unequal.__all__,
+    'mixequal': mixequal.__all__
+}
