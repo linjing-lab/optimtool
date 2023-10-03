@@ -47,7 +47,9 @@ oc.equal.penalty_quadratice(f, (x1, x2), c1, (1, 0.5), verbose=True)
     </a>
 </p>
 
+```text
 ((1.9999999999999998, 1.0), 2)
+```
 
 ## 不等式约束（unequal）
 
@@ -79,7 +81,9 @@ oc.unequal.lagrange_augmentedu(f, (x1, x2), c2, (1.5, 0.5), verbose=True)
     </a>
 </p>
 
+```text
 ((2.0, 1.0), 4)
+```
 
 ## 混合等式约束（mixequal）
 
@@ -126,4 +130,6 @@ oc.mixequal.penalty_L1(f, (x1, x2), c1, c2, (1.5, 0.5), verbose=True)
     </a>
 </p>
 
+```text
 ((2.000141055495373, 0.9998589445046272), 18)
+```

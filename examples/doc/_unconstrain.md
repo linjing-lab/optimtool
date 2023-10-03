@@ -120,7 +120,9 @@ ou.gradient_descent.barzilar_borwein(f, x, x_0, verbose=True)
     </a>
 </p>
 
+```text
 (array([11.41277899, -0.89680525, 11.41277899, -0.89680525]), 70)
+```
 
 ## 牛顿法（newton）
 
@@ -154,7 +156,9 @@ ou.newton.CG(f, x, x_0, verbose=True)
     </a>
 </p>
 
+```text
 (array([11.41274911, -0.89680703, 11.41274911, -0.89680703]), 5)
+```
 
 ## 拟牛顿法（newton_quasi）
 
@@ -195,7 +199,9 @@ ou.newton_quasi.bfgs(f, x, x_0, verbose=True)
     </a>
 </p>
 
+```text
 (array([11.41277899, -0.89680525, 11.41277899, -0.89680525]), 11)
+```
 
 ## 非线性最小二乘法（nonlinear_least_square）
 
@@ -232,7 +238,9 @@ ou.nonlinear_least_square.gauss_newton((r1, r2), (x1, x2), (1, 1), verbose=True)
     </a>
 </p>
 
+```text
 (array([1.00000000e+00, 6.08502493e-21]), 6)
+```
 
 ## 信赖域方法（trust_region）
 
@@ -269,4 +277,6 @@ ou.trust_region.steihaug_CG(f, x, x_0, verbose=True)
     </a>
 </p>
 
+```text
 (array([11.41277892, -0.89680526, 11.41277892, -0.89680526]), 10)
+```
