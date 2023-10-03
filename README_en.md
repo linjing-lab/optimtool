@@ -67,6 +67,7 @@ pip install optimtool --upgrade
     |-- _convert.py
     |-- _drive.py
     |-- _kernel.py
+    |-- _proxim.py
     |-- _search.py
     |-- _typing.py
     |-- _utils.py

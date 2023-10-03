@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 
 if sys.version_info < (3, 7, 0):
-    raise OSError(f'optimtool-2.4.4 requires Python >=3.7, but yours is {sys.version}')
+    raise OSError(f'optimtool-2.5.0rc0 requires Python >=3.7, but yours is {sys.version}')
 
 if (3, 7, 0) <= sys.version_info < (3, 8, 0):
     # https://github.com/pypa/setuptools/issues/926#issuecomment-294369342
@@ -34,7 +34,7 @@ try:
         _long_description = fp.read()
 except FileNotFoundError:
     _long_description = ''
- 
+
 setup(
       name='optimtool',  # pkg_name
       packages=[
@@ -77,10 +77,10 @@ setup(
             'Topic :: Software Development :: Libraries',
             'Topic :: Software Development :: Libraries :: Python Modules',
       ],
-      install_requires = [
+      install_requires=[
             'numpy>=1.21.0', 
             'sympy>=1.9',
             'matplotlib>=3.2.0'
       ],
-      # extras_require = []
+      # extras_require=[]
 )

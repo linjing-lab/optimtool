@@ -18,5 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from . import approximate_point_gradient 
-# appear in v2.5.0
+from . import approt
+from . import fista
+from . import nesterov
+
+
+__hybrid__ = {
+    'Approximate Points': approt.__all__,
+    'FISTA': fista.__all__,
+    'Nesterov': nesterov.__all__
+} # access in v2.5.0

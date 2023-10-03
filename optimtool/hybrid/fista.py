@@ -18,18 +18,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
-
-from . import constrain
-from . import unconstrain
-from . import example
-from . import hybrid
-
-from .base import NUMPY_VERSION
-from .base import SYMPY_VERSION
-from .base import MATPLOTLIB_VERSION
-
-from ._version import __version__
-
-if sys.version_info < (3, 7, 0):
-    raise OSError(f'optimtool-2.5.0rc0 requires Python >=3.7, but yours is {sys.version}')
+__all__ = [] # access in v2.5.0
