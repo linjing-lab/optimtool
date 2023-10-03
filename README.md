@@ -56,7 +56,6 @@ pip install optimtool --upgrade
         |-- WanYuan.py
     |-- hybrid
         |-- __init__.py
-        |-- approximate_point_gradient.py
     |-- unconstrain
         |-- __init__.py
         |-- gradient_descent.py
