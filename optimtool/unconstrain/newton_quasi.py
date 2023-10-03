@@ -41,7 +41,7 @@ def bfgs(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, linear search kernel used to drive the operation of finding best aplha. default: str='wolfe'.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
@@ -92,7 +92,7 @@ def dfp(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, linear search kernel used to drive the operation of finding best aplha. default: str='wolfe'.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
@@ -145,7 +145,7 @@ def L_BFGS(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, linear search kernel used to drive the operation of finding best aplha. default: str='wolfe'.
     :param m: int, threshold for controlling the cursor range of double_loop iteration process. default: int=6.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.

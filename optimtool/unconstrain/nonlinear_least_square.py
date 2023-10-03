@@ -41,10 +41,10 @@ def gauss_newton(funcr: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcr`. default: bool=False.
     :param method: str, linear search kernel used to drive the operation of finding best aplha. default: str='wolfe'.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
-    :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
+    :param k: int, iterative times is used to measure the difficulty of learning the `funcr` in the algorithm. default: int=0.
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
@@ -92,7 +92,7 @@ def levenberg_marquardt(funcr: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcr`. default: bool=False.
     :param lamk: float, the initial factor acting on the product of first-order residual matrices. default: float=1.
     :param eta: float, threshold constraint required for controlling iteration point updates. default: float=0.2.
     :param p1: float, threshold for controlling whether lamk is updated by gamma2. default: float=0.4.
@@ -101,7 +101,7 @@ def levenberg_marquardt(funcr: FuncArray,
     :param gamma2: float, constant used for updating the value of lamk in the second if condition. default: float=1.3.
     :param epsk: float, the break epsilon of conjugate in searching for gradient. default: float=1e-6.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
-    :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
+    :param k: int, iterative times is used to measure the difficulty of learning the `funcr` in the algorithm. default: int=0.
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''

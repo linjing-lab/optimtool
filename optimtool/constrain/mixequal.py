@@ -48,9 +48,9 @@ def penalty_quadraticm(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, unconstrained kernel used to drive the operation of finding the point of intermediate function. default: str='newton'.
-    :param sigma: float, penalty factor used to set the degree of convergence of `func`. default: float=10.
+    :param sigma: float, penalty factor used to set the degree of convergence of `funcs`. default: float=10.
     :param p: float, parameter to adjust the degree value of convergence named `sigma`. default: float=0.6.
     :param epsk: float, used to set the precision to accelerate the completion of kernel. default: float=1e-6.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
@@ -60,7 +60,6 @@ def penalty_quadraticm(funcs: FuncArray,
     '''
     assert sigma > 0
     assert p > 0
-    assert epsk > 0 and epsk < 1, ''
     from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
     search, point, f = kernel(method), [], []
@@ -108,9 +107,9 @@ def penalty_L1(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, unconstrained kernel used to drive the operation of finding the point of intermediate function. default: str='newton'.
-    :param sigma: float, penalty factor used to set the degree of convergence of `func`. default: float=1.
+    :param sigma: float, penalty factor used to set the degree of convergence of `funcs`. default: float=1.
     :param p: float, parameter to adjust the degree value of convergence named `sigma`. default: float=0.6.
     :param epsk: float, used to set the precision to accelerate the completion of kernel. default: float=1e-6.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
@@ -173,11 +172,11 @@ def lagrange_augmentedm(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, unconstrained kernel used to drive the operation of finding the point of intermediate function. default: str='newton'.
     :param lamk: float, constant used to adjust the weight of equation constraints. default: float=6.
     :param muk: float, controlled parameter with unequality constrained sigma values. default: float=10.
-    :param sigma: float, penalty factor used to set the degree of convergence of `func`. default: float=8.
+    :param sigma: float, penalty factor used to set the degree of convergence of `funcs`. default: float=8.
     :param alpha: float, value to adjust epsilonk combined with sigma value. default: float=0.5.
     :param beta: float, value used in continue execution to adjust epsilonk. default: float=0.7.
     :param p: float, value to adjust the degree value of convergence named `sigma`. default: float=2.

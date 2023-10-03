@@ -48,7 +48,7 @@ def steihaug_CG(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param r0: float, the initial radius of gradient search used to update iteration points. default: float=1.
     :param rmax: float, the maximal radius of gradient search used to update iteration points. default: float=2.
     :param eta: float, threshold constraint required for controlling iteration point updates. default: float=0.2.

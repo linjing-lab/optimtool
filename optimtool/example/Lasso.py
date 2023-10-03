@@ -46,7 +46,7 @@ def gradient(A: NDArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param delta: float, value used to adjust the constant influence of mu. default: float=10.
     :param alp: float, initial update step size acting on smooth gradient. default: float=1e-3.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-2
@@ -100,7 +100,7 @@ def subgradient(A: NDArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param alphak: float, limit the initial constant for the next update of iteration point. default: float=2e-2. 
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-3.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
@@ -151,7 +151,7 @@ def approximate_point(A: NDArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funs`. default: bool=False.
+    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-4.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
 
