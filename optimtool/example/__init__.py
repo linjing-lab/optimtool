@@ -20,3 +20,8 @@
 
 from . import Lasso
 from . import WanYuan
+
+__example__ = {
+    'Lasso': Lasso.__all__,
+    'WanYuan': WanYuan.__all__
+}
