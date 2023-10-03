@@ -20,18 +20,10 @@
 
 def kernel(method: str):
     '''
-    Parameters
-    ----------
-    method : str
-        无约束优化方法内核
+    :param method: str, unconstrained methods serving as the kernel of constraint methods.
 
-        
-    Returns
-    -------
-    .unconstrain.
-        内核方法名
-        
-    '''
+    :return: executable unconstrained kernels compatible with constrained porcess.
+    ''' 
     from .unconstrain.gradient_descent import barzilar_borwein
     from .unconstrain.newton import CG
     from .unconstrain.newton_quasi import bfgs
@@ -49,16 +41,9 @@ def kernel(method: str):
     
 def linear_search(method: str):
     '''
-    Parameters
-    ----------
-    method: str
-        线搜索方法作为无约束方法的步长搜索器
+    :param method: str, linear search methods serving as the alpha searcher of unconstrained method.
 
-        
-    Returns
-    -------
-    ._search.
-        与后续操作兼容的线搜索方法
+    :return: executable linear search functions compatible with subsequent alpha search operations.
     '''
     from ._search import armijo, goldstein, wolfe
     if method == 'armijo':
@@ -72,22 +57,11 @@ def linear_search(method: str):
     
 def nonmonotonic_search(method: str, M: int, eta: float):
     '''
-    Parameters
-    ----------
-    method: str
-        非单调线搜索方法作为barzilar_borwein的步长搜索器
-    
-    M: int
-        约束内部`max`过程的常量
-    
-    eta: float
-        控制`C_k`过程的常量
-        
+    :param method: str, non-monotonic linear search serving as the alpha searcher of barzilar_borwein.
+    :param M: int, constant used to control the inner `max` process of `Grippo`.
+    :param eta: float, constant used to control `C_k` process of `ZhangHanger`.
 
-    Returns
-    -------
-    (Grippo or ZhangHanger, int or float)
-        与barzilar_borwein兼容的函数
+    :return: executable functions compatible with barzilar_borwein alpha search operations.
     '''
     from ._search import Grippo, ZhangHanger
     if method == 'Grippo':

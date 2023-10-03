@@ -18,37 +18,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import numpy as np
+from .base import np
 from ._typing import List, NDArray, SympyMutableDenseMatrix, DataType, IterPointType
 
-def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, gamma: float=0.5, c: float=0.1) -> float:
-    '''
-    Parameters
-    ----------
-    funcs : SympyMutableDenseMatrix
-        当前目标方程
-        
-    args : SympyMutableDenseMatrix
-        参数列表
-        
-    x_0 : IterPointType
-        初始迭代点
-        
-    d : NDArray
-        当前下降方向
-        
-    gamma : float
-        修正参数
-        
-    c : float
-        常数
-        
+__all__ = ["armijo", "goldstein", "wolfe", "Grippo", "ZhangHanger"]
 
-    Returns
-    -------
-    float
-        最优步长
-        
+def armijo(funcs: SympyMutableDenseMatrix, 
+           args: SympyMutableDenseMatrix, 
+           x_0: IterPointType, 
+           d: NDArray, 
+           gamma: float=0.5, 
+           c: float=0.1) -> float:
+    '''
+    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
+    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
+    :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
+    :param gamma: float, factor used to adjust alpha with interval at (0, 1). default: float=0.5.
+    :param c: float, constant used to constrain alpha adjusted frequency with interval at (0, 1). default: float=0.1.
+
+    :return: best alpha with format at `float`.
     '''
     assert gamma > 0
     assert gamma < 1
@@ -65,47 +54,37 @@ def armijo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
         if f1 <= f0 + c*alpha*res0.dot(d.T):
             break
         else:
-            alpha = gamma * alpha
+            alpha *= gamma
     return alpha
 
-def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c: float=0.1, alphas: float=0, alphae: float=10, t: float=1.2, eps: float=1e-3) -> float:
+def goldstein(funcs: SympyMutableDenseMatrix, 
+              args: SympyMutableDenseMatrix, 
+              x_0: IterPointType, 
+              d: NDArray, 
+              c: float=0.2, 
+              alphas: float=0, 
+              alphae: float=10, 
+              t: float=1.2, 
+              eps: float=1e-3) -> float:
     '''
-    Parameters
-    ----------
-    funcs : SympyMutableDenseMatrix
-        当前目标方程
-        
-    args : SympyMutableDenseMatrix
-        参数列表
-        
-    x_0 : IterPointType
-        初始迭代点
-        
-    d : NDArray
-        当前下降方向
-        
-    alphas : float
-        起始搜索区间
-        
-    alphae : float
-        终止搜索区间
-        
-    t : float
-        扩大倍数参数
-        
-    eps : float
-        终止参数
-        
+    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
+    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
+    :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
+    :param c: float, constant used to constrain alpha adjusted frequency with interval at (0, 0.5). default: float=0.2.
+    :param alphas: float, left search endpoint for alpha with value assert as `> 0`. default: float=0.
+    :param alphae: float, right search endpoint for alpha with value assert as `> alphas`. default: float=10.
+    :param t: float, factor used to expand alpha for adapting to alphas interval. default: float=1.2.
+    :param eps: float, the precision set to stopp search alpha in (alphas, alphae). default: float=1e-3.
 
-    Returns
-    -------
-    float
-        最优步长
-        
+    :return: best alpha with format at `float`.
     '''
     assert c > 0
     assert c < 0.5
+    assert alphas >= 0
     assert alphas < alphae
+    assert t > 0
+    assert eps > 0
     alpha = 1
     res = funcs.jacobian(args)
     reps = dict(zip(args, x_0))
@@ -123,58 +102,44 @@ def goldstein(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
                 if alphae < np.inf:
                     alpha = 0.5 * (alphas + alphae)
                 else:
-                    alpha = t * alpha
+                    alpha *= t
         else:
             alphae = alpha
             alpha = 0.5 * (alphas + alphae)
-        if np.abs(alphas-alphae) < eps:
+        if np.abs(alphas - alphae) < eps:
             break
     return alpha
 
-def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, c1: float=0.3, c2: float=0.5, alphas: float=0, alphae: float=2, eps: float=1e-3) -> float:
+def wolfe(funcs: SympyMutableDenseMatrix, 
+          args: SympyMutableDenseMatrix, 
+          x_0: IterPointType, 
+          d: NDArray, 
+          c1: float=0.3, 
+          c2: float=0.5, 
+          alphas: float=0, 
+          alphae: float=2, 
+          eps: float=1e-3) -> float:
     '''
-    Parameters
-    ----------
-    funcs : SympyMutableDenseMatrix
-        当前目标方程
-        
-    args : SympyMutableDenseMatrix
-        参数列表
-        
-    x_0 : IterPointType
-        初始迭代点
-        
-    d : NDArray
-        当前下降方向
-        
-    c1 : float
-        常数
-        
-    c2 : float
-        常数
-        
-    alphas : float
-        起始搜索区间
-        
-    alphae : float
-        终止搜索区间
-        
-    eps : float
-        终止参数
-        
+    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
+    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
+    :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
+    :param c1: float, first constant used to constrain alpha adjusted frequency with interval at (0, 1). default: float=0.3.
+    :param c2: float, second constant used to constrain alpha adjusted frequency with interval at (0, 1). default: float=0.5.
+    :param alphas: float, left search endpoint for alpha with value assert as `> 0`. default: float=0.
+    :param alphae: float, right search endpoint for alpha with value assert as `> alphas`. default: float=2.
+    :param eps: float, the precision set to stopp search alpha in (alphas, alphae). default: float=1e-3.
 
-    Returns
-    -------
-    float
-        最优步长
-        
+    :return: best alpha with format at `float`.
     '''
     assert c1 > 0
     assert c1 < 1
     assert c2 > 0
     assert c2 < 1
     assert c1 < c2
+    assert alphas >= 0
     assert alphas < alphae
+    assert eps > 0
     alpha = 1
     res = funcs.jacobian(args)
     reps = dict(zip(args, x_0))
@@ -193,52 +158,35 @@ def wolfe(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: It
         else:
             alphae = alpha
             alpha = 0.5 * (alphas + alphae)
-        if np.abs(alphas-alphae) < eps:
+        if np.abs(alphas - alphae) < eps:
             break
     return alpha
 
-def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, M: int=20) -> float:
+# coordinate with `barzilar_borwein`.
+def Grippo(funcs: SympyMutableDenseMatrix, 
+           args: SympyMutableDenseMatrix, 
+           x_0: IterPointType, 
+           d: NDArray, 
+           k: int, 
+           point: List[IterPointType], 
+           c1: float, 
+           beta: float, 
+           alpha: float, 
+           M: int) -> float:
     '''
-    Parameters
-    ----------
-    funcs : SympyMutableDenseMatrix
-        当前目标方程
-        
-    args : SympyMutableDenseMatrix
-        参数列表
-        
-    x_0 : IterPointType
-        初始迭代点
-        
-    d : NDArray
-        当前下降方向
-        
-    k : int
-        当前迭代次数
-        
-    point : List[IterPointType]
-        当前迭代点列表
-    
-    c1 : float
-        常数
-        
-    beta : float
-        修正参数
-        
-    alpha : float
-        初始步长
+    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
+    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
+    :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
+    :param k: int, current number of iterative process in `barzilar_borwein` method.
+    :param c1: float, constant used to constrain alpha adjusted frequency with interval at (0, 1).
+    :param beta: float, factor used to expand alpha for adapting to alphas interval.
+    :param alpha: float, initial step size for nonmonotonic line search method with assert `> 0`.
+    :param M: int, constant to control the inner `max` proccess with assert `>= 0`.
 
-    M : int
-        阈值
-        
-
-    Returns
-    -------
-    float
-        最优步长
-        
+    :return: best alpha with format at `float`.
     '''
-    assert M >= 0
+    assert M > 0
     assert alpha > 0
     assert c1 > 0
     assert c1 < 1
@@ -250,55 +198,37 @@ def Grippo(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: I
     while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
-        fk = - np.inf
+        fk = -np.inf
         for j in range(min(k, M) + 1):
             fk = max(fk, np.array(funcs.subs(dict(zip(args, point[k-j])))).astype(DataType))
         if f1 <= fk + c1 * alpha * res0.dot(d.T):
             break
         else:
-            alpha = beta * alpha
+            alpha *= beta
     return alpha
 
-def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, d: NDArray, k: int, point: List[IterPointType], c1: float, beta: float, alpha: float, eta: float=0.6) -> float:
+def ZhangHanger(funcs: SympyMutableDenseMatrix, 
+                args: SympyMutableDenseMatrix, 
+                x_0: IterPointType, 
+                d: NDArray, 
+                k: int, 
+                point: List[IterPointType], 
+                c1: float, 
+                beta: float, 
+                alpha: float, 
+                eta: float) -> float:
     '''
-    Parameters
-    ----------
-    funcs : SympyMutableDenseMatrix
-        当前目标方程
-        
-    args : SympyMutableDenseMatrix
-        参数列表
-        
-    x_0 : IterPointType
-        初始迭代点
-        
-    d : NDArray
-        当前下降方向
-        
-    k : int
-        当前迭代次数
-        
-    point : List[IterPointType]
-        当前迭代点列表
-    
-    c1 : float
-        常数
-        
-    beta : float
-        修正参数
-        
-    alpha : float
-        初始步长
-        
-    eta : float
-        常数
-        
+    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
+    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
+    :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
+    :param k: int, current number of iterative process in `barzilar_borwein` method.
+    :param c1: float, constant used to constrain alpha adjusted frequency with interval at (0, 1).
+    :param beta: float, factor used to expand alpha for adapting to alphas interval.
+    :param alpha: float, initial step size for nonmonotonic line search method with assert `> 0`.
+    :param eta: float, constant used to control `C_k` process with interval at (0, 1).
 
-    Returns
-    -------
-    float
-        最优步长
-        
+    :return: best alpha with format at `float`.
     '''
     assert eta > 0
     assert eta < 1
@@ -317,7 +247,5 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x
         if f1 <= Ck + c1 * alpha * res0.dot(d.T):
             break
         else:
-            alpha = beta * alpha
+            alpha *= beta
     return alpha
-
-__all__ = [armijo, goldstein, wolfe, Grippo, ZhangHanger]

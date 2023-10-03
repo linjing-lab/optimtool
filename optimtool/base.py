@@ -18,28 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .base import np, sp
+import numpy as np # numerical operations
+import sympy as sp # symbolic differentiation
+from matplotlib import __version__ as MATPLOTLIB_VERSION, pyplot as plt # visual interface
 
-from typing import (
-    Tuple,
-    List,
-    Union,
-    Optional
-)
-
-NDArray = np.ndarray # numpy.ndarray
-SympyMutableDenseMatrix = sp.matrices.dense.MutableDenseMatrix # symbolic values
-
-DataType = np.float64 # conver `object` to `float`
-
-FuncType = sp.core.add.Add
-ArgType = sp.core.symbol.Symbol
-PointType = Union[float, int]
-
-FuncArray = Union[SympyMutableDenseMatrix, FuncType, List[FuncType], Tuple[FuncType]]
-ArgArray = Union[SympyMutableDenseMatrix, ArgType, List[ArgType], Tuple[ArgType]]
-PointArray = Union[PointType, List[PointType], Tuple[PointType]]
-
-IterPointType = Union[NDArray, List[PointType], Tuple[PointType]] # support more situations
-
-OutputType = Union[Tuple[IterPointType, int], Tuple[IterPointType, int, List[DataType]]]
+NUMPY_VERSION = np.__version__
+SYMPY_VERSION = sp.__version__

@@ -1,7 +1,5 @@
-import sympy as sp
-import matplotlib.pyplot as plt
 import optimtool as oo
-import numpy as np
+from optimtool.base import np, sp, plt
 from typing import List
 
 # Define title

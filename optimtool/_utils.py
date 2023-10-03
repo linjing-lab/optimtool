@@ -18,32 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from .base import np, plt
 from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPointType
+
+__all__ = ["get_value", "plot_iteration"]
 
 def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, mu: Optional[float]=None) -> DataType:
     '''
-    Parameters
-    ----------
-    funcs : SympyMutableDenseMatrix
-        当前目标方程
-        
-    args : SympyMutableDenseMatrix
-        参数列表
-        
-    x_0 : IterPointType
-        初始迭代点
-        
-    mu : Optional[float]
-        正则化参数
-        
+    :param funcs: SympyMutableDenseMatrix, objective function after `convert`.
+    :param args: SympyMutableDenseMatrix, symbolic set after `convert` with order.
+    :param x_0: IterPointType, numpy.ndarray or List[PointType] or Tuple[PointType].
+    :param mu: float | None, parameters collaborate with the problems applied in `Lasso`. default=None.
 
-    Returns
-    -------
-    DataType
-        迭代函数值
-        
+    :return: functional value with DataType.
     '''
-    import numpy as np
     funcsv = np.array(funcs.subs(dict(zip(args, x_0)))).astype(DataType)
     if mu is not None:
         for i in x_0:
@@ -52,19 +40,10 @@ def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
 
 def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:
     '''
-    Parameters
-    ----------
-    f : List[DataType]]
-        迭代函数值列表
-        
-    draw : bool
-        绘图参数
-        
-    method : str
-        最优化方法
-        
+    :param f: List[DataType], iterative value with format `DataType` in a list.
+    :param draw: bool, use `bool` to control whether to draw visual images.
+    :param method: method appearing on the visual interface.
     '''
-    import matplotlib.pyplot as plt
     if draw is True:
         plt.plot([i for i in range(len(f))], f, marker='o', c="firebrick", ls='--')
         plt.xlabel("$k$")
@@ -72,5 +51,3 @@ def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:
         plt.title(method)
         plt.show()
     return None
-
-__all__ = [get_value, plot_iteration]

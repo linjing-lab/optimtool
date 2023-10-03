@@ -18,71 +18,55 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sympy as sp
-import numpy as np
-from ._typing import FuncArray, ArgArray, PointArray, SympyMutableDenseMatrix, NDArray
+from .base import np, sp
+from ._typing import FuncType, FuncArray, ArgType, ArgArray, PointType, PointArray, SympyMutableDenseMatrix, NDArray
+
+__all__ = ["f2m", "a2m", "p2t", "h2h"]
 
 def f2m(funcs: FuncArray) -> SympyMutableDenseMatrix:
     '''
-    Parameters
-    ----------
-    funcs : FuncArray
-        目标函数
+    :param funcs: FuncArray, objective function constructed with values of `symbols`.
 
-    Returns
-    -------
-    funcs : SympyMutableDenseMatrix
-        目标函数
-
+    :return: objective function updated with `sp.Matrix()`.
     '''
-    # convert funcs
-    return sp.Matrix(funcs) if isinstance(funcs, (list, tuple)) else sp.Matrix([funcs])
+    if isinstance(funcs, (FuncType, SympyMutableDenseMatrix)):
+        return sp.Matrix([funcs])
+    elif isinstance(funcs, (list, tuple)) and all(list(map(lambda x: isinstance(x, FuncType), funcs))):
+        return sp.Matrix(funcs)
+    else:
+        raise RuntimeError(f"f2m not support type of funcs: {type(funcs)}.")
 
 def a2m(args: ArgArray) -> SympyMutableDenseMatrix:
     '''
-    Parameters
-    ----------
-    args : ArgArray
-        参数
+    :param funcs: ArgArray, symbolic set constructed with values of `symbols`.
 
-    Returns
-    -------
-    args : SympyMutableDenseMatrix
-        参数
-
+    :return: symbolic values updated with `sp.Matrix()`.
     '''
-    # convert args
-    return sp.Matrix(args) if isinstance(args, (list, tuple)) else sp.Matrix([args])
+    if isinstance(args, (ArgType, SympyMutableDenseMatrix)):
+        return sp.Matrix([args])
+    elif isinstance(args, (list, tuple)) and all(list(map(lambda x: isinstance(x, ArgType), args))):
+        return sp.Matrix(args)
+    else:
+        raise RuntimeError(f"a2m not support type of args: {type(args)}")
 
 def p2t(x_0: PointArray) -> PointArray:
     '''
-    Parameters
-    ----------
-    x_0 : PointArray
-        参数
+    :param funcs: PointArray, numerical set constructed with numerical values in order of `args`.
 
-    Returns
-    -------
-    x_0 : PointArray
-        参数
-
+    :return: numerical values set updated with `sp.Matrix()`.
     '''
-    # convert x_0
-    return (x_0,) if not isinstance(x_0, (list, tuple)) else x_0
+    if isinstance(x_0, (float, int)):
+        return (x_0,)
+    elif isinstance(x_0, (list, tuple)) and all(list(map(lambda x: isinstance(x, (float, int)), x_0))):
+        return x_0
+    else:
+        raise RuntimeError(f"p2t not support type of x_0: {type(x_0)}")
 
 def h2h(hessian: NDArray) -> NDArray:
     '''
-    Parameters
-    ----------
-    hessian : numpy.array
-        未修正的海瑟矩阵值
+    :param hessian: NDArray, hessian matrix with format at `numpy.ndarray`.
 
-
-    Returns
-    -------
-    numpy.array
-        修正后的海瑟矩阵
-        
+    :return: returns a reversible hessian matrix.
     '''
     l = hessian.shape[0] # hessian.shape = (l, l)
     while 1:
@@ -90,6 +74,5 @@ def h2h(hessian: NDArray) -> NDArray:
         if rank == l:
             break
         else:
-            hessian = hessian + np.identity(l)
+            hessian += np.identity(l)
     return hessian
-__all__ = [f2m, a2m, p2t, h2h]
