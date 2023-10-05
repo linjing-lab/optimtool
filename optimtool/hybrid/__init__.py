@@ -27,4 +27,4 @@ __hybrid__ = {
     'Approximate Points': approt.__all__,
     'FISTA': fista.__all__,
     'Nesterov': nesterov.__all__
-} # TODO 补充hybrid优化的算法，补充文档参数和测试案例
+}
