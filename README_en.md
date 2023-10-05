@@ -259,7 +259,7 @@ oh.nesterov.[Function Name]([Target Function], [Parameters], [Initial Point], [R
 | head method                                                                                                                                 | explain                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | seckin(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | Nesterov acceleration method of the second kind |
-| accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | An acceleratedn method for hybrid optimization algorithm |
+| accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | An accelerated method for hybrid optimization algorithm |
 
 ## LICENSE
 
