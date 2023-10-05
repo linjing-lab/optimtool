@@ -56,6 +56,9 @@ pip install optimtool --upgrade
         |-- WanYuan.py
     |-- hybrid
         |-- __init__.py
+        |-- approt.py
+        |-- fista.py
+        |-- nesterov.py
     |-- unconstrain
         |-- __init__.py
         |-- gradient_descent.py
