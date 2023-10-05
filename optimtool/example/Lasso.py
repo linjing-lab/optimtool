@@ -54,6 +54,7 @@ def gradient(A: NDArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
+    assert alp <= 1 / L
     from .._drive import get_f_delta_gradient
     args = a2m(args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
@@ -63,13 +64,12 @@ def gradient(A: NDArray,
     while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu))
+        f.append(get_value(funcs, args, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         resv = np.array(res.subs(reps)).astype(DataType)
         argsv = np.array(args.subs(reps)).astype(DataType)
         g = get_f_delta_gradient(resv, argsv, mu, delta)
-        assert alp <= 1 / L
         x_0 = x_0 - alp * g
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
@@ -115,7 +115,7 @@ def subgradient(A: NDArray,
     while 1:
         reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu))
+        f.append(get_value(funcs, args, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         resv = np.array(res.subs(reps)).astype(DataType)
@@ -167,7 +167,7 @@ def approximate_point(A: NDArray,
     while 1:
         reps = dict(zip(args, x_0))
         point.append(x_0)
-        f.append(get_value(funcs, args, x_0, mu))
+        f.append(get_value(funcs, args, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         grad = np.array(res.subs(reps)).astype(DataType)

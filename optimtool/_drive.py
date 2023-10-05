@@ -194,3 +194,7 @@ def renew_mu_k(cons_unequal: SympyMutableDenseMatrix,
     for i in range(len_unequal):
         muk[i] = max(muk[i] + sigma * consv_unequal[i], 0)
     return muk
+
+def gammak(k: int) -> DataType:
+    assert k >= 0
+    return 1 if k == 0 else 2 / (1 + np.sqrt(1 + 4 / gammak(k-1)))

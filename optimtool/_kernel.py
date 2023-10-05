@@ -70,3 +70,19 @@ def nonmonotonic_search(method: str, M: int, eta: float):
         return ZhangHanger, eta
     else:
         raise ValueError("The search selector supports 2 parameters: Grippo, ZhangHanger.")
+
+def set_proxim(method: str):
+    '''
+    :param method: str, the different proximity operators used in updating iteration point noted with `method`.
+
+    :return: executable functions compatible with updating iteration point of hybrid algorithms. 
+    '''
+    from ._proxim import l1, l2, ln
+    if method == 'L1':
+        return l1
+    elif method == 'L2':
+        return l2
+    elif method == 'ln':
+        return ln
+    else:
+        raise ValueError("The proximity operators selector supports 3 parameters: L1, L2, ln.")

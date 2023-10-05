@@ -23,7 +23,7 @@ from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPoin
 
 __all__ = ["get_value", "plot_iteration"]
 
-def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, mu: Optional[float]=None) -> DataType:
+def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, mu: Optional[float]=None, proxim: Optional[str]=None) -> DataType:
     '''
     :param funcs: SympyMutableDenseMatrix, objective function after `convert`.
     :param args: SympyMutableDenseMatrix, symbolic set after `convert` with order.
@@ -34,8 +34,12 @@ def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
     '''
     funcsv = np.array(funcs.subs(dict(zip(args, x_0)))).astype(DataType)
     if mu is not None:
-        for i in x_0:
-            funcsv += mu * np.abs(i)
+        if proxim == "L1":
+            funcsv += mu * np.sum(np.abs(x_0))
+        elif proxim == "L2":
+            funcsv += mu * np.linalg.norm(x_0)
+        elif proxim == "ln":
+            funcsv += -mu * np.sum(np.log(x_0))
     return funcsv[0][0]
 
 def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:
