@@ -22,6 +22,6 @@ from .base import np
 
 l1 = lambda delta, mu, tk: np.sign(delta) * np.max(np.abs(delta) - tk * mu, 0)
 
-l2 = lambda delta, mu, tk: (1 - (tk * mu) / np.linalg.norm(delta)) * delta if np.linalg.norm(delta) > tk * mu else 0
+l2 = lambda delta, mu, tk: (1 - (tk * mu) / np.linalg.norm(delta)) * delta if np.linalg.norm(delta) > tk * mu else np.zeros_like(delta)
 
 ln = lambda delta, mu, tk: (delta + np.sqrt(delta**2 + 4 * tk * mu)) / 2
