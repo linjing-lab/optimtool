@@ -52,29 +52,29 @@ def normal(funcs: FuncArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    assert tk > 0 and tk < 1
-    assert mu > 0 and mu < 1
-    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
-    from .._kernel import set_proxim
-    proximo, point, f = set_proxim(proxim), [], []
-    res = funcs.jacobian(args) # gradient
-    while 1:
-    	point.append(np.array(x_0))
-    	f.append(get_value(funcs, args, x_0, mu, proxim))
-        if verbose:
-            print("{}\t{}\t{}".format(x_0, f[-1], k))
-    	dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
-        if np.linalg.norm(dk) >= epsilon:
-        	yk = x_0 if k == 0 else x_0 + (k - 1) * (x_0 - point[k-1]) / (k + 2)
-        	dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
-        	delta = yk + tk * dky[0]
-         	x_0 = proximo(delta, mu, tk)
-         	k += 1
-        else:
-        	break
-    plot_iteration(f, draw, "FISTA_normal")
-    return (x_0, k, f) if output_f is True else (x_0, k)
+	assert tk > 0 and tk < 1
+	assert mu > 0 and mu < 1
+	funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
+	assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+	from .._kernel import set_proxim
+	proximo, point, f = set_proxim(proxim), [], []
+	res = funcs.jacobian(args) # gradient
+	while 1:
+		point.append(np.array(x_0))
+		f.append(get_value(funcs, args, x_0, mu, proxim))
+		if verbose:
+			print("{}\t{}\t{}".format(x_0, f[-1], k))
+		dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+		if np.linalg.norm(dk) >= epsilon:
+			yk = x_0 if k == 0 else x_0 + (k - 1) * (x_0 - point[k-1]) / (k + 2)
+			dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
+			delta = yk + tk * dky[0]
+			x_0 = proximo(delta, mu, tk)
+			k += 1
+		else:
+			break
+	plot_iteration(f, draw, "FISTA_normal")
+	return (x_0, k, f) if output_f is True else (x_0, k)
 
 def variant(funcs: FuncArray,
 		    args: ArgArray, 
@@ -102,32 +102,32 @@ def variant(funcs: FuncArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    assert tk > 0 and tk < 1
-    assert mu > 0 and mu < 1
-    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
-    from .._kernel import set_proxim
-    from .._drive import gammak
-    proximo, point, f = set_proxim(proxim), [], []
-    res = funcs.jacobian(args) # gradient
-    vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
-    while 1:
-    	point.append(np.array(x_0))
-    	f.append(get_value(funcs, args, x_0, mu, proxim))
-        if verbose:
-            print("{}\t{}\t{}".format(x_0, f[-1], k))
-    	dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
-        if np.linalg.norm(dk) >= epsilon:
-        	gk = gammak(k)
-        	yk = (1 - gk) * x_0 + gk * vkx(k)
-        	dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
-        	delta = yk + tk * dky[0]
-         	x_0 = proximo(delta, mu, tk)
-         	k += 1
-        else:
-        	break
-    plot_iteration(f, draw, "FISTA_variant")
-    return (x_0, k, f) if output_f is True else (x_0, k)
+	assert tk > 0 and tk < 1
+	assert mu > 0 and mu < 1
+	funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
+	assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+	from .._kernel import set_proxim
+	from .._drive import gammak
+	proximo, point, f = set_proxim(proxim), [], []
+	res = funcs.jacobian(args) # gradient
+	vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
+	while 1:
+		point.append(np.array(x_0))
+		f.append(get_value(funcs, args, x_0, mu, proxim))
+		if verbose:
+			print("{}\t{}\t{}".format(x_0, f[-1], k))
+		dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+		if np.linalg.norm(dk) >= epsilon:
+			gk = gammak(k)
+			yk = (1 - gk) * x_0 + gk * vkx(k)
+			dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
+			delta = yk + tk * dky[0]
+			x_0 = proximo(delta, mu, tk)
+			k += 1
+		else:
+			break
+	plot_iteration(f, draw, "FISTA_variant")
+	return (x_0, k, f) if output_f is True else (x_0, k)
 
 def decline(funcs: FuncArray,
 		    args: ArgArray, 
@@ -155,31 +155,31 @@ def decline(funcs: FuncArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    assert tk > 0 and tk < 1
-    assert mu > 0 and mu < 1
-    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
-    from .._kernel import set_proxim
-    from .._drive import gammak
-    proximo, point, f = set_proxim(proxim), [], []
-    res = funcs.jacobian(args) # gradient
-    vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
-    while 1:
-    	point.append(np.array(x_0))
-    	f.append(get_value(funcs, args, x_0, mu, proxim))
-        if verbose:
-            print("{}\t{}\t{}".format(x_0, f[-1], k))
-    	dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
-        if np.linalg.norm(dk) >= epsilon:
-        	gk = gammak(k)
-        	yk = (1 - gk) * x_0 + gk * vkx(k)
-        	dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
-        	delta = yk + tk * dky[0]
-         	u = proximo(delta, mu, tk)
-         	phiu = get_value(funcs, args, u, mu, proxim)
-         	x_0 = u if phiu <= f[-1] else x_0
-         	k += 1
-        else:
-        	break
-    plot_iteration(f, draw, "FISTA_decline")
-    return (x_0, k, f) if output_f is True else (x_0, k)
+	assert tk > 0 and tk < 1
+	assert mu > 0 and mu < 1
+	funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
+	assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+	from .._kernel import set_proxim
+	from .._drive import gammak
+	proximo, point, f = set_proxim(proxim), [], []
+	res = funcs.jacobian(args) # gradient
+	vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
+	while 1:
+		point.append(np.array(x_0))
+		f.append(get_value(funcs, args, x_0, mu, proxim))
+		if verbose:
+			print("{}\t{}\t{}".format(x_0, f[-1], k))
+		dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+		if np.linalg.norm(dk) >= epsilon:
+			gk = gammak(k)
+			yk = (1 - gk) * x_0 + gk * vkx(k)
+			dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
+			delta = yk + tk * dky[0]
+			u = proximo(delta, mu, tk)
+			phiu = get_value(funcs, args, u, mu, proxim)
+			x_0 = u if phiu <= f[-1] else x_0
+			k += 1
+		else:
+			break
+	plot_iteration(f, draw, "FISTA_decline")
+	return (x_0, k, f) if output_f is True else (x_0, k)

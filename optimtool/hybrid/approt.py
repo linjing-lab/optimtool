@@ -27,17 +27,17 @@ from .._typing import FuncArray, ArgArray, PointArray, DataType, OutputType
 __all__ = ["grad"]
 
 def grad(funcs: FuncArray,  
-		 args: ArgArray, 
-		 x_0: PointArray,
-		 mu: float=1e-3, 
-		 proxim: str="L1",
-		 tk: float=0.02,  
-		 verbose: bool=False, 
-		 draw: bool=True,
-		 output_f: bool=False,
-		 epsilon: float=1e-10,
-		 k: int=0) -> OutputType:
-	'''
+         args: ArgArray, 
+         x_0: PointArray, 
+         mu: float=1e-3, 
+         proxim: str="L1",
+         tk: float=0.02,  
+         verbose: bool=False, 
+         draw: bool=True,
+         output_f: bool=False,
+         epsilon: float=1e-10,
+         k: int=0) -> OutputType:
+    '''
     :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
     :param args: ArgArray, symbol parameters composed with values of `symbols` in a `list` or `tuple`.
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
@@ -60,15 +60,15 @@ def grad(funcs: FuncArray,
     proximo, f = set_proxim(proxim), []
     res = funcs.jacobian(args) # gradient
     while 1:
-    	reps = dict(zip(args, x_0))
-    	f.append(get_value(funcs, args, x_0, mu, proxim))
+        reps = dict(zip(args, x_0))
+        f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
-         	delta = x_0 + tk * dk[0]
-         	x_0 = proximo(delta, mu, tk)
-         	k += 1
+            delta = x_0 + tk * dk[0]
+            x_0 = proximo(delta, mu, tk)
+            k += 1
         else:
             break
     plot_iteration(f, draw, "approximate_points_grad")

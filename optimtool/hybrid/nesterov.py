@@ -27,16 +27,16 @@ from .._typing import FuncArray, ArgArray, PointArray, DataType, OutputType
 __all__ = ["seckin", "accer"]
 
 def seckin(funcs: FuncArray,
-		    args: ArgArray, 
-		    x_0: PointArray,
-		    mu: float=1e-3, 
-		    proxim: str="L1",
-		    tk: float=0.02,  
-		    verbose: bool=False, 
-		    draw: bool=True,
-		    output_f: bool=False,
-		    epsilon: float=1e-10,
-		    k: int=0) -> OutputType:
+		   args: ArgArray, 
+		   x_0: PointArray,
+		   mu: float=1e-3, 
+		   proxim: str="L1",
+		   tk: float=0.02,  
+		   verbose: bool=False, 
+		   draw: bool=True,
+		   output_f: bool=False,
+		   epsilon: float=1e-10,
+		   k: int=0) -> OutputType:
 	'''
     :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
     :param args: ArgArray, symbol parameters composed with values of `symbols` in a `list` or `tuple`.
@@ -52,44 +52,44 @@ def seckin(funcs: FuncArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    assert tk > 0 and tk < 1
-    assert mu > 0 and mu < 1
-    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
-    from .._kernel import set_proxim
-    from .._drive import gammak
-    proximo, f = set_proxim(proxim), []
-    res, yk = funcs.jacobian(args), x_0 # gradient
-    while 1:
-    	f.append(get_value(funcs, args, x_0, mu, proxim))
-        if verbose:
-            print("{}\t{}\t{}".format(x_0, f[-1], k))
-    	dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
-        if np.linalg.norm(dk) >= epsilon:
-        	gk = gammak(k)
-        	zk = (1 - gk) * x_0 + gk * yk
-        	dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
-        	delta = yk + (tk * dkz[0]) / gk
-        	yk = proximo(delta, mu, tk / gk)
-         	x_0 = (1 - gk) * x_0 + gk * yk
-         	k += 1
-        else:
-        	break
-    plot_iteration(f, draw, "Nesterov_seckin")
-    return (x_0, k, f) if output_f is True else (x_0, k)
+	assert tk > 0 and tk < 1
+	assert mu > 0 and mu < 1
+	funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
+	assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+	from .._kernel import set_proxim
+	from .._drive import gammak
+	proximo, f = set_proxim(proxim), []
+	res, yk = funcs.jacobian(args), x_0 # gradient
+	while 1:
+		f.append(get_value(funcs, args, x_0, mu, proxim))
+		if verbose:
+			print("{}\t{}\t{}".format(x_0, f[-1], k))
+		dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+		if np.linalg.norm(dk) >= epsilon:
+			gk = gammak(k)
+			zk = (1 - gk) * x_0 + gk * yk
+			dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
+			delta = yk + (tk * dkz[0]) / gk
+			yk = proximo(delta, mu, tk / gk)
+			x_0 = (1 - gk) * x_0 + gk * yk
+			k += 1
+		else:
+			break
+	plot_iteration(f, draw, "Nesterov_seckin")
+	return (x_0, k, f) if output_f is True else (x_0, k)
 
 def accer(funcs: FuncArray,
-		    args: ArgArray, 
-		    x_0: PointArray,
-		    mu: float=1e-3, 
-		    proxim: str="L1",
-		    lk: float=0.02,
-		    tk: float=0.02,  
-		    verbose: bool=False, 
-		    draw: bool=True,
-		    output_f: bool=False,
-		    epsilon: float=1e-10,
-		    k: int=0) -> OutputType:
+		  args: ArgArray, 
+		  x_0: PointArray,
+		  mu: float=1e-3, 
+		  proxim: str="L1",
+		  lk: float=0.02,
+		  tk: float=0.02,  
+		  verbose: bool=False, 
+		  draw: bool=True,
+		  output_f: bool=False,
+		  epsilon: float=1e-10,
+		  k: int=0) -> OutputType:
 	'''
     :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
     :param args: ArgArray, symbol parameters composed with values of `symbols` in a `list` or `tuple`.
@@ -106,30 +106,30 @@ def accer(funcs: FuncArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    assert lk > 0 and lk < 1
-    assert tk > 0 and tk < 1
-    assert mu > 0 and mu < 1
-    funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
-    assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
-    from .._kernel import set_proxim
-    from .._drive import gammak
-    proximo, f = set_proxim(proxim), []
-    res, yk = funcs.jacobian(args), x_0 # gradient
-    while 1:
-    	f.append(get_value(funcs, args, x_0, mu, proxim))
-        if verbose:
-            print("{}\t{}\t{}".format(x_0, f[-1], k))
-    	dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
-        if np.linalg.norm(dk) >= epsilon:
-        	gk = gammak(k)
-        	zk = (1 - gk) * x_0 + gk * yk
-        	dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
-        	delta1 = yk + lk * dkz[0]
-        	yk = proximo(delta1, mu, lk)
-        	delta2 = zk + tk * dkz[0]
-        	x_0 = proximo(delta2, mu, tk)
-         	k += 1
-        else:
-        	break
-    plot_iteration(f, draw, "Nesterov_accer")
-    return (x_0, k, f) if output_f is True else (x_0, k)
+	assert lk > 0 and lk < 1
+	assert tk > 0 and tk < 1
+	assert mu > 0 and mu < 1
+	funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
+	assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+	from .._kernel import set_proxim
+	from .._drive import gammak
+	proximo, f = set_proxim(proxim), []
+	res, yk = funcs.jacobian(args), x_0 # gradient
+	while 1:
+		f.append(get_value(funcs, args, x_0, mu, proxim))
+		if verbose:
+			print("{}\t{}\t{}".format(x_0, f[-1], k))
+		dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+		if np.linalg.norm(dk) >= epsilon:
+			gk = gammak(k)
+			zk = (1 - gk) * x_0 + gk * yk
+			dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
+			delta1 = yk + lk * dkz[0]
+			yk = proximo(delta1, mu, lk)
+			delta2 = zk + tk * dkz[0]
+			x_0 = proximo(delta2, mu, tk)
+			k += 1
+		else:
+			break
+	plot_iteration(f, draw, "Nesterov_accer")
+	return (x_0, k, f) if output_f is True else (x_0, k)
