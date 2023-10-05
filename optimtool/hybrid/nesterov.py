@@ -35,7 +35,7 @@ def seckin(funcs: FuncArray,
 		   verbose: bool=False, 
 		   draw: bool=True,
 		   output_f: bool=False,
-		   epsilon: float=1e-10,
+		   epsilon: float=1e-6,
 		   k: int=0) -> OutputType:
 	'''
     :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
@@ -71,7 +71,7 @@ def seckin(funcs: FuncArray,
 			dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
 			delta = yk + (tk * dkz[0]) / gk
 			yk = proximo(delta, mu, tk / gk)
-			x_0 = (1 - gk) * x_0 + gk * yk
+			x_0 = gk * yk if gk == 1 else (1 - gk) * x_0 + gk * yk
 			k += 1
 		else:
 			break
@@ -83,12 +83,12 @@ def accer(funcs: FuncArray,
 		  x_0: PointArray,
 		  mu: float=1e-3, 
 		  proxim: str="L1",
-		  lk: float=0.02,
+		  lk: float=0.01,
 		  tk: float=0.02,  
 		  verbose: bool=False, 
 		  draw: bool=True,
 		  output_f: bool=False,
-		  epsilon: float=1e-10,
+		  epsilon: float=1e-6,
 		  k: int=0) -> OutputType:
 	'''
     :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
@@ -96,7 +96,7 @@ def accer(funcs: FuncArray,
     :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
     :param mu: float, regularization parameter acting on proximity operator selected from proxim. default: float=1e-3.
     :param proxim: str, proximity operator set by _proxim.py and set_proxim from .._kernel. default: str="L1".
-    :param lk: float, intermediate fixed step which need to be lower before `tk` acting on `x_0`. default: float=0.02.
+    :param lk: float, intermediate fixed step which need to be lower before `tk` acting on `x_0`. default: float=0.01.
     :param tk: float, fixed step which need to be lower conform to lipschitz continuity condition. default: float=0.02.
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.

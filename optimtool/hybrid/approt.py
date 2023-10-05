@@ -35,7 +35,7 @@ def grad(funcs: FuncArray,
          verbose: bool=False, 
          draw: bool=True,
          output_f: bool=False,
-         epsilon: float=1e-10,
+         epsilon: float=1e-6,
          k: int=0) -> OutputType:
     '''
     :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.

@@ -22,7 +22,6 @@ from . import approt
 from . import fista
 from . import nesterov
 
-
 __hybrid__ = {
     'Approximate Points': approt.__all__,
     'FISTA': fista.__all__,
