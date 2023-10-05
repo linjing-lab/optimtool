@@ -64,13 +64,12 @@ def grad(funcs: FuncArray,
     	f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-         dk = -np.array(res.subs(reps)).astype(DataType)
-         if np.linalg.norm(dk) >= epsilon:
+        dk = -np.array(res.subs(reps)).astype(DataType)
+        if np.linalg.norm(dk) >= epsilon:
          	delta = x_0 + tk * dk[0]
          	x_0 = proximo(delta, mu, tk)
          	k += 1
-         else:
-         	break
+        else:
+            break
     plot_iteration(f, draw, "approximate_points_grad")
     return (x_0, k, f) if output_f is True else (x_0, k)
-

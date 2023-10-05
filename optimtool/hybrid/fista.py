@@ -71,8 +71,8 @@ def normal(funcs: FuncArray,
         	delta = yk + tk * dky[0]
          	x_0 = proximo(delta, mu, tk)
          	k += 1
-         else:
-         	break
+        else:
+        	break
     plot_iteration(f, draw, "FISTA_normal")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
@@ -124,7 +124,7 @@ def variant(funcs: FuncArray,
         	delta = yk + tk * dky[0]
          	x_0 = proximo(delta, mu, tk)
          	k += 1
-         else:
-         	break
+        else:
+        	break
     plot_iteration(f, draw, "FISTA_variant")
     return (x_0, k, f) if output_f is True else (x_0, k)
