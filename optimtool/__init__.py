@@ -32,4 +32,4 @@ from .base import MATPLOTLIB_VERSION
 from ._version import __version__
 
 if sys.version_info < (3, 7, 0):
-    raise OSError(f'optimtool-2.5.0 requires Python >=3.7, but yours is {sys.version}')
+    raise OSError(f'optimtool-2.5.1 requires Python >=3.7, but yours is {sys.version}')

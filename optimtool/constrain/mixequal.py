@@ -210,7 +210,7 @@ def lagrange_augmentedm(funcs: FuncArray,
         vkx = v_k(cons_equal, cons_unequal, args, muk, sigma, x_0)
         if vkx <= epsilonk:
             res = L.jacobian(args)
-            if (vkx <= epsilon) and (np.linalg.norm(np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)) <= eta):
+            if (vkx <= epsilon) and (np.linalg.norm(np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)) <= etak):
                 f.append(get_value(funcs, args, x_0))
                 if verbose:
                     print("{}\t{}\t{}".format(x_0, f[-1], k))
