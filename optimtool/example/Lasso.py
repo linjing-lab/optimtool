@@ -54,12 +54,12 @@ def gradient(A: NDArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    assert alp <= 1 / L
     from .._drive import get_f_delta_gradient
     args = a2m(args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
+    assert alp <= 1 / L
     point, f = [], []
     while 1:
         reps = dict(zip(args, x_0))
