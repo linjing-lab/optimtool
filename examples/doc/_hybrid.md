@@ -441,6 +441,10 @@ oh.nesterov.[函数名]([目标函数], [参数表], [初始迭代点], [正则�
 | seckin(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 第二类Nesterov加速法 |
 | accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 复合优化算法的加速框架 |
 
+```python
+oh.nesterov.accer(f, x, x_0, verbose=True, epsilon=1e-4)
+```
+
 ```text
 (0.2, 0.2)	0.033830304000793295	0
 [0.19925643 0.19925643]	0.03371630105707655	1
