@@ -28,6 +28,7 @@ def kernel(method: str):
     from .unconstrain.newton import CG
     from .unconstrain.newton_quasi import bfgs
     from .unconstrain.trust_region import steihaug_CG
+    # set the above methods by change name after `import`, like bfgs -> L_BFGS.
     if method == "newton":
         return CG
     elif method == "gradient_descent":
