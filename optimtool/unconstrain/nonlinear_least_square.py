@@ -93,7 +93,7 @@ def levenberg_marquardt(funcr: FuncArray,
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
     :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcr`. default: bool=False.
-    :param lamk: float, the initial factor acting on the product of first-order residual matrices. default: float=1.
+    :param lamk: float, the initial factor acting on the product of first-order residual matrices. default: float=1.0.
     :param eta: float, threshold constraint required for controlling iteration point updates. default: float=0.2.
     :param p1: float, threshold for controlling whether lamk is updated by gamma2. default: float=0.4.
     :param p2: float, threshold for controlling whether lamk is updated by gamma1. default: float=0.9.

@@ -47,7 +47,7 @@ def gradient(A: NDArray,
     :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
     :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
-    :param delta: float, value used to adjust the constant influence of mu. default: float=10.
+    :param delta: float, value used to adjust the constant influence of mu. default: float=10.0.
     :param alp: float, initial update step size acting on smooth gradient. default: float=1e-3.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-2
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
