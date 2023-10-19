@@ -134,10 +134,9 @@ def barzilar_borwein(funcs: FuncArray,
     :param method: str, nonmonotone line search kernel used to drive the operation of finding best alpha default: str='Grippo'.
     :param c1: float, constant used to constrain alpha adjusted frequency with interval at (0, 1). default: float=0.6.
     :param beta: float, factor used to expand alpha for adapting to alphas interval. default: float=0.6
-    :param alpha: float, initial step size for nonmonotonic line search method with assert `> 0`. default: float=1.
     :param M: int, constant used to control the inner `max` process of `Grippo`. default: int=20.
     :param eta: float, constant used to control `C_k` process of `ZhangHanger`. default: float=0.6.
-    :param alpha: float=1, the initial step size of the main algorithm. default: float=1.
+    :param alpha: float, initial step size for nonmonotonic line search method with assert `> 0`. default: float=1.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
 
