@@ -230,6 +230,7 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix,
 
     :return: best alpha with format at `float`.
     '''
+    assert alpha > 0
     assert eta > 0
     assert eta < 1
     assert c1 > 0
