@@ -121,7 +121,7 @@ def barzilar_borwein(funcs: FuncArray,
                      beta: float=0.6,
                      M: int=20,
                      eta: float=0.6,
-                     alpha: float=1, 
+                     alpha: float=1., 
                      epsilon: float=1e-10, 
                      k: int=0) -> OutputType:
     '''

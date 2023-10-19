@@ -24,7 +24,7 @@ from ._typing import SympyMutableDenseMatrix, List, IterPointType, NDArray, Data
 def Q_k(eta: float, 
         k: int) -> float:
     assert k >= 0
-    return 1.0 if k == 0 else eta * Q_k(eta, k-1) + 1
+    return 1 if k == 0 else eta * Q_k(eta, k-1) + 1
 
 def C_k(funcs: SympyMutableDenseMatrix, 
         args: SympyMutableDenseMatrix, 
@@ -43,9 +43,9 @@ def get_f_delta_gradient(resv: NDArray,
         abs_args = np.abs(j)
         if abs_args > delta:
             if j > 0:
-                f.append(i + mu * 1)
+                f.append(i + mu)
             elif j < 0:
-                f.append(i - mu * 1)
+                f.append(i - mu)
         else:
             f.append(i + mu * (j / delta))
     return f[0]
@@ -56,11 +56,11 @@ def get_subgradient(resv: NDArray,
     f = []
     for i, j in zip(resv, argsv):
         if j > 0:
-            f.append(i + mu * 1)
+            f.append(i + mu)
         elif j == 0:
             f.append(i + mu * (2 * np.random.random_sample() - 1))
         else:
-            f.append(i - mu * 1)
+            f.append(i - mu)
     return f[0]
 
 def conjugate(A: NDArray, 
@@ -152,7 +152,7 @@ def cons_unequal_L(cons_unequal: SympyMutableDenseMatrix,
                    muk: NDArray, 
                    sigma: float, 
                    x_0: IterPointType) -> SympyMutableDenseMatrix:
-    sub = 0
+    sub = 0.
     for i in range(cons_unequal.shape[0]):
         cons = muk[i] / sigma + cons_unequal[i]
         con = sp.Matrix([cons])
@@ -169,7 +169,7 @@ def v_k(cons_equal: SympyMutableDenseMatrix,
         muk: NDArray, 
         sigma: float, 
         x_0: IterPointType) -> DataType:
-    sub = 0
+    sub = 0.
     reps = dict(zip(args, x_0))
     len_unequal = cons_unequal.shape[0]
     consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)

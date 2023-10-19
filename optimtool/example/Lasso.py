@@ -34,7 +34,7 @@ def gradient(A: NDArray,
              verbose: bool=False, 
              draw: bool=True, 
              output_f: bool=False, 
-             delta: float=10, 
+             delta: float=10., 
              alp: float=1e-3, 
              epsilon: float=1e-2, 
              k: int=0) -> OutputType:

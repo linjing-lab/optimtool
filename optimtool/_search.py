@@ -62,8 +62,8 @@ def goldstein(funcs: SympyMutableDenseMatrix,
               x_0: IterPointType, 
               d: NDArray, 
               c: float=0.2, 
-              alphas: float=0, 
-              alphae: float=10, 
+              alphas: float=0., 
+              alphae: float=10., 
               t: float=1.2, 
               eps: float=1e-3) -> float:
     '''
@@ -116,8 +116,8 @@ def wolfe(funcs: SympyMutableDenseMatrix,
           d: NDArray, 
           c1: float=0.3, 
           c2: float=0.5, 
-          alphas: float=0, 
-          alphae: float=2, 
+          alphas: float=0., 
+          alphae: float=2., 
           eps: float=1e-3) -> float:
     '''
     :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
