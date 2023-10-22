@@ -54,6 +54,8 @@ def gradient(A: NDArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
+    assert delta > 0
+    assert alp > 0
     from .._drive import get_f_delta_gradient
     args = a2m(args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
@@ -107,6 +109,7 @@ def subgradient(A: NDArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
+    assert alphak > 0
     from .._drive import get_subgradient
     args = a2m(args)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
