@@ -153,6 +153,7 @@ def L_BFGS(funcs: FuncArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
+    assert m > 0
     from .._drive import double_loop
     from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)

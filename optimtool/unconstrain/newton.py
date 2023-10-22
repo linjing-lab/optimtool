@@ -130,7 +130,7 @@ def CG(funcs: FuncArray,
     :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
     :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
     :param method: str, linear search kernel used to drive the operation of finding best aplha. default: str='wolfe'.
-    :param eps: float, the precision set for solve conjugate gradient method to obtain the next dk. default: 1e-6.
+    :param eps: float, the precision set for solve conjugate gradient method to obtain the next dk. default: float=1e-3.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-10.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
 

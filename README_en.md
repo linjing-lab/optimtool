@@ -111,7 +111,7 @@ ou.newton.[Function Name]([Target Function], [Parameters], [Initial Point])
 | head method                                                                                             | explain                                |
 | ----------------------------------------------------------------------------------------------- | --------------------------------- |
 | classic(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-10, k: int=0) -> OutputType                        | The next step is obtained by directly inverting the second derivative matrix of Target Function (Heather matrix) |
-| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=20, epsilon: float=1e-10, k: int=0) -> OutputType | Revise the current Heather matrix to ensure its positive definiteness (only one correction method is connected at present)      |
+| modified(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType | Revise the current Heather matrix to ensure its positive definiteness (only one correction method is connected at present)      |
 | CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", eps: float=1e-3, epsilon: float=1e-6, k: int=0) -> OutputType              | Newton conjugate gradient method is used to solve the gradient (a kind of inexact Newton method)         |
 
 #### Quasi Newton Methods(newton_quasi)
@@ -124,7 +124,7 @@ ou.newton_quasi.[Function Name]([Target Function], [Parameters], [Initial Point]
 | -------------------------------------------------------------------------------------------- | --------------- |
 | bfgs(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType  | Updating Heiser Matrix by BFGS Method    |
 | dfp(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType    | Updating Heiser Matrix by DFP Method     |
-| L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", m: float=6, epsilon: float=1e-10, k: int=0) -> OutputType | Updating the Heiser Matrix of BFGS by Double Loop Method |
+| L_BFGS(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, method: str="wolfe", m: int=6, epsilon: float=1e-10, k: int=0) -> OutputType | Updating the Heiser Matrix of BFGS by Double Loop Method |
 
 #### Nonlinear Least Square Methods(nonlinear_least_square)
 
