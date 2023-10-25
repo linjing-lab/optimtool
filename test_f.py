@@ -46,7 +46,7 @@ f = (-13 + x[0] + ((5 - x[1])*x[1] - 2)*x[1])**2 + \
 x_0 = (1, -1, 1, -1) # Random given
 
 # Train
-values = train(funcs=f, args=x, x_0=x_0)
+values = train(funcs=f, args=x, x_0=x_0) # default
 
 # Test
 test(colorlist, values, title)
