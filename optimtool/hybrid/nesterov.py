@@ -38,20 +38,20 @@ def seckin(funcs: FuncArray,
 		   epsilon: float=1e-6,
 		   k: int=0) -> OutputType:
 	'''
-    :param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
-    :param args: ArgArray, symbol parameters composed with values of `symbols` in a `list` or `tuple`.
-    :param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
-    :param mu: float, regularization parameter acting on proximity operator selected from proxim. default: float=1e-3.
-    :param proxim: str, proximity operator set by _proxim.py and set_proxim from .._kernel. default: str="L1".
-    :param tk: float, fixed step which need to be lower conform to lipschitz continuity condition. default: float=0.02.
-    :param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
-    :param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
-    :param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
-    :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-6.
-    :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
-
-    :return: final convergenced point and iterative times, (iterative values in a list).
-    '''
+	:param funcs: FuncArray, current objective equation constructed with values of `symbols` according to rules.
+	:param args: ArgArray, symbol parameters composed with values of `symbols` in a `list` or `tuple`.
+	:param x_0: PointArray, numerical iteration point in a `list` or `tuple` according to the order of values in `args`.
+	:param mu: float, regularization parameter acting on proximity operator selected from proxim. default: float=1e-3.
+	:param proxim: str, proximity operator set by _proxim.py and set_proxim from .._kernel. default: str="L1".
+	:param tk: float, fixed step which need to be lower conform to lipschitz continuity condition. default: float=0.02.
+	:param verbose: bool, iteration point, function value, numbers of iteration after the k-th iteration. default: bool=False.
+	:param draw: bool, use `bool` to control whether to draw visual images. default: bool=True.
+	:param output_f: bool, use `bool` to control whether to obtain iterative values of `funcs`. default: bool=False.
+	:param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-6.
+	:param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
+	
+	:return: final convergenced point and iterative times, (iterative values in a list).
+	'''
 	assert tk > 0 and tk < 1
 	assert mu > 0 and mu < 1
 	funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
