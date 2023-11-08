@@ -16,7 +16,7 @@ import optimtool.constrain as oc
 f, x1, x2 = sp.symbols("f x1 x2")
 f = (x1 - 2)**2 + (x2 - 1)**2
 c1 = x1 - x2 - 1
-c2 = 0.25*x1**2 - x2 - 1
+c2 = 0.25*x1**2 - x2 - 1 # c2 ≤ 0 
 ```
 
 ## 等式约束（equal）
