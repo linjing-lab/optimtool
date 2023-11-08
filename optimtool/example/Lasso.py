@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 from ..base import np, sp
-from .._convert import a2m
+from .._convert import a2m, p2t
 from .._utils import get_value, plot_iteration
 
 from .._typing import NDArray, ArgArray, PointArray, OutputType, DataType
@@ -57,7 +57,8 @@ def gradient(A: NDArray,
     assert delta > 0
     assert alp > 0
     from .._drive import get_f_delta_gradient
-    args = a2m(args)
+    args, x_0 = a2m(args), p2t(x_0)
+    assert args.shape[0] == len(x_0)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
@@ -111,7 +112,8 @@ def subgradient(A: NDArray,
     '''
     assert alphak > 0
     from .._drive import get_subgradient
-    args = a2m(args)
+    args, x_0 = a2m(args), p2t(x_0)
+    assert args.shape[0] == len(x_0)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
     point, f = [], []
@@ -160,7 +162,8 @@ def approximate_point(A: NDArray,
 
     :return: final convergenced point and iterative times, (iterative values in a list).
     '''
-    args = a2m(args)
+    args, x_0 = a2m(args), p2t(x_0)
+    assert args.shape[0] == len(x_0)
     values, _ = np.linalg.eig((A.T).dot(A))
     lambda_ma = max(values)
     tk = 1 / np.real(lambda_ma) if isinstance(lambda_ma, complex) else 1 / lambda_ma

@@ -235,7 +235,7 @@ oh.approt.[函数名]([目标函数], [参数表], [初始迭代点], [正则化
 
 | 方法头                                    | 解释                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| grad(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 基于梯度方法的邻近近似 |
+| grad(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 基于梯度方法的邻近近似 |
 
 #### FISTA算法（fista）
 
@@ -245,9 +245,9 @@ oh.fista.[函数名]([目标函数], [参数表], [初始迭代点], [正则化�
 
 | 方法头                      | 解释                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| normal(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 两步计算一个新点 |
-| variant(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | normal法的等价变形 |
-| decline(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 基于函数下降趋势的变体 |
+| normal(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 两步计算一个新点 |
+| variant(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | normal法的等价变形 |
+| decline(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 基于函数下降趋势的变体 |
 
 #### Nesterov算法（nesterov）
 
@@ -257,8 +257,8 @@ oh.nesterov.[函数名]([目标函数], [参数表], [初始迭代点], [正则�
 
 | 方法头                                                                                                                                 | 解释                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| seckin(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 第二类Nesterov加速法 |
-| accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | 复合优化算法的加速框架 |
+| seckin(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 第二类Nesterov加速法 |
+| accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 复合优化算法的加速框架 |
 
 ## LICENSE
 

@@ -236,7 +236,7 @@ oh.approt.[Function Name]([Target Function], [Parameters], [Initial Point], [Reg
 
 | head method                                                                                                                          | explain                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| grad(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | Proximity approximation based on gradient method |
+| grad(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | Proximity approximation based on gradient method |
 
 #### FISTA Algorithms（fista）
 
@@ -246,9 +246,9 @@ oh.fista.[Function Name]([Target Function], [Parameters], [Initial Point], [Regu
 
 | head method                      | explain                                  |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| normal(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | Two step calculation of a new point |
-| variant(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | Equivalent deformation of normal method |
-| decline(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | Variant based on the downward trend of the function |
+| normal(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | Two step calculation of a new point |
+| variant(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | Equivalent deformation of normal method |
+| decline(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | Variant based on the downward trend of the function |
 
 #### Nesterov Algorithms（nesterov）
 
@@ -258,8 +258,8 @@ oh.nesterov.[Function Name]([Target Function], [Parameters], [Initial Point], [R
 
 | head method                                                                                                                                 | explain                                   |
 | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| seckin(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | Nesterov acceleration method of the second kind |
-| accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-6, k: int=0) -> OutputType | An accelerated method for hybrid optimization algorithm |
+| seckin(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | Nesterov acceleration method of the second kind |
+| accer(funcs: FuncArray, args: ArgArray, x_0: PointArray, mu: float=1e-3, proxim: str="L1", lk: float=0.01, tk: float=0.02, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | An accelerated method for hybrid optimization algorithm |
 
 ## LICENSE
 
