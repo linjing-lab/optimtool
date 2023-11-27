@@ -124,7 +124,7 @@ def levenberg_marquardt(funcr: FuncArray,
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         jk = np.array(res.subs(reps)).astype(DataType)
-        dk = conjugate((jk.T).dot(jk) + lamk, -((jk.T).dot(rk)).reshape(1, -1), dk0, epsk)
+        dk = conjugate((jk.T).dot(jk) + lamk, -((jk.T).dot(rk)).reshape(1, -1), dk0, epsk).reshape(1, -1)
         pk_up = np.array(funcs.subs(reps)).astype(DataType) - np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)
         grad_f = np.array(resf.subs(reps)).astype(DataType)
         hess_f = np.array(hess.subs(reps)).astype(DataType)
@@ -133,12 +133,12 @@ def levenberg_marquardt(funcr: FuncArray,
         pk = pk_up / pk_down
         if np.linalg.norm(dk) >= epsilon:
             if pk < p1:
-                lamk = gamma2 * lamk
+                lamk *= gamma2
             else:
                 if pk > p2:
-                    lamk = gamma1 * lamk
+                    lamk *= gamma1
             if pk > eta:
-                x_0 = x_0 + dk[0]
+                x_0 += dk[0]
             k += 1
         else:
             break
