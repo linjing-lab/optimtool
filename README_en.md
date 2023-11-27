@@ -41,6 +41,30 @@ download stable version：
 ```text
 pip install optimtool --upgrade
 ```
+download version without optimized architecture:
+```text
+pip install optimtool==2.3.5
+```
+download versions with typing variables:
+```text
+pip install optimtool>=2.4.0
+```
+download versions with improved h2h function:
+```text
+pip install optimtool>=2.4.2
+```
+download versions with enhanced document expression:
+```text
+pip install optimtool>=2.5.0rc0 # detect illegal input
+```
+download versions with supported hybrid algorithms:
+```text
+pip install optimtool>=2.5.0
+```
+download versions with better supported numpy:
+```text
+pip install optimtool>=2.6.0
+```
 ## Structure
 
 ```textile

@@ -41,6 +41,30 @@ pip install -e . --verbose
 ```text
 pip install optimtool --upgrade
 ```
+下载没有更改库架构的版本：
+```text
+pip install optimtool==2.3.5
+```
+下载补全typing变量的版本：
+```text
+pip install optimtool>=2.4.0
+```
+下载改进h2h函数的版本：
+```text
+pip install optimtool>=2.4.2
+```
+下载增强文档表达和检测非法输入的版本：
+```text
+pip install optimtool>=2.5.0rc0
+```
+下载支持hybrid算法的版本：
+```text
+pip install optimtool>=2.5.0
+```
+下载更好地支持numpy的版本：
+```text
+pip install optimtool>=2.6.0
+```
 ## 项目结构
 
 ```textile
