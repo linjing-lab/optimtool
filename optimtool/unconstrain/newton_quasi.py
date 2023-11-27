@@ -65,12 +65,11 @@ def bfgs(funcs: FuncArray,
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)
-            delta = alpha * dk[0]
-            x_0 += delta
-            sk = alpha * dk
+            delta = alpha * dk # sk
+            x_0 += delta[0]
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
             if yk.all != 0:
-                hessian += (yk.T).dot(yk) / sk.dot(yk.T) - (hessian.dot(sk.T)).dot((hessian.dot(sk.T)).T) / sk.dot((hessian.dot(sk.T)))
+                hessian += (yk.T).dot(yk) / delta.dot(yk.T) - (hessian.dot(delta.T)).dot((hessian.dot(delta.T)).T) / delta.dot((hessian.dot(delta.T)))
             k += 1
         else:
             break
@@ -117,12 +116,11 @@ def dfp(funcs: FuncArray,
         dk = -hessiani.dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk)
-            delta = alpha * dk[0]
-            x_0 += delta
-            sk = alpha * dk
+            delta = alpha * dk # sk
+            x_0 += delta[0]
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
             if yk.all != 0:
-                hessiani = hessiani - (hessiani.dot(yk.T)).dot((hessiani.dot(yk.T)).T) / yk.dot(hessiani.dot(yk.T)) + (sk.T).dot(sk) / yk.dot(sk.T)
+                hessiani = hessiani - (hessiani.dot(yk.T)).dot((hessiani.dot(yk.T)).T) / yk.dot(hessiani.dot(yk.T)) + (delta.T).dot(delta) / yk.dot(delta.T)
             k += 1
         else:
             break
@@ -175,17 +173,17 @@ def L_BFGS(funcs: FuncArray,
         dk = -double_loop(grad, p, s, y, m, k, Hkm).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alphak = search(funcs, args, x_0, dk)
-            x_0 = x_0 + alphak * dk[0]
+            delta = alphak * dk # sk
+            x_0 += delta[0]
             if k > m:
                 s[k-m] = np.empty((1, l))
                 y[k-m] = np.empty((1, l))
-            sk = alphak * dk
-            s.append(sk)
+            s.append(delta)
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - grad
             y.append(yk)
-            pk = 1 / yk.dot(sk.T)
+            pk = 1 / yk.dot(delta.T)
             p.append(pk)
-            gammak = sk.dot(sk.T) / yk.dot(yk.T)
+            gammak = delta.dot(delta.T) / yk.dot(yk.T)
             gamma.append(gammak)
             k = k + 1
         else:
