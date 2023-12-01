@@ -132,12 +132,12 @@ def levenberg_marquardt(funcr: FuncArray,
         pk_down = -(grad_f.dot(dk.T) + 0.5*((dk.dot(hess_f)).dot(dk.T)))
         pk = pk_up / pk_down
         if np.linalg.norm(dk) >= epsilon:
-            if pk < p1:
+            if pk[0][0] < p1:
                 lamk *= gamma2
             else:
-                if pk > p2:
+                if pk[0][0] > p2:
                     lamk *= gamma1
-            if pk > eta:
+            if pk[0][0] > eta:
                 x_0 += dk[0]
             k += 1
         else:
