@@ -168,7 +168,7 @@ def barzilar_borwein(funcs: FuncArray,
             x_0 = x_0 + delta
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) + dk
             alpha_up = delta.dot(delta.T)
-            alpha_down = delta.dot(yk.T)
+            alpha_down = (delta.dot(yk.T))[0]
             if alpha_down != 0:
                 alpha = alpha_up / alpha_down
             k += 1
