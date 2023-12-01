@@ -45,7 +45,7 @@ pip install optimtool --upgrade
 ```text
 pip install optimtool==2.3.5
 ```
-下载补全typing变量的版本：
+下载优化库架构并增加typing变量的版本：
 ```text
 pip install optimtool>=2.4.0
 ```

@@ -45,7 +45,7 @@ download version without optimized architecture:
 ```text
 pip install optimtool==2.3.5
 ```
-download versions with typing variables:
+download versions optimized architecture with typing variables:
 ```text
 pip install optimtool>=2.4.0
 ```
@@ -53,9 +53,9 @@ download versions with improved h2h function:
 ```text
 pip install optimtool>=2.4.2
 ```
-download versions with enhanced document expression:
+download versions with enhanced document expression and detection of illegal input:
 ```text
-pip install optimtool>=2.5.0rc0 # detect illegal input
+pip install optimtool>=2.5.0rc0
 ```
 download versions with supported hybrid algorithms:
 ```text
