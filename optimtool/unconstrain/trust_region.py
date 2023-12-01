@@ -88,12 +88,12 @@ def steihaug_CG(funcs: FuncArray,
         if np.linalg.norm(dk) >= epsilon:
             funvk = np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)
             pk = (funv - funvk) / -(grad.dot(dk.T) + 0.5*((dk.dot(hessi)).dot(dk.T)))
-            if pk < p1:
+            if pk[0][0] < p1:
                 r0 *= gamma1
             else:
-                if (pk > p2) or (np.linalg.norm(dk) == r0):
+                if (pk[0][0] > p2) or (np.linalg.norm(dk) == r0):
                     r0 = min(gamma2 * r0, rmax)
-            if pk > eta:
+            if pk[0][0] > eta:
                 x_0 += dk[0]
             k += 1
         else:
