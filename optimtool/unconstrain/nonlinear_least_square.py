@@ -130,14 +130,14 @@ def levenberg_marquardt(funcr: FuncArray,
         hess_f = np.array(hess.subs(reps)).astype(DataType)
         hess_f = h2h(hess_f)
         pk_down = -(grad_f.dot(dk.T) + 0.5*((dk.dot(hess_f)).dot(dk.T)))
-        pk = pk_up / pk_down
+        pk = (pk_up / pk_down)[0][0]
         if np.linalg.norm(dk) >= epsilon:
-            if pk[0][0] < p1:
+            if pk < p1:
                 lamk *= gamma2
             else:
-                if pk[0][0] > p2:
+                if pk > p2:
                     lamk *= gamma1
-            if pk[0][0] > eta:
+            if pk > eta:
                 x_0 += dk[0]
             k += 1
         else:
