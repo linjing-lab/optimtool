@@ -65,6 +65,8 @@ pip install optimtool>=2.5.0
 ```text
 pip install optimtool>=2.6.0
 ```
+> 建议：如果对自定义输入函数的需求比高版本中允许的输入类型检查更为强烈，推荐下载v2.4.4；如果能够在_convert.py和_typing.py中做可扩展的输入函数类型（基于sympy.core中所实现的类型），那么高版本中所作出的优化可以得到保留与体现。
+
 ## 项目结构
 
 ```textile
