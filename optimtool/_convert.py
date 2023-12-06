@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 from .base import np, sp
-from ._typing import FuncType, FuncArray, ArgType, ArgArray, PointType, PointArray, SympyMutableDenseMatrix, NDArray
+from ._typing import ArgType, MulType, PowerType, AddType, FuncType, FuncArray, ArgArray, PointType, PointArray, SympyMutableDenseMatrix, NDArray
 
 __all__ = ["f2m", "a2m", "p2t", "h2h"]
 
@@ -29,9 +29,9 @@ def f2m(funcs: FuncArray) -> SympyMutableDenseMatrix:
 
     :return: objective function updated with `sp.Matrix()`.
     '''
-    if isinstance(funcs, (FuncType, SympyMutableDenseMatrix)):
-        return sp.Matrix([funcs])
-    elif isinstance(funcs, (list, tuple)) and all(list(map(lambda x: isinstance(x, FuncType), funcs))):
+    if isinstance(funcs, (SympyMutableDenseMatrix, AddType, PowerType, MulType, ArgType)): # add type of FuncType to support need!
+        return sp.Matrix([funcs]) # prefer SympyMutableDenseMatrix to avoid enter into elif
+    elif isinstance(funcs, (list, tuple)) and all(list(map(lambda x: isinstance(x, (AddType, PowerType, MulType, ArgType)), funcs))):
         return sp.Matrix(funcs)
     else:
         raise RuntimeError(f"f2m not support type of funcs: {type(funcs)}.")
@@ -42,8 +42,8 @@ def a2m(args: ArgArray) -> SympyMutableDenseMatrix:
 
     :return: symbolic values updated with `sp.Matrix()`.
     '''
-    if isinstance(args, (ArgType, SympyMutableDenseMatrix)):
-        return sp.Matrix([args])
+    if isinstance(args, (SympyMutableDenseMatrix, ArgType)):
+        return sp.Matrix([args]) # prefer SympyMutableDenseMatrix to avoid enter into elif
     elif isinstance(args, (list, tuple)) and all(list(map(lambda x: isinstance(x, ArgType), args))):
         return sp.Matrix(args)
     else:

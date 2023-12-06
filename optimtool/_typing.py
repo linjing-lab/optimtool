@@ -31,9 +31,12 @@ NDArray = np.ndarray # numpy.ndarray
 SympyMutableDenseMatrix = sp.matrices.dense.MutableDenseMatrix # symbolic values
 
 DataType = np.float64 # conver `object` to `float`
-
-FuncType = sp.core.add.Add
+# add type of FuncType to support need!
 ArgType = sp.core.symbol.Symbol
+MulType = sp.core.mul.Mul
+PowerType = sp.core.power.Pow
+AddType = sp.core.add.Add 
+FuncType = Union[AddType, PowerType, MulType, ArgType]
 PointType = Union[float, int]
 
 FuncArray = Union[SympyMutableDenseMatrix, FuncType, List[FuncType], Tuple[FuncType]]
