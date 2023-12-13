@@ -70,7 +70,8 @@ def penalty_quadratice(funcs: FuncArray,
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         pe = pen.subs(sig, sigma)
         x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
-        sigma, k = p * sigma, k + 1
+        k += 1
+        sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
             f.append(get_value(funcs, args, x_0))
@@ -126,8 +127,9 @@ def lagrange_augmentede(funcs: FuncArray,
         x_0, _ = search(L, args, tuple(x_0), draw=False, epsilon=etak)
         reps = dict(zip(args, x_0))
         consv = np.array(cons.subs(reps)).astype(DataType)
-        lamk = lamk + sigma * consv
-        sigma, k = p * sigma, k + 1
+        lamk += sigma * consv
+        k += 1
+        sigma *= p
         if np.linalg.norm(consv) <= epsilon:
             f.append(get_value(funcs, args, x_0))
             if verbose:

@@ -75,13 +75,13 @@ def penalty_quadraticm(funcs: FuncArray,
         pe = sp.Matrix([funcs + (sigma / 2) * cons_unequal.T * consv + (sigma / 2) * cons_equal.T * cons_equal])
         x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
         k += 1
+        sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
             f.append(get_value(funcs, args, x_0))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
-        sigma *= p
     plot_iteration(f, draw, "penalty_quadratic_mixequal")
     return (x_0, k, f) if output_f is True else (x_0, k)
 
@@ -136,7 +136,8 @@ def penalty_L1(funcs: FuncArray,
         consv_equal = np.where(consv_equal > 0, consv_equal, -1)
         pe = sp.Matrix([funcs + sigma * cons_unequal.T * consv_unequal + sigma * cons_equal.T * consv_equal])
         x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
-        sigma, k = p * sigma, k + 1
+        k += 1
+        sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
             f.append(get_value(funcs, args, x_0))

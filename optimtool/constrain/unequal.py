@@ -73,7 +73,8 @@ def penalty_quadraticu(funcs: FuncArray,
         consv = np.where(consv > 0, consv, 0)
         pe = sp.Matrix([funcs + (sigma / 2) * cons.T * consv])
         x_0, _ = search(pe, args, tuple(x_0), draw=False, epsilon=epsk)
-        sigma, k = p * sigma, k + 1
+        k += 1
+        sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
             f.append(get_value(funcs, args, x_0))
