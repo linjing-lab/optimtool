@@ -65,6 +65,10 @@ download versions with better supported numpy:
 ```text
 pip install optimtool>=2.6.0
 ```
+download versions with improved algorithm details:
+```text
+pip install optimtool>=2.7.0
+```
 > advices: if the demand for custom input function is stronger than input type check allowed in higher versions, it is recommended to download v2.4.4; if users need to extend types of FuncType in _convert.py and _typing.py (based on the types implemented in sympy.core), the optimizations made in higher versions can be preserved and reflected.
 
 ## Structure
