@@ -143,7 +143,7 @@ def steihaug(sk: List[int],
             ans = sk
             break
         betak = np.linalg.norm(rk)**2 / np.linalg.norm(r[k])**2
-        pk = - rk + betak * p[k]
+        pk = -rk + betak * p[k]
         k = k + 1
     return ans
 
