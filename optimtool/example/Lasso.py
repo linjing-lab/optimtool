@@ -177,7 +177,8 @@ def approximate_point(A: NDArray,
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         grad = np.array(res.subs(reps)).astype(DataType)
-        x_0 = np.sign(x_0 - tk * grad[0]) * [max(i, 0) for i in np.abs(x_0 - tk * grad[0]) - tk * mu]
+        yk = x_0 - tk * grad[0]
+        x_0 = np.sign(yk) * [max(i, 0) for i in np.abs(yk) - tk * mu]
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(x_0)
