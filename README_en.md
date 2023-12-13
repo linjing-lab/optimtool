@@ -232,9 +232,9 @@ oe.Lasso.[Function Name]([Matrxi A], [Matrix b], [Factor mu], [Parameters], [Ini
 
 | head method                                                                                                                                                                                                              | explain                                                              |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
-| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, delta: float=10., alp: float=1e-3, epsilon: float=1e-2, k: int=0) -> OutputType | Smoothing Lasso Function Method                                      |
+| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, delta: float=10., alp: float=1e-3, epsilon: float=1e-3, k: int=0) -> OutputType | Smoothing Lasso Function Method                                      |
 | subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, alphak: float=2e-2, epsilon: float=1e-3, k: int=0) -> OutputType             | Sub gradient method Lasso: avoiding first order nondifferentiability |
-| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType                           | Adjacent operator updating                                           |
+| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-3, k: int=0) -> OutputType                           | Adjacent operator updating                                           |
 
 #### Curve Tangency Problem(WanYuan)
 

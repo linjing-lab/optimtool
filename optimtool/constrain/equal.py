@@ -107,7 +107,7 @@ def lagrange_augmentede(funcs: FuncArray,
     :param lamk: float, the initial value of the elements in the initial penalty vector. default: float=6.0.
     :param sigma: float, penalty factor used to set the degree of convergence of `funcs`. default: float=10.0.
     :param p: float, parameter to adjust the degree value of convergence named `sigma`. default: float=2.0.
-    :param epak: float, used to set the precision to accelerate the completion of kernel. default: float=1e-4.
+    :param etak: float, used to set the precision to accelerate the completion of kernel. default: float=1e-4.
     :param epsilon: float, used to set the precision of stopping the overall algorithm. default: float=1e-6.
     :param k: int, iterative times is used to measure the difficulty of learning the `funcs` in the algorithm. default: int=0.
 

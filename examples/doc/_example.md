@@ -20,11 +20,11 @@ $$
 
 给定$A_{m \times n}$，$x_{n \times 1}$，$b_{m \times 1}$，正则化常数$\mu$。解决该无约束最优化问题，该问题目标函数一阶不可导。
 
-| 方法头                                                                                                     | 解释               |
-| ------------------------------------------------------------------------------------------------------- | ---------------- |
-| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, delta: float=10., alp: float=1e-3, epsilon: float=1e-2, k: int=0) -> OutputType | 光滑化Lasso函数法      |
+| 方法头                                                                                                                                                                                                                   | 解释                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, delta: float=10., alp: float=1e-3, epsilon: float=1e-3, k: int=0) -> OutputType | 光滑化Lasso函数法           |
 | subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, alphak: float=2e-2, epsilon: float=1e-3, k: int=0) -> OutputType             | 次梯度法Lasso避免一阶不可导 |
-| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 邻近算子更新 |
+| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-3, k: int=0) -> OutputType                           | 邻近算子更新                |
 
 
 ```python
@@ -62,8 +62,8 @@ oe.WanYuan.[函数名]([直线的斜率], [直线的截距], [二次项系数], 
 给定直线的斜率和截距，给定一个抛物线函数的二次项系数，一次项系数与常数项。 要求解一个给定圆心的圆，该圆同时与抛物线、直线相切，若存在可行方案，请给出切点的坐标。
 ```
 
-| 方法头                                                             | 解释                   |
-| --------------------------------------------------------------- | -------------------- |
+| 方法头                                                                                                                                                       | 解释                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
 | solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, verbose: bool=False, draw: bool=False, eps: float=1e-10) -> str | 使用高斯-牛顿方法求解构造的7个残差函数 |
 
 

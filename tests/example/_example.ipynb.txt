@@ -47,9 +47,9 @@
     "\n",
     "| 方法头                                                                                                     | 解释               |\n",
     "| ------------------------------------------------------------------------------------------------------- | ---------------- |\n",
-    "| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, delta: float=10., alp: float=1e-3, epsilon: float=1e-2, k: int=0) -> OutputType | 光滑化Lasso函数法      |\n",
+    "| gradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, delta: float=10., alp: float=1e-3, epsilon: float=1e-3, k: int=0) -> OutputType | 光滑化Lasso函数法      |\n",
     "| subgradient(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, alphak: float=2e-2, epsilon: float=1e-3, k: int=0) -> OutputType             | 次梯度法Lasso避免一阶不可导 |\n",
-    "| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-4, k: int=0) -> OutputType | 邻近算子更新 |"
+    "| approximate_point(A: NDArray, b: NDArray, mu: float, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, epsilon: float=1e-3, k: int=0) -> OutputType | 邻近算子更新 |"
    ]
   },
   {
