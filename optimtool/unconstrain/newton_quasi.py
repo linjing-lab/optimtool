@@ -68,8 +68,9 @@ def bfgs(funcs: FuncArray,
             delta = alpha * dk # sk
             x_0 += delta[0]
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
+            hess_delta = hessian.dot(delta.T)
             if yk.all != 0:
-                hessian += (yk.T).dot(yk) / delta.dot(yk.T) - (hessian.dot(delta.T)).dot((hessian.dot(delta.T)).T) / delta.dot((hessian.dot(delta.T)))
+                hessian += (yk.T).dot(yk) / delta.dot(yk.T) - (hess_delta).dot(hess_delta.T) / delta.dot(hess_delta)
             k += 1
         else:
             break
@@ -119,8 +120,9 @@ def dfp(funcs: FuncArray,
             delta = alpha * dk # sk
             x_0 += delta[0]
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
+            hessi_yk = hessiani.dot(yk.T)
             if yk.all != 0:
-                hessiani = hessiani - (hessiani.dot(yk.T)).dot((hessiani.dot(yk.T)).T) / yk.dot(hessiani.dot(yk.T)) + (delta.T).dot(delta) / yk.dot(delta.T)
+                hessiani = hessiani - (hessi_yk).dot(hessi_yk.T) / yk.dot(hessi_yk) + (delta.T).dot(delta) / yk.dot(delta.T)
             k += 1
         else:
             break
