@@ -122,7 +122,7 @@ def dfp(funcs: FuncArray,
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
             hessi_yk = hessiani.dot(yk.T)
             if yk.all != 0:
-                hessiani = hessiani - (hessi_yk).dot(hessi_yk.T) / yk.dot(hessi_yk) + (delta.T).dot(delta) / yk.dot(delta.T)
+                hessiani += (delta.T).dot(delta) / yk.dot(delta.T) - (hessi_yk).dot(hessi_yk.T) / yk.dot(hessi_yk)
             k += 1
         else:
             break
