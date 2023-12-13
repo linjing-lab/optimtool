@@ -29,6 +29,7 @@ def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
     :param args: SympyMutableDenseMatrix, symbolic set after `convert` with order.
     :param x_0: IterPointType, numpy.ndarray or List[PointType] or Tuple[PointType].
     :param mu: float | None, parameters collaborate with the problems applied in `Lasso`. default=None.
+    :param proxim: str | None, parameter indicate the type of proximity operators. default==None.
 
     :return: functional value with DataType.
     '''
@@ -40,6 +41,8 @@ def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
             funcsv += mu * np.linalg.norm(x_0)
         elif proxim == "ln":
             funcsv += -mu * np.sum(np.log(x_0))
+        else:
+            raise ValueError("proxim supports 3 operators: L1, L2, ln.")
     return funcsv[0][0]
 
 def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:

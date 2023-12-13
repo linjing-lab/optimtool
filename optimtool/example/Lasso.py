@@ -77,7 +77,7 @@ def gradient(A: NDArray,
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0, mu))
+            f.append(get_value(funcs, args, x_0, mu, "L1"))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -131,7 +131,7 @@ def subgradient(A: NDArray,
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0, mu))
+            f.append(get_value(funcs, args, x_0, mu, "L1"))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -181,7 +181,7 @@ def approximate_point(A: NDArray,
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(x_0)
-            f.append(get_value(funcs, args, x_0, mu))
+            f.append(get_value(funcs, args, x_0, mu, "L1"))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
