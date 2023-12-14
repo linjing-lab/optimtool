@@ -66,7 +66,7 @@ def h2h(hessian: NDArray) -> NDArray:
     '''
     :param hessian: NDArray, hessian matrix with format at `numpy.ndarray`.
 
-    :return: returns a reversible hessian matrix.
+    :return: returns a positive definite and reversible hessian matrix.
     '''
     l = hessian.shape[0] # hessian.shape = (l, l)
     while 1:

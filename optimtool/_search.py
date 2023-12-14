@@ -167,7 +167,6 @@ def wolfe(funcs: SympyMutableDenseMatrix,
 
 # coordinate with `barzilar_borwein`.
 def Grippo(funcs: SympyMutableDenseMatrix,
-           res: SympyMutableDenseMatrix, 
            args: SympyMutableDenseMatrix, 
            x_0: IterPointType, 
            d: NDArray, 
@@ -179,7 +178,6 @@ def Grippo(funcs: SympyMutableDenseMatrix,
            M: int) -> float:
     '''
     :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param res: SympyMutableDenseMatrix, gradient function computed by .jacobian function.
     :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
@@ -198,22 +196,19 @@ def Grippo(funcs: SympyMutableDenseMatrix,
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    reps = dict(zip(args, x_0))
-    res0 = np.array(res.subs(reps)).astype(DataType)
     while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         fk = -np.inf
         for j in range(min(k, M) + 1):
             fk = max(fk, np.array(funcs.subs(dict(zip(args, point[k-j])))).astype(DataType))
-        if f1 <= fk + c1 * alpha * res0.dot(d.T):
+        if f1 <= fk + c1 * alpha * (-d).dot(d.T):
             break
         else:
             alpha *= beta
     return alpha
 
 def ZhangHanger(funcs: SympyMutableDenseMatrix, 
-                res: SympyMutableDenseMatrix,
                 args: SympyMutableDenseMatrix, 
                 x_0: IterPointType, 
                 d: NDArray, 
@@ -225,7 +220,6 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix,
                 eta: float) -> float:
     '''
     :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param res: SympyMutableDenseMatrix, gradient function computed by .jacobian function.
     :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
@@ -246,13 +240,11 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix,
     assert beta > 0
     assert beta < 1
     from ._drive import C_k
-    reps = dict(zip(args, x_0))
-    res0 = np.array(res.subs(reps)).astype(DataType)
     while 1:
         x = x_0 + (alpha*d)[0]
         f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         Ck = C_k(funcs, args, point, eta, k)
-        if f1 <= Ck + c1 * alpha * res0.dot(d.T):
+        if f1 <= Ck + c1 * alpha * (-d).dot(d.T):
             break
         else:
             alpha *= beta

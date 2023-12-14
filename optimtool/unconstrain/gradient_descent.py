@@ -163,7 +163,7 @@ def barzilar_borwein(funcs: FuncArray,
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, res, args, x_0, dk, k, point, c1, beta, alpha, constant)
+            alpha = search(funcs, args, x_0, dk, k, point, c1, beta, alpha, constant)
             delta = alpha * dk[0]
             x_0 = x_0 + delta
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) + dk
