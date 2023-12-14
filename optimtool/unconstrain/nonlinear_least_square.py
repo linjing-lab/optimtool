@@ -52,18 +52,19 @@ def gauss_newton(funcr: FuncArray,
     funcr, args, x_0 = f2m(funcr), a2m(args), p2t(x_0)
     assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
-    res, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
+    resr, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
+    res = funcs.jacobian(args)
     while 1:
         reps = dict(zip(args, x_0))
         rk = np.array(funcr.subs(reps)).astype(DataType)
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        jk = np.array(res.subs(reps)).astype(DataType)
+        jk = np.array(resr.subs(reps)).astype(DataType)
         q, r = np.linalg.qr(jk)
         dk = np.linalg.inv(r).dot(-(q.T).dot(rk)).reshape(1,-1) # operate with x_0
         if np.linalg.norm(dk) > epsilon:
-            alpha = search(funcs, args, x_0, dk)
+            alpha = search(funcs, res, args, x_0, dk)
             x_0 += alpha * dk[0]
             k += 1
         else:

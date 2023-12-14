@@ -64,7 +64,7 @@ def bfgs(funcs: FuncArray,
         gradient = np.array(res.subs(reps)).astype(DataType)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, args, x_0, dk)
+            alpha = search(funcs, res, args, x_0, dk)
             delta = alpha * dk # sk
             x_0 += delta[0]
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
@@ -116,7 +116,7 @@ def dfp(funcs: FuncArray,
         gradient = np.array(res.subs(reps)).astype(DataType)
         dk = -hessiani.dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, args, x_0, dk)
+            alpha = search(funcs, res, args, x_0, dk)
             delta = alpha * dk # sk
             x_0 += delta[0]
             yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
@@ -174,7 +174,7 @@ def L_BFGS(funcs: FuncArray,
         grad = np.array(res.subs(reps)).astype(DataType)
         dk = -double_loop(grad, p, s, y, m, k, Hkm).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alphak = search(funcs, args, x_0, dk)
+            alphak = search(funcs, res, args, x_0, dk)
             delta = alphak * dk # sk
             x_0 += delta[0]
             if k > m:

@@ -32,7 +32,7 @@ def C_k(funcs: SympyMutableDenseMatrix,
         eta: float, 
         k: int) -> DataType:
     assert k >= 0
-    return np.array(funcs.subs(dict(zip(args, point[0])))).astype(DataType) if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k - 1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(DataType))
+    return np.array(funcs.subs(dict(zip(args, point[0])))).astype(DataType) if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k-1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(DataType))
 
 def get_f_delta_gradient(resv: NDArray, 
                          argsv: NDArray, 

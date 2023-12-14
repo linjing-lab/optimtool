@@ -104,7 +104,7 @@ def modified(funcs: FuncArray,
         hessian = h2h(hessian)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, args, x_0, dk)
+            alpha = search(funcs, res, args, x_0, dk)
             x_0 += alpha * dk[0]
             k += 1
         else:
@@ -152,7 +152,7 @@ def CG(funcs: FuncArray,
         hessian = np.array(hes.subs(reps)).astype(DataType)
         dk = conjugate(hessian, -gradient, dk0, eps).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, args, x_0, dk)
+            alpha = search(funcs, res, args, x_0, dk)
             x_0 += alpha * dk[0]
             k += 1
         else:
