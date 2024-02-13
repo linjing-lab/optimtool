@@ -2,19 +2,20 @@
 
 ```text
 git clone https://github.com/linjing-lab/jax.git
+cd jax/examples
 ```
 install reference: https://jax.readthedocs.io/en/latest/installation.html
 
 ## goto newton_method
 
 ```text
-cd examples/newton_method.py
+cat newton_method.py
 ```
 
 ## goto bfgs_method
 
 ```text
-cd examples/bfgs_method.py
+cat bfgs_method.py
 ```
 
 ## more methods
