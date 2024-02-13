@@ -2,7 +2,9 @@
 
 ```text
 git clone https://github.com/linjing-lab/jax.git
-cd jax/examples
+cd jax
+git checkout linjing-lab
+cd examples
 ```
 install reference: https://jax.readthedocs.io/en/latest/installation.html
 
