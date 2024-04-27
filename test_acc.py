@@ -15,3 +15,4 @@ acc_data = [f1, f2, f3, f4, f5]
 acc_function = optimtool.unconstrain.newton_quasi.bfgs
 
 Parallel(n_jobs=-1, backend="loky", prefer="processes")(delayed(acc_function)(f, x, (10, 10, 10, 10), epsilon=1e-4) for f in acc_data)
+# Parallel(n_jobs=-1, backend="threading", prefer="processes")(delayed(acc_function)(f, x, (10, 10, 10, 10), draw=False, epsilon=1e-4) for f in acc_data)
