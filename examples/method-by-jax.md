@@ -22,4 +22,4 @@ cat bfgs_method.py
 
 ## more methods
 
-use downloaded `jax` and `jaxlib` compatible with local backends, mostly adopt `jax.numpy` to design methods according to [linjing-lab/optimtool/releases](https://github.com/linjing-lab/optimtool/releases).
+use downloaded `jax` and `jaxlib` compatible with local backends (@jax.jit to GPU/TPU), mostly adopt `jax.numpy` to design methods according to [linjing-lab/optimtool/releases](https://github.com/linjing-lab/optimtool/releases).
