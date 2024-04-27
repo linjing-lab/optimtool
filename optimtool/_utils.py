@@ -55,6 +55,6 @@ def plot_iteration(f: List[DataType], draw: bool, method: str) -> None:
         plt.plot([i for i in range(len(f))], f, marker='o', c="firebrick", ls='--')
         plt.xlabel("$k$")
         plt.ylabel("$f(x_k)$")
-        plt.title(method)
+        plt.title(method) # alter this to custom plot name
         plt.show()
     return None
