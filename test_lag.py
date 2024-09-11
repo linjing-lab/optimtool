@@ -7,5 +7,5 @@ c2 = 0.25*x1**2 - x2 - 1
 # oc.unequal.lagrange_augmentedu(f, (x1, x2), c2, (1.5, 0.5), verbose=True)
 # oc.mixequal.lagrange_augmentedm(f, (x1, x2), c1, c2, (1.5, 0.5), verbose=True)
 oc.equal.lagrange_augmentede(f, (x1, x2), c1, (1.5, 0.5), verbose=True, epsilon=1e-3)
-# if users experiences slow printing of iteration points when `verbose=True`
+# if users experience slow printing of iteration points when `verbose=True`
 # try set the value to the left of epsilon, like etak=1e-3.
