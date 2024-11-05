@@ -1,11 +1,5 @@
 import optimtool.hybrid as oh
-from optimtool.base import sp 
-'''
-$$
-\min x^2+2xy+y^2+2x-2y \\
-\mathrm{s.t.} x \geq 0, y \geq 0
-$$
-'''
+from optimtool.base import sp
 x1, x2 = sp.symbols("x1 x2")
 obf = x1**2 + 2*x1*x2 + x2**2 + 2*x1 - 2*x2
 print(oh.nesterov.accer(obf, [x1, x2], (2, 3), verbose=True, proxim='ln', epsilon=4.00501))
