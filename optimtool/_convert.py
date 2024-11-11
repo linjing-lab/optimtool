@@ -32,6 +32,7 @@ def f2m(funcs: FuncArray) -> SympyMutableDenseMatrix:
     if isinstance(funcs, (SympyMutableDenseMatrix, AddType, PowerType, MulType, ArgType)): # add type of FuncType to support need!
         return sp.Matrix([funcs]) # prefer SympyMutableDenseMatrix to avoid enter into elif
     elif isinstance(funcs, (list, tuple)) and all(map(lambda x: isinstance(x, (AddType, PowerType, MulType, ArgType)), funcs)):
+    # elif isinstance(funcs, (list, tuple)) # drop many funtions check instances in large-scale spatial task with self-check.
         return sp.Matrix(funcs)
     else:
         raise RuntimeError(f"f2m not support type of funcs: {type(funcs)}.")
@@ -45,6 +46,7 @@ def a2m(args: ArgArray) -> SympyMutableDenseMatrix:
     if isinstance(args, (SympyMutableDenseMatrix, ArgType)):
         return sp.Matrix([args]) # prefer SympyMutableDenseMatrix to avoid enter into elif
     elif isinstance(args, (list, tuple)) and all(map(lambda x: isinstance(x, ArgType), args)):
+    # elif isinstance(args, (list, tuple)) # drop sequences check instances in large-scale sequence task with self-check.
         return sp.Matrix(args)
     else:
         raise RuntimeError(f"a2m not support type of args: {type(args)}")
@@ -58,6 +60,7 @@ def p2t(x_0: PointArray) -> PointArray:
     if isinstance(x_0, (float, int)):
         return (x_0,)
     elif isinstance(x_0, (list, tuple)) and all(map(lambda x: isinstance(x, (float, int)), x_0)):
+    # elif isinstance(x_0, (list, tuple)) # drop initial sequences check values in large-scale objective task with self-check.
         return x_0
     else:
         raise RuntimeError(f"p2t not support type of x_0: {type(x_0)}")
