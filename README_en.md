@@ -23,7 +23,7 @@
 
 ## Introduction
 
-&emsp;&emsp;optimtool adopts theoretical frameworks in book <Optimization: Modeling, Algorithms and Theory> published by Peking University Press, `Numpy` is used to handle operations between numerical arrays efficiently. Applied jacobian and methods of `Sympy` to support symbolic differentiation, and realized the switch from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. A optimization toolbox for scientific research is designed for Researchers and Developers. Anyone can use a simple `pip` command to download and use.
+&emsp;&emsp;optimtool adopts theoretical frameworks in book <Optimization: Modeling, Algorithms and Theory> published by Peking University Press, `Numpy` is used to handle operations between numerical arrays efficiently. Applied jacobian and methods of `Sympy` to support symbolic differentiation, and realized the switch from Sympy matrix to Numpy matrix combined with Python built-in functions dict and zip. The optimization toolbox for scientific research is designed for Researchers and Developers.
 
 If you used **optimtool** in your research, welcome to cite it in your paper (follow the format below).
 
