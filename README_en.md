@@ -168,7 +168,7 @@ ou.nonlinear_least_square.[Function Name]([Target Function], [Parameters], [Init
 
 | head method                                                                                                                                                                                                                                                                                            | explain                                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False,, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                                                                                        | Gauss Newton's method framework, include OR decomposition and other operations |
+| gauss_newton(funcr: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False,, draw: bool=True, output_f: bool=False, method: str="wolfe", epsilon: float=1e-10, k: int=0) -> OutputType                                                                                                        | Gauss Newton method framework, include OR decomposition and other operations |
 | levenberg_marquardt(funcr: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, lamk: float=1., eta: float=0.2, p1: float=0.4, p2: float=0.9, gamma1: float=0.7, gamma2: float=1.3, epsk: float=1e-6, epsilon: float=1e-10, k: int=0) -> OutputType | Methodology framework proposed by Levenberg Marquardt                          |
 
 #### Trust Region Methods(trust_region)
@@ -179,7 +179,7 @@ ou.trust_region.[Function Name]([Target Function], [Parameters], [Initial Point]
 
 | head method                                                                                                                                                                                                                                                                                                 | explain                                                                        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, r0: float=1., rmax: float=2., eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsk: float=1e-6, epsilon: float=1e-6, k: int=0) -> OutputType | Truncated conjugate gradient method is used to search step size in this method |
+| steihaug_CG(funcs: FuncArray, args: ArgArray, x_0: PointArray, verbose: bool=False, draw: bool=True, output_f: bool=False, r0: float=1., rmax: float=2., eta: float=0.2, p1: float=0.4, p2: float=0.6, gamma1: float=0.5, gamma2: float=1.5, epsk: float=1e-6, epsilon: float=1e-6, k: int=0) -> OutputType | Truncated conjugate gradient method used to search step size in this method |
 
 ### Constrained Optimization Algorithms(constrain)
 
@@ -254,7 +254,7 @@ Given the slope and intercept of a straight line, given the coefficient of the q
 
 | head method                                                                                                                                                  | explain                                                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, verbose: bool=False, draw: bool=False, eps: float=1e-10) -> str | Usee Gauss Newton Method to solve the 7  Constructed Residual Functions |
+| solution(m: float, n: float, a: float, b: float, c: float, x3: float, y3: float, x_0: tuple, verbose: bool=False, draw: bool=False, eps: float=1e-10) -> str | Use Gauss Newton method to solve 7  construct residual functions |
 
 ### Hybrid Optimization Algorithms(hybrid)
 
