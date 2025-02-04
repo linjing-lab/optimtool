@@ -1,7 +1,7 @@
 import optimtool.hybrid as oh
 from optimtool.base import sp
 x1, x2 = sp.symbols("x1 x2")
-obf = x1**2 + 2*x1*x2 + x2**2 + 2*x1 - 2*x2
+obf = x1**2 + 2*x1*x2 + x2**2 + 2*x1 - 2*x2 # should be constraint optimization with semi-positive values, solved by hybrid proxim='ln' method.
 # try to timely update next x_0 when reduce epsilon on objective to hybrid module, like 6e-2, 3e-2, 5e-5.
 print(oh.nesterov.accer(obf, [x1, x2], (2, 3), verbose=True, proxim='ln', epsilon=4.00501))
 # print(oh.fista.decline(obf, [x1, x2], (2, 3), verbose=True, proxim='ln', epsilon=4.00501))
