@@ -191,7 +191,6 @@ def Grippo(funcs: SympyMutableDenseMatrix,
     :return: best alpha with format at `float`.
     '''
     assert M > 0
-    assert alpha > 0
     assert c1 > 0
     assert c1 < 1
     assert beta > 0
