@@ -14,13 +14,13 @@ DataType = np.float64
 # Define train set
 def train(funcs, args, x_0) -> List[List[DataType]]:
     f_list = []
-    _, _, f = oo.unconstrain.gradient_descent.barzilar_borwein(funcs, args, x_0, False, True)
+    _, _, f = oo.unconstrain.gradient_descent.barzilar_borwein(funcs, args, x_0, draw=False, output_f=True)
     f_list.append(f)
-    _, _, f = oo.unconstrain.newton.modified(funcs, args, x_0, False, True)
+    _, _, f = oo.unconstrain.newton.modified(funcs, args, x_0, draw=False, output_f=True)
     f_list.append(f)
-    _, _, f = oo.unconstrain.newton_quasi.L_BFGS(funcs, args, x_0, False, True)
+    _, _, f = oo.unconstrain.newton_quasi.L_BFGS(funcs, args, x_0, m=1, draw=False, output_f=True)
     f_list.append(f)
-    _, _, f = oo.unconstrain.trust_region.steihaug_CG(funcs, args, x_0, False, True)
+    _, _, f = oo.unconstrain.trust_region.steihaug_CG(funcs, args, x_0, draw=False, output_f=True)
     f_list.append(f)
     return f_list
 
