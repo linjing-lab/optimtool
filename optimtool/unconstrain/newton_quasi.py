@@ -56,7 +56,7 @@ def bfgs(funcs: FuncArray,
     hes = res.jacobian(args)
     hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
     hessian = h2h(hessian)
-    while 1:
+    while 1: # while k < max_iters when constraint optimization
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:

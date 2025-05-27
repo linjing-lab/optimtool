@@ -143,7 +143,7 @@ def CG(funcs: FuncArray,
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # gradient
     hes, dk0 = res.jacobian(args), np.zeros((args.shape[0], 1)) # hessian and initial dk
-    while 1:
+    while 1: # while k < max_iters when constraint optimization
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:

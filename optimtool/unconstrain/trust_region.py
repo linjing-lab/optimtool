@@ -75,7 +75,7 @@ def steihaug_CG(funcs: FuncArray,
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     s0, f = [0 for _ in range(args.shape[0])], []
-    while 1:
+    while 1: # while k < max_iters when constraint optimization
         reps = dict(zip(args, x_0))
         funv = np.array(funcs.subs(reps)).astype(DataType)
         f.append(funv[0][0])

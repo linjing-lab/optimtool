@@ -155,7 +155,7 @@ def barzilar_borwein(funcs: FuncArray,
     from .._kernel import nonmonotonic_search
     search, constant = nonmonotonic_search(method, M, eta)
     res, point, f = funcs.jacobian(args), [], []
-    while 1:
+    while 1: # while k < max_iters when constraint optimization
         point.append(x_0)
         reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
