@@ -54,7 +54,7 @@ def gen_nn(X_data, y_data, hidden_dims=[], task='classification'):
                 for k in range(current_dim):
                     sum_val += W_mat[j][k] * x[k]
                 sum_val += b_vec[j]
-                z.append(sp.Max(0, sum_val)) # ReLU
+                z.append(sum_val)# sp.Max(0, sum_val)
             x = z
             current_dim = h_dim
         output_dim = n_outputs
