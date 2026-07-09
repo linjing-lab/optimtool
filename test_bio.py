@@ -32,3 +32,16 @@ n_same = 60
 n_diff = 40
 f3 = n_same * sp.log(P_same) + n_diff * sp.log(P_diff)
 ou.gradient_descent.barzilar_borwein(f3, [t, lam], [1.0, 0.586], verbose=True, epsilon=1e-4)
+
+# Protein Thermal Denaturation Model
+delta_H = sp.symbols('Delta_H', real=True, positive=True)
+Tm = sp.symbols('T_m', real=True, positive=True)
+delta_Cp = sp.symbols('Delta_Cp', real=True)
+T = 331.578947
+delta_G = delta_H * (1 - T/Tm) - delta_Cp * ((Tm - T) + T * sp.log(T/Tm))
+R = 8.314e-3
+F_folded = 1 / (1 + sp.exp(delta_G / (R * T)))
+sigma = sp.symbols('sigma', real=True, positive=True)
+log_likelihood = -sp.log(1 / (sp.sqrt(2 * sp.pi) * sigma)) - (0.331567 - F_folded)**2 / (2 * sigma**2)
+f4 = -log_likelihood
+ou.newton.CG(f4, [delta_H, Tm, delta_Cp, sigma], [220.0, 330.0, 4.5, 0.02], verbose=True, epsilon=1e-4)
