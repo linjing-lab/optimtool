@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..base import np
+from ..base import np, sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t
 
@@ -60,15 +60,16 @@ def seckin(funcs: FuncArray,
     from .._drive import gammak
     proximo, f = set_proxim(proxim), []
     res, yk = funcs.jacobian(args), x_0 # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
         f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+        dk = -res_num(*x_0)
         if np.linalg.norm(dk) >= epsilon:
             gk = gammak(k)
             zk = (1 - gk) * x_0 + gk * yk
-            dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
+            dkz = -res_num(*zk)
             delta = yk + (tk * dkz[0]) / gk
             yk = proximo(delta, mu, tk / gk)
             x_0 = gk * yk if gk == 1 else (1 - gk) * x_0 + gk * yk
@@ -115,15 +116,16 @@ def accer(funcs: FuncArray,
     from .._drive import gammak
     proximo, f = set_proxim(proxim), []
     res, yk = funcs.jacobian(args), x_0 # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
         f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+        dk = -res_num(*x_0)
         if np.linalg.norm(dk) >= epsilon:
             gk = gammak(k)
             zk = (1 - gk) * x_0 + gk * yk
-            dkz = -np.array(res.subs(dict(zip(args, zk)))).astype(DataType)
+            dkz = -res_num(*zk)
             delta1 = yk + lk * dkz[0]
             yk = proximo(delta1, mu, lk)
             delta2 = zk + tk * dkz[0]

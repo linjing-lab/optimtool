@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..base import np
+from ..base import np, sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t
 
@@ -59,15 +59,16 @@ def normal(funcs: FuncArray,
     from .._kernel import set_proxim
     proximo, point, f = set_proxim(proxim), [], []
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+        dk = -res_num(*x_0)
         if np.linalg.norm(dk) >= epsilon:
             yk = x_0 if k == 0 else x_0 + (k - 1) * (x_0 - point[k-1]) / (k + 2)
-            dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
+            dky = -res_num(*yk)
             delta = yk + tk * dky[0]
             x_0 = proximo(delta, mu, tk)
             k += 1
@@ -110,17 +111,18 @@ def variant(funcs: FuncArray,
     from .._drive import gammak
     proximo, point, f = set_proxim(proxim), [], []
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+        dk = -res_num(*x_0)
         if np.linalg.norm(dk) >= epsilon:
             gk = gammak(k)
             yk = (1 - gk) * x_0 + gk * vkx(k)
-            dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
+            dky = -res_num(*yk)
             delta = yk + tk * dky[0]
             x_0 = proximo(delta, mu, tk)
             k += 1
@@ -163,17 +165,18 @@ def decline(funcs: FuncArray,
     from .._drive import gammak
     proximo, point, f = set_proxim(proxim), [], []
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)
+        dk = -res_num(*x_0)
         if np.linalg.norm(dk) >= epsilon:
             gk = gammak(k)
             yk = (1 - gk) * x_0 + gk * vkx(k)
-            dky = -np.array(res.subs(dict(zip(args, yk)))).astype(DataType)
+            dky = -res_num(*yk)
             delta = yk + tk * dky[0]
             u = proximo(delta, mu, tk)
             phiu = get_value(funcs, args, u, mu, proxim)

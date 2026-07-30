@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..base import np
+from ..base import np, sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t
 
@@ -59,12 +59,13 @@ def grad(funcs: FuncArray,
     from .._kernel import set_proxim
     proximo, f = set_proxim(proxim), []
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(reps)).astype(DataType)
+        dk = -res_num(*x_0)
         if np.linalg.norm(dk) >= epsilon:
             delta = x_0 + tk * dk[0]
             x_0 = proximo(delta, mu, tk)
