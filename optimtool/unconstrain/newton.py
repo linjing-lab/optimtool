@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..base import np
+from ..base import np, sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
 
@@ -49,14 +49,18 @@ def classic(funcs: FuncArray,
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     hes, f = res.jacobian(args), []
+    hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        gradient = np.array(res.subs(reps)).astype(DataType)
-        hessian = np.array(hes.subs(reps)).astype(DataType)
+        gradient = res_num(*x_0)
+        # gradient = np.array(res.subs(reps)).astype(DataType)
+        # hessian = np.array(hes.subs(reps)).astype(DataType)
+        hessian = hes_num(*x_0)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             x_0 += dk[0]
@@ -93,14 +97,18 @@ def modified(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # graident
+    res_num = sp.lambdify(args, res, modules='numpy')
     hes = res.jacobian(args) # hessian
+    hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        gradient = np.array(res.subs(reps)).astype(DataType)
-        hessian = np.array(hes.subs(reps)).astype(DataType) # hessian: from `object` to `float`
+        gradient = res_num(*x_0)
+        # gradient = np.array(res.subs(reps)).astype(DataType)
+        # hessian = np.array(hes.subs(reps)).astype(DataType)
+        hessian = hes_num(*x_0)
         hessian = h2h(hessian)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
@@ -142,14 +150,18 @@ def CG(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     hes, dk0 = res.jacobian(args), np.zeros((args.shape[0], 1)) # hessian and initial dk
+    hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1: # while k < max_iters when constraint optimization
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        gradient = np.array(res.subs(reps)).astype(DataType)
-        hessian = np.array(hes.subs(reps)).astype(DataType)
+        gradient = res_num(*x_0)
+        # gradient = np.array(res.subs(reps)).astype(DataType)
+        # hessian = np.array(hes.subs(reps)).astype(DataType)
+        hessian = hes_num(*x_0)
         dk = conjugate(hessian, -gradient, dk0, eps).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, res, args, x_0, dk)

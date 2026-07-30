@@ -51,12 +51,14 @@ def solve(funcs: FuncArray,
     res = funcs.jacobian(args) # gradient
     m = sp.symbols("m")
     arg, f = sp.Matrix([m]), []
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(reps)).astype(DataType)
+        dk = -res_num(*x_0)
+        # dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             xt = x_0 + m * dk[0]
             h = funcs.subs(dict(zip(args, xt))).jacobian(arg)
@@ -95,12 +97,14 @@ def steepest(funcs: FuncArray,
     from .._kernel import linear_search
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # gradient
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(reps)).astype(DataType)
+        dk = -res_num(*x_0)
+        # dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, res, args, x_0, dk)
             x_0 += alpha * dk[0]
@@ -155,18 +159,20 @@ def barzilar_borwein(funcs: FuncArray,
     from .._kernel import nonmonotonic_search
     search, constant = nonmonotonic_search(method, M, eta)
     res, point, f = funcs.jacobian(args), [], []
+    res_num = sp.lambdify(args, res, modules='numpy')
     while 1: # while k < max_iters when constraint optimization
         point.append(x_0)
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        dk = -np.array(res.subs(reps)).astype(DataType)
+        dk = -res_num(*x_0)
+        # dk = -np.array(res.subs(reps)).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, args, x_0, dk, k, point, c1, beta, alpha, constant)
             delta = alpha * dk[0]
             x_0 = x_0 + delta
-            yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) + dk
+            yk = res_num(*x_0) + dk
             alpha_up = delta.dot(delta.T)
             alpha_down = (delta.dot(yk.T))[0]
             if alpha_down != 0:

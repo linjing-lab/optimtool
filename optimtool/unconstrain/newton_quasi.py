@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..base import np
+from ..base import np, sp
 from .._utils import get_value, plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
 
@@ -53,21 +53,25 @@ def bfgs(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
     hes = res.jacobian(args)
-    hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
+    hes_num = sp.lambdify(args, hes, modules='numpy')
+    hessian = hes_num(*x_0)
+    # hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
     hessian = h2h(hessian)
     while 1: # while k < max_iters when constraint optimization
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        gradient = np.array(res.subs(reps)).astype(DataType)
+        gradient = res_num(*x_0)
+        # gradient = np.array(res.subs(reps)).astype(DataType)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, res, args, x_0, dk)
             delta = alpha * dk # sk
             x_0 += delta[0]
-            yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
+            yk = res_num(*x_0) - gradient
             hess_delta = hessian.dot(delta.T)
             if yk.all != 0:
                 hessian += (yk.T).dot(yk) / delta.dot(yk.T) - (hess_delta).dot(hess_delta.T) / delta.dot(hess_delta)
@@ -104,22 +108,25 @@ def dfp(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
     hes = res.jacobian(args)
-    hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
+    hes_num = sp.lambdify(args, hes, modules='numpy')
+    hessian = hes_num(*x_0)
+    # hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
     hessian = h2h(hessian)
     hessiani = np.linalg.inv(hessian)
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        gradient = np.array(res.subs(reps)).astype(DataType)
+        gradient = res_num(*x_0)
         dk = -hessiani.dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alpha = search(funcs, res, args, x_0, dk)
             delta = alpha * dk # sk
             x_0 += delta[0]
-            yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - np.array(res.subs(reps)).astype(DataType)
+            yk = res_num(*x_0) - gradient
             hessi_yk = hessiani.dot(yk.T)
             if yk.all != 0:
                 hessiani += (delta.T).dot(delta) / yk.dot(delta.T) - (hessi_yk).dot(hessi_yk.T) / yk.dot(hessi_yk)
@@ -160,18 +167,20 @@ def L_BFGS(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     search = linear_search(method)
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
     hes = res.jacobian(args)
     l = hes.shape[0]
     f, s, y, p = [], [], [], []
     gamma = []
     gamma.append(1)
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         Hkm = gamma[k] * np.identity(l)
-        grad = np.array(res.subs(reps)).astype(DataType)
+        grad = res_num(*x_0)
+        # grad = np.array(res.subs(reps)).astype(DataType)
         dk = -double_loop(grad, p, s, y, m, k, Hkm).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
             alphak = search(funcs, res, args, x_0, dk)
@@ -181,7 +190,7 @@ def L_BFGS(funcs: FuncArray,
                 s[k-m] = np.empty((1, l))
                 y[k-m] = np.empty((1, l))
             s.append(delta)
-            yk = np.array(res.subs(dict(zip(args, x_0)))).astype(DataType) - grad
+            yk = res_num(*x_0) - grad
             y.append(yk)
             pk = 1 / yk.dot(delta.T)
             p.append(pk)

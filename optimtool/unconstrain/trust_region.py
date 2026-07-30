@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from ..base import np
+from ..base import np, sp
 from .._utils import plot_iteration
 from .._convert import f2m, a2m, p2t, h2h
 
@@ -75,18 +75,26 @@ def steihaug_CG(funcs: FuncArray,
     res = funcs.jacobian(args)
     hes = res.jacobian(args)
     s0, f = [0 for _ in range(args.shape[0])], []
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    res_num = sp.lambdify(args, res, modules='numpy')
+    hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1: # while k < max_iters when constraint optimization
-        reps = dict(zip(args, x_0))
-        funv = np.array(funcs.subs(reps)).astype(DataType)
+        # reps = dict(zip(args, x_0))
+        funv = funcs_num(*x_0)
+        # funv = np.array(funcs.subs(reps)).astype(DataType)
         f.append(funv[0][0])
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        grad = np.array(res.subs(reps)).astype(DataType)
-        hessi = np.array(hes.subs(reps)).astype(DataType)
+        grad = res_num(*x_0)
+        hessi = hes_num(*x_0)
+        # grad = np.array(res.subs(reps)).astype(DataType)
+        # hessi = np.array(hes.subs(reps)).astype(DataType)
         hessi = h2h(hessi)
         dk = steihaug(s0, grad, -grad, hessi, r0, epsk).astype(DataType)
         if np.linalg.norm(dk) >= epsilon:
-            funvk = np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)
+            delta = x_0 + dk[0]
+            funvk = funcs_num(*delta)
+            # funvk = np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)
             pk = ((funv - funvk) / -(grad.dot(dk.T) + 0.5*((dk.dot(hessi)).dot(dk.T))))[0][0]
             if pk < p1:
                 r0 *= gamma1

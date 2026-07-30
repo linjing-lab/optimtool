@@ -53,14 +53,18 @@ def gauss_newton(funcr: FuncArray,
     assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
     resr, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
+    funcr_num = sp.lambdify(args, funcr, modules='numpy')
     res = funcs.jacobian(args)
+    resr_num = sp.lambdify(args, resr, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
-        rk = np.array(funcr.subs(reps)).astype(DataType)
+        # reps = dict(zip(args, x_0))
+        rk = funcr_num(*x_0)
+        # rk = np.array(funcr.subs(reps)).astype(DataType)
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        jk = np.array(resr.subs(reps)).astype(DataType)
+        jk = resr_num(*x_0)
+        # jk = np.array(resr.subs(reps)).astype(DataType)
         q, r = np.linalg.qr(jk)
         dk = np.linalg.inv(r).dot(-(q.T).dot(rk)).reshape(1,-1) # operate with x_0
         if np.linalg.norm(dk) > epsilon:
@@ -118,17 +122,25 @@ def levenberg_marquardt(funcr: FuncArray,
     res, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
     resf = funcs.jacobian(args)
     hess, dk0, f = resf.jacobian(args), np.zeros((args.shape[0], 1)), []
+    funcr_num = sp.lambdify(args, funcr, modules='numpy')
+    res_num = sp.lambdify(args, res, modules='numpy')
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    resf_num = sp.lambdify(args, resf, modules='numpy')
+    hess_num = sp.lambdify(args, hess, modules='numpy')
     while 1:
-        reps = dict(zip(args, x_0))
-        rk = np.array(funcr.subs(reps)).astype(DataType)
+        # reps = dict(zip(args, x_0))
+        rk = funcr_num(*x_0)
+        # rk = np.array(funcr.subs(reps)).astype(DataType)
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        jk = np.array(res.subs(reps)).astype(DataType)
+        jk = res_num(*x_0)
+        # jk = np.array(res.subs(reps)).astype(DataType)
         dk = conjugate((jk.T).dot(jk) + lamk, -((jk.T).dot(rk)).reshape(1, -1), dk0, epsk).reshape(1, -1)
-        pk_up = np.array(funcs.subs(reps)).astype(DataType) - np.array(funcs.subs(dict(zip(args, x_0 + dk[0])))).astype(DataType)
-        grad_f = np.array(resf.subs(reps)).astype(DataType)
-        hess_f = np.array(hess.subs(reps)).astype(DataType)
+        delta = x_0 + dk[0]
+        pk_up = funcs_num(*x_0) - funcs_num(*delta)
+        grad_f = resf_num(*x_0)
+        hess_f = hess_num(*x_0)
         hess_f = h2h(hess_f)
         pk_down = -(grad_f.dot(dk.T) + 0.5*((dk.dot(hess_f)).dot(dk.T)))
         pk = (pk_up / pk_down)[0][0]
