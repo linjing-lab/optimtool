@@ -63,13 +63,15 @@ def penalty_quadraticm(funcs: FuncArray,
     from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
     search, point, f = kernel(method), [], []
+    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        reps = dict(zip(args, x_0))
-        consv = np.array(cons_unequal.subs(reps)).astype(DataType)
+        # reps = dict(zip(args, x_0))
+        consv = cons_unequal_num(*x_0)
+        # consv = np.array(cons_unequal.subs(reps)).astype(DataType)
         consv = np.where(consv <= 0, consv, 1)
         consv = np.where(consv > 0, consv, 0)
         pe = sp.Matrix([funcs + (sigma / 2) * cons_unequal.T * consv + (sigma / 2) * cons_equal.T * cons_equal])
@@ -122,16 +124,20 @@ def penalty_L1(funcs: FuncArray,
     from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
     search, point, f = kernel(method), [], []
+    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
+    cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         reps = dict(zip(args, x_0))
-        consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
+        consv_unequal = cons_unequal_num(*x_0)
+        # consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
         consv_unequal = np.where(consv_unequal <= 0, consv_unequal, 1)
         consv_unequal = np.where(consv_unequal > 0, consv_unequal, 0)
-        consv_equal = np.array(cons_equal.subs(reps)).astype(DataType)
+        consv_equal = cons_equal_num(*x_0)
+        # consv_equal = np.array(cons_equal.subs(reps)).astype(DataType)
         consv_equal = np.where(consv_equal <= 0, consv_equal, 1)
         consv_equal = np.where(consv_equal > 0, consv_equal, -1)
         pe = sp.Matrix([funcs + sigma * cons_unequal.T * consv_unequal + sigma * cons_equal.T * consv_equal])
@@ -198,6 +204,7 @@ def lagrange_augmentedm(funcs: FuncArray,
     search, f = kernel(method), []
     lamk = np.array([lamk for _ in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for _ in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
+    cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
     while 1:
         f.append(get_value(funcs, args, x_0))
         if verbose:
@@ -211,13 +218,15 @@ def lagrange_augmentedm(funcs: FuncArray,
         vkx = v_k(cons_equal, cons_unequal, args, muk, sigma, x_0)
         if vkx <= epsilonk:
             res = L.jacobian(args)
-            if (vkx <= epsilon) and (np.linalg.norm(np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)) <= etak):
+            res_num = sp.lambdify(args, res, modules='numpy')
+            if (vkx <= epsilon) and (np.linalg.norm(res_num(*x_0)) <= etak):
                 f.append(get_value(funcs, args, x_0))
                 if verbose:
                     print("{}\t{}\t{}".format(x_0, f[-1], k))
                 break
             else:
-                lamk += sigma * np.array(cons_equal.subs(dict(zip(args, x_0)))).astype(DataType)
+                consv_equal = cons_equal_num(*x_0)
+                lamk += sigma * consv_equal
                 muk = renew_mu_k(cons_unequal, args, muk, sigma, x_0)
                 etak /= sigma
                 epsilonk /= sigma**beta

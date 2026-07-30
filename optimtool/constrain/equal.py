@@ -119,14 +119,16 @@ def lagrange_augmentede(funcs: FuncArray,
     search, f = kernel(method), []
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     lamk = np.array([lamk for _ in range(cons.shape[0])]).reshape(cons.shape[0], 1)
+    cons_num = sp.lambdify(args, cons, modules='numpy')
     while 1:
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
         x_0, _ = search(L, args, tuple(x_0), draw=False, epsilon=etak)
-        reps = dict(zip(args, x_0))
-        consv = np.array(cons.subs(reps)).astype(DataType)
+        # reps = dict(zip(args, x_0))
+        consv = cons_num(*x_0)
+        # consv = np.array(cons.subs(reps)).astype(DataType)
         lamk += sigma * consv
         k += 1
         sigma *= p

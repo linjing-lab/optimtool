@@ -62,13 +62,15 @@ def penalty_quadraticu(funcs: FuncArray,
     from .._kernel import kernel
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
     search, point, f = kernel(method), [], []
+    cons_num = sp.lambdify(args, cons, modules='numpy')
     while 1:
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        reps = dict(zip(args, x_0))
-        consv = np.array(cons.subs(reps)).astype(DataType)
+        # reps = dict(zip(args, x_0))
+        consv = cons_num(*x_0)
+        # consv = np.array(cons.subs(reps)).astype(DataType)
         consv = np.where(consv <= 0, consv, 1)
         consv = np.where(consv > 0, consv, 0)
         pe = sp.Matrix([funcs + (sigma / 2) * cons.T * consv])
@@ -144,7 +146,8 @@ def lagrange_augmentedu(funcs: FuncArray,
         vkx = v_k(None, cons, args, muk, sigma, x_0)
         if vkx <= epsilonk:
             res = L.jacobian(args)
-            if (vkx <= epsilon) and (np.linalg.norm(np.array(res.subs(dict(zip(args, x_0)))).astype(DataType)) <= eta):
+            res_num = sp.lambdify(args, res, modules='numpy')
+            if (vkx <= epsilon) and (np.linalg.norm(res_num(*x_0)) <= eta):
                 f.append(get_value(funcs, args, x_0))
                 if verbose:
                     print("{}\t{}\t{}".format(x_0, f[-1], k))
