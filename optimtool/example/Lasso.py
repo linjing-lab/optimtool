@@ -61,17 +61,19 @@ def gradient(A: NDArray,
     assert args.shape[0] == len(x_0)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
+    args_num = sp.lambdify(args, args, modules='numpy')
     L = np.linalg.norm((A.T).dot(A)) + mu / delta
     assert alp <= 1 / L
     point, f = [], []
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
         f.append(get_value(funcs, args, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        resv = np.array(res.subs(reps)).astype(DataType)
-        argsv = np.array(args.subs(reps)).astype(DataType)
+        resv = res_num(*x_0)
+        argsv = args_num(*x_0)
         g = get_f_delta_gradient(resv, argsv, mu, delta)
         x_0 = x_0 - alp * g
         k = k + 1
@@ -116,6 +118,8 @@ def subgradient(A: NDArray,
     assert args.shape[0] == len(x_0)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
+    args_num = sp.lambdify(args, args, modules='numpy')
     point, f = [], []
     while 1:
         reps = dict(zip(args, x_0))
@@ -123,8 +127,8 @@ def subgradient(A: NDArray,
         f.append(get_value(funcs, args, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        resv = np.array(res.subs(reps)).astype(DataType)
-        argsv = np.array(args.subs(reps)).astype(DataType)
+        resv = res_num(*x_0)
+        argsv = args_num(*x_0)
         g = get_subgradient(resv, argsv, mu)
         alpha = alphak / np.sqrt(k + 1)
         x_0 = x_0 - alpha * g
@@ -169,14 +173,15 @@ def approximate_point(A: NDArray,
     tk = 1 / np.real(lambda_ma) if isinstance(lambda_ma, complex) else 1 / lambda_ma
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
     point, f = [], []
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         point.append(x_0)
         f.append(get_value(funcs, args, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        grad = np.array(res.subs(reps)).astype(DataType)
+        grad = res_num(*x_0)
         yk = x_0 - tk * grad[0]
         x_0 = np.sign(yk) * [max(i, 0) for i in np.abs(yk) - tk * mu]
         k = k + 1
