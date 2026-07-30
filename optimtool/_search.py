@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .base import np
+from .base import np, sp
 from ._typing import List, NDArray, SympyMutableDenseMatrix, DataType, IterPointType
 
 __all__ = ["armijo", "goldstein", "wolfe", "Grippo", "ZhangHanger"]
@@ -46,12 +46,17 @@ def armijo(funcs: SympyMutableDenseMatrix,
     assert c > 0
     assert c < 1
     alpha = 1
-    reps = dict(zip(args, x_0))
-    f0 = np.array(funcs.subs(reps)).astype(DataType)
-    res0 = np.array(res.subs(reps)).astype(DataType)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    f0 = funcs_num(*x_0)
+    res_num = sp.lambdify(args, res, modules='numpy')
+    res0 = res_num(*x_0)
+    # reps = dict(zip(args, x_0))
+    # f0 = np.array(funcs.subs(reps)).astype(DataType)
+    # res0 = np.array(res.subs(reps)).astype(DataType)
     while 1:
         x = x_0 + (alpha*d)[0]
-        f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
+        f1 = funcs_num(*x)
+        # f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         if f1 <= f0 + c*alpha*res0.dot(d.T):
             break
         else:
@@ -89,12 +94,17 @@ def goldstein(funcs: SympyMutableDenseMatrix,
     assert t > 0
     assert eps > 0
     alpha = 1
-    reps = dict(zip(args, x_0))
-    f0 = np.array(funcs.subs(reps)).astype(DataType)
-    res0 = np.array(res.subs(reps)).astype(DataType)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    f0 = funcs_num(*x_0)
+    res_num = sp.lambdify(args, res, modules='numpy')
+    res0 = res_num(*x_0)
+    # reps = dict(zip(args, x_0))
+    # f0 = np.array(funcs.subs(reps)).astype(DataType)
+    # res0 = np.array(res.subs(reps)).astype(DataType)
     while alphas < alphae:
         x = x_0 + (alpha*d)[0]
-        f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
+        f1 = funcs_num(*x)
+        # f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         if f1 <= f0 + c*alpha*res0.dot(d.T):
             if f1 >= f0 + (1 - c)*alpha*res0.dot(d.T):
                 break
@@ -145,14 +155,20 @@ def wolfe(funcs: SympyMutableDenseMatrix,
     assert alphas < alphae
     assert eps > 0
     alpha = 1
-    reps = dict(zip(args, x_0))
-    f0 = np.array(funcs.subs(reps)).astype(DataType)
-    res0 = np.array(res.subs(reps)).astype(DataType)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    f0 = funcs_num(*x_0)
+    res_num = sp.lambdify(args, res, modules='numpy')
+    res0 = res_num(*x_0)
+    # reps = dict(zip(args, x_0))
+    # f0 = np.array(funcs.subs(reps)).astype(DataType)
+    # res0 = np.array(res.subs(reps)).astype(DataType)
     while alphas < alphae:
         x = x_0 + (alpha*d)[0]
-        f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
+        f1 = funcs_num(*x)
+        # f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         if f1 <= f0 + c1*alpha*res0.dot(d.T):
-            res1 = np.array(res.subs(dict(zip(args, x)))).astype(DataType)
+            res1 = res_num(*x)
+            # res1 = np.array(res.subs(dict(zip(args, x)))).astype(DataType)
             if res1.dot(d.T) >= c2*res0.dot(d.T):
                 break
             else:
@@ -195,12 +211,16 @@ def Grippo(funcs: SympyMutableDenseMatrix,
     assert c1 < 1
     assert beta > 0
     assert beta < 1
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     while 1:
         x = x_0 + (alpha*d)[0]
-        f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
+        f1 = funcs_num(*x)
+        # f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         fk = -np.inf
         for j in range(min(k, M) + 1):
-            fk = max(fk, np.array(funcs.subs(dict(zip(args, point[k-j])))).astype(DataType))
+            temp = funcs_num(*point[k-j])
+            fk = max(fk, temp)
+            # fk = max(fk, np.array(funcs.subs(dict(zip(args, point[k-j])))).astype(DataType))
         if f1 <= fk + c1 * alpha * (-d).dot(d.T):
             break
         else:
@@ -239,9 +259,11 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix,
     assert beta > 0
     assert beta < 1
     from ._drive import C_k
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     while 1:
         x = x_0 + (alpha*d)[0]
-        f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
+        f1 = funcs_num(*x)
+        # f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
         Ck = C_k(funcs, args, point, eta, k)
         if f1 <= Ck + c1 * alpha * (-d).dot(d.T):
             break

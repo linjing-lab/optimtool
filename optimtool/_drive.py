@@ -32,7 +32,11 @@ def C_k(funcs: SympyMutableDenseMatrix,
         eta: float, 
         k: int) -> DataType:
     assert k >= 0
-    return np.array(funcs.subs(dict(zip(args, point[0])))).astype(DataType) if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k-1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(DataType))
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    temp0 = funcs_num(*point[0])
+    tempk = funcs_num(*point[k])
+    return temp0 if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k-1) + tempk)
+    # return np.array(funcs.subs(dict(zip(args, point[0])))).astype(DataType) if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k-1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(DataType))
 
 def get_f_delta_gradient(resv: NDArray, 
                          argsv: NDArray, 
@@ -156,7 +160,9 @@ def cons_unequal_L(cons_unequal: SympyMutableDenseMatrix,
     for i in range(cons_unequal.shape[0]):
         cons = muk[i] / sigma + cons_unequal[i]
         con = sp.Matrix([cons])
-        conv = np.array(con.subs(dict(zip(args, x_0)))).astype(DataType)
+        con_num = sp.lambdify(args, con, modules='numpy')
+        conv = con_num(*x_0)
+        # conv = np.array(con.subs(dict(zip(args, x_0)))).astype(DataType)
         if conv > 0:
             sub = sub + (cons**2 - (muk[i] / sigma)**2)
         else:
@@ -170,11 +176,15 @@ def v_k(cons_equal: SympyMutableDenseMatrix,
         sigma: float, 
         x_0: IterPointType) -> DataType:
     sub = 0.
-    reps = dict(zip(args, x_0))
+    # reps = dict(zip(args, x_0))
     len_unequal = cons_unequal.shape[0]
-    consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
+    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
+    consv_unequal = cons_unequal_num(*x_0)
+    # consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
     if cons_equal is not None:
-        consv_equal = np.array(cons_equal.subs(reps)).astype(DataType)
+        cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
+        consv_equal = cons_equal_num(*x_0)
+        # consv_equal = np.array(cons_equal.subs(reps)).astype(DataType)
         sub += (consv_equal.T).dot(consv_equal)
         for i in range(len_unequal):
             sub += (max(consv_unequal[i], - muk[i] / sigma))**2
@@ -188,9 +198,10 @@ def renew_mu_k(cons_unequal: SympyMutableDenseMatrix,
                muk: NDArray, 
                sigma: float, 
                x_0: IterPointType) -> NDArray:
-    reps = dict(zip(args, x_0))
+    # reps = dict(zip(args, x_0))
     len_unequal = cons_unequal.shape[0]
-    consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
+    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
+    consv_unequal = cons_unequal_num(*x_0)
     for i in range(len_unequal):
         muk[i] = max(muk[i] + sigma * consv_unequal[i], 0)
     return muk

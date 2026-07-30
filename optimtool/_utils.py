@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .base import np, plt
+from .base import np, sp, plt
 from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPointType
 
 __all__ = ["get_value", "plot_iteration"]
@@ -33,7 +33,9 @@ def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0
 
     :return: functional value with DataType.
     '''
-    funcsv = np.array(funcs.subs(dict(zip(args, x_0)))).astype(DataType)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
+    funcsv = funcs_num(*x_0)
+    # funcsv = np.array(funcs.subs(dict(zip(args, x_0)))).astype(DataType)
     if mu is not None:
         if proxim == "L1":
             funcsv += mu * np.sum(np.abs(x_0))
