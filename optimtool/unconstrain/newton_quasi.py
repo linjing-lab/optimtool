@@ -54,7 +54,7 @@ def bfgs(funcs: FuncArray,
     search, f = linear_search(method), []
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
-    hes = res.jacobian(args)
+    hes = sp.hessian(funcs, args)
     hes_num = sp.lambdify(args, hes, modules='numpy')
     hessian = hes_num(*x_0)
     # hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
@@ -109,7 +109,7 @@ def dfp(funcs: FuncArray,
     search, f = linear_search(method), []
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
-    hes = res.jacobian(args)
+    hes = sp.hessian(funcs, args)
     hes_num = sp.lambdify(args, hes, modules='numpy')
     hessian = hes_num(*x_0)
     # hessian = np.array(hes.subs(dict(zip(args, x_0)))).astype(DataType)
@@ -168,7 +168,7 @@ def L_BFGS(funcs: FuncArray,
     search = linear_search(method)
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
-    hes = res.jacobian(args)
+    hes = sp.hessian(funcs, args)
     l = hes.shape[0]
     f, s, y, p = [], [], [], []
     gamma = []

@@ -121,7 +121,7 @@ def levenberg_marquardt(funcr: FuncArray,
     assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
     res, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
     resf = funcs.jacobian(args)
-    hess, dk0, f = resf.jacobian(args), np.zeros((args.shape[0], 1)), []
+    hess, dk0, f = sp.hessian(funcs, args), np.zeros((args.shape[0], 1)), []
     funcr_num = sp.lambdify(args, funcr, modules='numpy')
     res_num = sp.lambdify(args, res, modules='numpy')
     funcs_num = sp.lambdify(args, funcs, modules='numpy')

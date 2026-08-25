@@ -131,7 +131,7 @@ def penalty_L1(funcs: FuncArray,
         f.append(get_value(funcs, args, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         consv_unequal = cons_unequal_num(*x_0)
         # consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
         consv_unequal = np.where(consv_unequal <= 0, consv_unequal, 1)

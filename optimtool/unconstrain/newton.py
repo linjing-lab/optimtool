@@ -50,7 +50,7 @@ def classic(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
-    hes, f = res.jacobian(args), []
+    hes, f = sp.hessian(funcs, args), []
     hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1:
         # reps = dict(zip(args, x_0))
@@ -98,7 +98,7 @@ def modified(funcs: FuncArray,
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # graident
     res_num = sp.lambdify(args, res, modules='numpy')
-    hes = res.jacobian(args) # hessian
+    hes = sp.hessian(funcs, args) # hessian
     hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1:
         # reps = dict(zip(args, x_0))
@@ -151,7 +151,7 @@ def CG(funcs: FuncArray,
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
-    hes, dk0 = res.jacobian(args), np.zeros((args.shape[0], 1)) # hessian and initial dk
+    hes, dk0 = sp.hessian(funcs, args), np.zeros((args.shape[0], 1)) # hessian and initial dk
     hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1: # while k < max_iters when constraint optimization
         # reps = dict(zip(args, x_0))

@@ -73,7 +73,7 @@ def steihaug_CG(funcs: FuncArray,
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     res = funcs.jacobian(args)
-    hes = res.jacobian(args)
+    hes = sp.hessian(funcs, args)
     s0, f = [0 for _ in range(args.shape[0])], []
     funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res_num = sp.lambdify(args, res, modules='numpy')
