@@ -34,7 +34,9 @@ If you used **optimtool** in your research, welcome to cite it in your paper (fo
   year         = {2021},
   version      = {2.8.3},
   publisher    = {PyPI},
+  organization = {linjing-lab},
   url          = {https://pypi.org/project/optimtool/},
+  license      = {MIT}
   note         = {Source code available at \url{https://github.com/linjing-lab/optimtool}},
 }
 ```
