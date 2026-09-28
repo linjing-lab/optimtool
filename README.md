@@ -27,8 +27,16 @@
 
 如果你在研究中使用 **optimtool**，欢迎引用它在你的参考资料中（按照下面的格式）。
 
-```text
-林景. optimtool: The fundamental package for scientific research in optimization. 2021. https://pypi.org/project/optimtool/.
+```bibtex
+@software{Lin2021optimtool,
+  author       = {Lin, Jing},
+  title        = {optimtool: The fundamental package for scientific research in optimization},
+  year         = {2021},
+  version      = {2.8.3},
+  publisher    = {PyPI},
+  url          = {https://pypi.org/project/optimtool/},
+  note         = {Source code available at \url{https://github.com/linjing-lab/optimtool}},
+}
 ```
 
 下载最新版：
