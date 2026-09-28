@@ -30,7 +30,7 @@
 ```bibtex
 @software{Lin2021optimtool,
   author       = {Lin, Jing},
-  title        = {optimtool: The fundamental package for scientific research in optimization},
+  title        = {optimtool: The fundamental package for scientific research in optimization.},
   year         = {2021},
   version      = {2.8.3},
   publisher    = {PyPI},
