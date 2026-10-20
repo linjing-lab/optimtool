@@ -135,6 +135,8 @@ def lagrange_augmentedu(funcs: FuncArray,
     funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = kernel(method), []
     muk = np.array([muk for _ in range(cons.shape[0])]).reshape(cons.shape[0], 1)
+    len_cons = len(cons)
+    cons_unequal_num = sp.lambdify(args, cons, modules='numpy')
     while 1:
         f.append(get_value(funcs_num, x_0))
         if verbose:
@@ -145,7 +147,7 @@ def lagrange_augmentedu(funcs: FuncArray,
         L = sp.Matrix([funcs + (sigma / 2) * cons_uneuqal_modifyed])
         x_0, _ = search(L, args, tuple(x_0), draw=False, epsilon=epsilonk)
         k += 1
-        vkx = v_k(None, cons, args, muk, sigma, x_0)
+        vkx = v_k(None, cons_unequal_num, len_cons, muk, sigma, x_0)
         if vkx <= epsilonk:
             res = L.jacobian(args)
             res_num = sp.lambdify(args, res, modules='numpy')
@@ -155,7 +157,7 @@ def lagrange_augmentedu(funcs: FuncArray,
                     print("{}\t{}\t{}".format(x_0, f[-1], k))
                 break
             else:
-                muk = renew_mu_k(cons, args, muk, sigma, x_0)
+                muk = renew_mu_k(cons_unequal_num, len_cons, muk, sigma, x_0)
                 etak /= sigma
                 epsilonk /= sigma**beta
         else:

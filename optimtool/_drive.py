@@ -167,40 +167,35 @@ def cons_unequal_L(cons_unequal: SympyMutableDenseMatrix,
             sub = sub - (muk[i] / sigma)**2
     return sp.Matrix([sub])
 
-def v_k(cons_equal: SympyMutableDenseMatrix, 
-        cons_unequal: SympyMutableDenseMatrix, 
-        args: SympyMutableDenseMatrix, 
+def v_k(cons_equal_num, 
+        cons_unequal_num, 
+        len_cons: int,
         muk: NDArray, 
         sigma: float, 
         x_0: IterPointType) -> DataType:
     sub = 0.
     # reps = dict(zip(args, x_0))
-    len_unequal = cons_unequal.shape[0]
-    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
     consv_unequal = cons_unequal_num(*x_0)
     # consv_unequal = np.array(cons_unequal.subs(reps)).astype(DataType)
-    if cons_equal is not None:
-        cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
+    if cons_equal_num is not None:
         consv_equal = cons_equal_num(*x_0)
         # consv_equal = np.array(cons_equal.subs(reps)).astype(DataType)
         sub += (consv_equal.T).dot(consv_equal)
-        for i in range(len_unequal):
+        for i in range(len_cons):
             sub += (max(consv_unequal[i], - muk[i] / sigma))**2
     else:
-        for i in range(len_unequal):
+        for i in range(len_cons):
             sub += (max(consv_unequal[i], - muk[i] / sigma))**2
     return np.sqrt(sub)
 
-def renew_mu_k(cons_unequal: SympyMutableDenseMatrix, 
-               args: SympyMutableDenseMatrix, 
+def renew_mu_k(cons_unequal_num,
+               len_cons: int, 
                muk: NDArray, 
                sigma: float, 
                x_0: IterPointType) -> NDArray:
     # reps = dict(zip(args, x_0))
-    len_unequal = cons_unequal.shape[0]
-    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
     consv_unequal = cons_unequal_num(*x_0)
-    for i in range(len_unequal):
+    for i in range(len_cons):
         muk[i] = max(muk[i] + sigma * consv_unequal[i], 0)
     return muk
 

@@ -208,6 +208,8 @@ def lagrange_augmentedm(funcs: FuncArray,
     lamk = np.array([lamk for _ in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for _ in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
     cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
+    len_cons_unequal = len(cons_unequal)
+    cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
     while 1:
         f.append(get_value(funcs_num, x_0))
         if verbose:
@@ -218,7 +220,7 @@ def lagrange_augmentedm(funcs: FuncArray,
         L = sp.Matrix([funcs + (sigma / 2) * (cons_equal.T * cons_equal + cons_uneuqal_modifyed) + cons_equal.T * lamk])
         x_0, _ = search(L, args, tuple(x_0), draw=False, epsilon=epsilonk)
         k += 1
-        vkx = v_k(cons_equal, cons_unequal, args, muk, sigma, x_0)
+        vkx = v_k(cons_equal_num, cons_unequal_num, len_cons_unequal, muk, sigma, x_0)
         if vkx <= epsilonk:
             res = L.jacobian(args)
             res_num = sp.lambdify(args, res, modules='numpy')
@@ -230,7 +232,7 @@ def lagrange_augmentedm(funcs: FuncArray,
             else:
                 consv_equal = cons_equal_num(*x_0)
                 lamk += sigma * consv_equal
-                muk = renew_mu_k(cons_unequal, args, muk, sigma, x_0)
+                muk = renew_mu_k(cons_unequal_num, len_cons_unequal, muk, sigma, x_0)
                 etak /= sigma
                 epsilonk /= sigma**beta
         else:
