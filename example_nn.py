@@ -101,29 +101,29 @@ def gen_nn(X_data, y_data, hidden_dims=[], task='classification'):
     return f_sym, params
 
 # # classification
-# X = np.array([
-#     [2.0, 1.0, 0.5, 0.1],
-#     [5.1, 3.1, 2.1, 1.05],
-#     [5.0, 3.0, 2.0, 1.0],
-#     [2.1, 0.9, 0.55, 0.15],
-#     [8.0, 5.0, 4.0, 2.0],
-#     [8.2, 5.2, 4.2, 2.1],
-# ], dtype=np.float64)
-# y = np.array([0, 1, 1, 0, 2, 2], dtype=np.int64)
-# f_sym, params = gen_nn(X, y, hidden_dims=[2,])
-# ou.gradient_descent.barzilar_borwein(f_sym, params, np.ones(len(params)).tolist(), verbose=True, epsilon=1e-2)
+X = np.array([
+    [2.0, 1.0, 0.5, 0.1],
+    [5.1, 3.1, 2.1, 1.05],
+    [5.0, 3.0, 2.0, 1.0],
+    [2.1, 0.9, 0.55, 0.15],
+    [8.0, 5.0, 4.0, 2.0],
+    [8.2, 5.2, 4.2, 2.1],
+], dtype=np.float64)
+y = np.array([0, 1, 1, 0, 2, 2], dtype=np.int64)
+f_sym, params = gen_nn(X, y, hidden_dims=[2,])
+ou.gradient_descent.barzilar_borwein(f_sym, params, np.ones(len(params)).tolist(), verbose=True, method="ZhangHanger", epsilon=1e-2)
 
 # regression
-def gen_reg(n_samples=20, seed=0):
-    np.random.seed(seed)
-    X = np.linspace(-5, 5, n_samples).reshape(-1, 1)
-    noise = 0.2 * np.random.randn(n_samples, 3)
-    y1 = np.sin(X)
-    y2 = 0.5 * X
-    y3 = np.cos(X) + 0.2 * X
-    y = np.hstack([y1, y2, y3]) + noise
-    return X, y
+# def gen_reg(n_samples=20, seed=0):
+#     np.random.seed(seed)
+#     X = np.linspace(-5, 5, n_samples).reshape(-1, 1)
+#     noise = 0.2 * np.random.randn(n_samples, 3)
+#     y1 = np.sin(X)
+#     y2 = 0.5 * X
+#     y3 = np.cos(X) + 0.2 * X
+#     y = np.hstack([y1, y2, y3]) + noise
+#     return X, y
 
-X, y = gen_reg(n_samples=5)
-f_sym, params = gen_nn(X, y, hidden_dims=[2,], task='regression')
-ou.newton_quasi.bfgs(f_sym, params, np.ones(len(params)).tolist(), verbose=True, epsilon=1e-4)
+# X, y = gen_reg(n_samples=5)
+# f_sym, params = gen_nn(X, y, hidden_dims=[2,], task='regression')
+# ou.newton_quasi.bfgs(f_sym, params, np.ones(len(params)).tolist(), verbose=True, epsilon=1e-4)
