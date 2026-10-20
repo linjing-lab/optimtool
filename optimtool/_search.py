@@ -23,17 +23,15 @@ from ._typing import List, NDArray, SympyMutableDenseMatrix, DataType, IterPoint
 
 __all__ = ["armijo", "goldstein", "wolfe", "Grippo", "ZhangHanger"]
 
-def armijo(funcs: SympyMutableDenseMatrix,
-           res: SympyMutableDenseMatrix,
-           args: SympyMutableDenseMatrix, 
+def armijo(funcs_num,
+           res_num,
            x_0: IterPointType, 
            d: NDArray, 
            gamma: float=0.5, 
            c: float=0.1) -> float:
     '''
-    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param res: SympyMutableDenseMatrix, gradient function computed by .jacobian function.
-    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param funcs_num, objective function with `convert` process used for search alpha.
+    :param res_num:, gradient function computed by .jacobian function.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
     :param gamma: float, factor used to adjust alpha with interval at (0, 1). default: float=0.5.
@@ -46,9 +44,7 @@ def armijo(funcs: SympyMutableDenseMatrix,
     assert c > 0
     assert c < 1
     alpha = 1
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     f0 = funcs_num(*x_0)
-    res_num = sp.lambdify(args, res, modules='numpy')
     res0 = res_num(*x_0)
     # reps = dict(zip(args, x_0))
     # f0 = np.array(funcs.subs(reps)).astype(DataType)
@@ -63,9 +59,8 @@ def armijo(funcs: SympyMutableDenseMatrix,
             alpha *= gamma
     return alpha
 
-def goldstein(funcs: SympyMutableDenseMatrix, 
-              res: SympyMutableDenseMatrix,
-              args: SympyMutableDenseMatrix, 
+def goldstein(funcs_num, 
+              res_num,
               x_0: IterPointType, 
               d: NDArray, 
               c: float=0.2, 
@@ -74,8 +69,8 @@ def goldstein(funcs: SympyMutableDenseMatrix,
               t: float=1.2, 
               eps: float=1e-3) -> float:
     '''
-    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param res: SympyMutableDenseMatrix, gradient function computed by .jacobian function.
+    :param funcs_num: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
+    :param res_num: SympyMutableDenseMatrix, gradient function computed by .jacobian function.
     :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
@@ -94,9 +89,7 @@ def goldstein(funcs: SympyMutableDenseMatrix,
     assert t > 0
     assert eps > 0
     alpha = 1
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     f0 = funcs_num(*x_0)
-    res_num = sp.lambdify(args, res, modules='numpy')
     res0 = res_num(*x_0)
     # reps = dict(zip(args, x_0))
     # f0 = np.array(funcs.subs(reps)).astype(DataType)
@@ -122,9 +115,8 @@ def goldstein(funcs: SympyMutableDenseMatrix,
             break
     return alpha
 
-def wolfe(funcs: SympyMutableDenseMatrix,
-          res: SympyMutableDenseMatrix, 
-          args: SympyMutableDenseMatrix, 
+def wolfe(funcs_num,
+          res_num,
           x_0: IterPointType, 
           d: NDArray, 
           c1: float=0.3, 
@@ -133,9 +125,8 @@ def wolfe(funcs: SympyMutableDenseMatrix,
           alphae: float=2., 
           eps: float=1e-3) -> float:
     '''
-    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param res: SympyMutableDenseMatrix, gradient function computed by .jacobian function.
-    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param funcs_num, objective function with `convert` process used for search alpha.
+    :param res_num, gradient function computed by .jacobian function.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
     :param c1: float, first constant used to constrain alpha adjusted frequency with interval at (0, 1). default: float=0.3.
@@ -155,9 +146,7 @@ def wolfe(funcs: SympyMutableDenseMatrix,
     assert alphas < alphae
     assert eps > 0
     alpha = 1
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     f0 = funcs_num(*x_0)
-    res_num = sp.lambdify(args, res, modules='numpy')
     res0 = res_num(*x_0)
     # reps = dict(zip(args, x_0))
     # f0 = np.array(funcs.subs(reps)).astype(DataType)
@@ -182,8 +171,7 @@ def wolfe(funcs: SympyMutableDenseMatrix,
     return alpha
 
 # coordinate with `barzilar_borwein`.
-def Grippo(funcs: SympyMutableDenseMatrix,
-           args: SympyMutableDenseMatrix, 
+def Grippo(funcs_num,
            x_0: IterPointType, 
            d: NDArray, 
            k: int, 
@@ -193,8 +181,7 @@ def Grippo(funcs: SympyMutableDenseMatrix,
            alpha: float, 
            M: int) -> float:
     '''
-    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param funcs_num, objective function with `convert` process used for search alpha.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
     :param k: int, current number of iterative process in `barzilar_borwein` method.
@@ -211,7 +198,6 @@ def Grippo(funcs: SympyMutableDenseMatrix,
     assert c1 < 1
     assert beta > 0
     assert beta < 1
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     while 1:
         x = x_0 + (alpha*d)[0]
         f1 = funcs_num(*x)
@@ -227,8 +213,7 @@ def Grippo(funcs: SympyMutableDenseMatrix,
             alpha *= beta
     return alpha
 
-def ZhangHanger(funcs: SympyMutableDenseMatrix, 
-                args: SympyMutableDenseMatrix, 
+def ZhangHanger(funcs_num, 
                 x_0: IterPointType, 
                 d: NDArray, 
                 k: int, 
@@ -238,8 +223,7 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix,
                 alpha: float, 
                 eta: float) -> float:
     '''
-    :param funcs: SympyMutableDenseMatrix, objective function with `convert` process used for search alpha.
-    :param args: SympyMutableDenseMatrix, symbolic set with order in a list to construct `dict(zip(args, x_0))`.
+    :param funcs_num, objective function with `convert` process used for search alpha.
     :param x_0: IterPointType, numerical values in a 'list` or 'tuple` according to the order of `args`.
     :param d: NDArray, current gradient descent direction with format at `numpy.ndarray`.
     :param k: int, current number of iterative process in `barzilar_borwein` method.
@@ -259,12 +243,11 @@ def ZhangHanger(funcs: SympyMutableDenseMatrix,
     assert beta > 0
     assert beta < 1
     from ._drive import C_k
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     while 1:
         x = x_0 + (alpha*d)[0]
         f1 = funcs_num(*x)
         # f1 = np.array(funcs.subs(dict(zip(args, x)))).astype(DataType)
-        Ck = C_k(funcs, args, point, eta, k)
+        Ck = C_k(funcs_num, point, eta, k)
         if f1 <= Ck + c1 * alpha * (-d).dot(d.T):
             break
         else:

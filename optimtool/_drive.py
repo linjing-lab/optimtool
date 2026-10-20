@@ -26,16 +26,14 @@ def Q_k(eta: float,
     assert k >= 0
     return 1 if k == 0 else eta * Q_k(eta, k-1) + 1
 
-def C_k(funcs: SympyMutableDenseMatrix, 
-        args: SympyMutableDenseMatrix, 
+def C_k(funcs_num, 
         point: List[IterPointType], 
         eta: float, 
         k: int) -> DataType:
     assert k >= 0
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     temp0 = funcs_num(*point[0])
     tempk = funcs_num(*point[k])
-    return temp0 if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k-1) + tempk)
+    return temp0 if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs_num, point, eta, k-1) + tempk)
     # return np.array(funcs.subs(dict(zip(args, point[0])))).astype(DataType) if k == 0 else (1 / (Q_k(eta, k))) * (eta * Q_k(eta, k-1) * C_k(funcs, args, point, eta, k-1) + np.array(funcs.subs(dict(zip(args, point[k])))).astype(DataType))
 
 def get_f_delta_gradient(resv: NDArray, 
