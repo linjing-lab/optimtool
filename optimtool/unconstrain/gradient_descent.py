@@ -178,7 +178,7 @@ def barzilar_borwein(funcs: FuncArray,
             yk = res_num(*x_0) + dk
             alpha_up = delta.dot(delta.T)
             alpha_down = (delta.dot(yk.T))[0]
-            if alpha_down != 0:
+            if alpha_down > 0:
                 alpha = alpha_up / alpha_down
             k += 1
         else:
