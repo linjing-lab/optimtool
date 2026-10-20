@@ -51,6 +51,7 @@ def bfgs(funcs: FuncArray,
     from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = linear_search(method), []
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
@@ -61,14 +62,14 @@ def bfgs(funcs: FuncArray,
     hessian = h2h(hessian)
     while 1: # while k < max_iters when constraint optimization
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         gradient = res_num(*x_0)
         # gradient = np.array(res.subs(reps)).astype(DataType)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, res, args, x_0, dk)
+            alpha = search(funcs_num, res_num, x_0, dk)
             delta = alpha * dk # sk
             x_0 += delta[0]
             yk = res_num(*x_0) - gradient
@@ -106,6 +107,7 @@ def dfp(funcs: FuncArray,
     from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = linear_search(method), []
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
@@ -117,13 +119,13 @@ def dfp(funcs: FuncArray,
     hessiani = np.linalg.inv(hessian)
     while 1:
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         gradient = res_num(*x_0)
         dk = -hessiani.dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, res, args, x_0, dk)
+            alpha = search(funcs_num, res_num, x_0, dk)
             delta = alpha * dk # sk
             x_0 += delta[0]
             yk = res_num(*x_0) - gradient
@@ -165,6 +167,7 @@ def L_BFGS(funcs: FuncArray,
     from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search = linear_search(method)
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
@@ -175,7 +178,7 @@ def L_BFGS(funcs: FuncArray,
     gamma.append(1)
     while 1:
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         Hkm = gamma[k] * np.identity(l)
@@ -183,7 +186,7 @@ def L_BFGS(funcs: FuncArray,
         # grad = np.array(res.subs(reps)).astype(DataType)
         dk = -double_loop(grad, p, s, y, m, k, Hkm).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alphak = search(funcs, res, args, x_0, dk)
+            alphak = search(funcs_num, res_num, x_0, dk)
             delta = alphak * dk # sk
             x_0 += delta[0]
             if k > m:

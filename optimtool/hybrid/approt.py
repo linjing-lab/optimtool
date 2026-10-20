@@ -58,11 +58,12 @@ def grad(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     from .._kernel import set_proxim
     proximo, f = set_proxim(proxim), []
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0, mu, proxim))
+        f.append(get_value(funcs_num, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         dk = -res_num(*x_0)

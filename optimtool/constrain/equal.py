@@ -60,12 +60,13 @@ def penalty_quadratice(funcs: FuncArray,
     assert p > 1
     from .._kernel import kernel
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, point, f = kernel(method), [], []
     sig = sp.symbols("sig")
     pen = funcs + (sig / 2) * cons.T * cons
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         pe = pen.subs(sig, sigma)
@@ -74,7 +75,7 @@ def penalty_quadratice(funcs: FuncArray,
         sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0))
+            f.append(get_value(funcs_num, x_0))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -118,10 +119,11 @@ def lagrange_augmentede(funcs: FuncArray,
     from .._kernel import kernel
     search, f = kernel(method), []
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     lamk = np.array([lamk for _ in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     cons_num = sp.lambdify(args, cons, modules='numpy')
     while 1:
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         L = sp.Matrix([funcs + (sigma / 2) * cons.T * cons + cons.T * lamk])
@@ -133,7 +135,7 @@ def lagrange_augmentede(funcs: FuncArray,
         k += 1
         sigma *= p
         if np.linalg.norm(consv) <= epsilon:
-            f.append(get_value(funcs, args, x_0))
+            f.append(get_value(funcs_num, x_0))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break

@@ -61,11 +61,12 @@ def penalty_quadraticu(funcs: FuncArray,
     assert p < 1
     from .._kernel import kernel
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, point, f = kernel(method), [], []
     cons_num = sp.lambdify(args, cons, modules='numpy')
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         # reps = dict(zip(args, x_0))
@@ -79,7 +80,7 @@ def penalty_quadraticu(funcs: FuncArray,
         sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0))
+            f.append(get_value(funcs_num, x_0))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -131,10 +132,11 @@ def lagrange_augmentedu(funcs: FuncArray,
     from .._kernel import kernel
     from .._drive import cons_unequal_L, renew_mu_k, v_k
     funcs, args, x_0, cons = f2m(funcs), a2m(args), p2t(x_0), f2m(cons)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = kernel(method), []
     muk = np.array([muk for _ in range(cons.shape[0])]).reshape(cons.shape[0], 1)
     while 1:
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         etak = 1 / sigma
@@ -148,7 +150,7 @@ def lagrange_augmentedu(funcs: FuncArray,
             res = L.jacobian(args)
             res_num = sp.lambdify(args, res, modules='numpy')
             if (vkx <= epsilon) and (np.linalg.norm(res_num(*x_0)) <= eta):
-                f.append(get_value(funcs, args, x_0))
+                f.append(get_value(funcs_num, x_0))
                 if verbose:
                     print("{}\t{}\t{}".format(x_0, f[-1], k))
                 break

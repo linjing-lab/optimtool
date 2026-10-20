@@ -19,21 +19,19 @@
 # SOFTWARE.
 
 from .base import np, sp, plt
-from ._typing import DataType, Optional, SympyMutableDenseMatrix, List, IterPointType
+from ._typing import DataType, Optional, List, IterPointType
 
 __all__ = ["get_value", "plot_iteration"]
 
-def get_value(funcs: SympyMutableDenseMatrix, args: SympyMutableDenseMatrix, x_0: IterPointType, mu: Optional[float]=None, proxim: Optional[str]=None) -> DataType:
+def get_value(funcs_num, x_0: IterPointType, mu: Optional[float]=None, proxim: Optional[str]=None) -> DataType:
     '''
-    :param funcs: SympyMutableDenseMatrix, objective function after `convert`.
-    :param args: SympyMutableDenseMatrix, symbolic set after `convert` with order.
+    :param funcs_num, objective function after `convert`.
     :param x_0: IterPointType, numpy.ndarray or List[PointType] or Tuple[PointType].
     :param mu: float | None, parameters collaborate with the problems applied in `Lasso`. default=None.
     :param proxim: str | None, parameter indicate the type of proximity operators. default=None.
 
     :return: functional value with DataType.
     '''
-    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     funcsv = funcs_num(*x_0)
     # funcsv = np.array(funcs.subs(dict(zip(args, x_0)))).astype(DataType)
     if mu is not None:

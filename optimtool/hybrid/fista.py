@@ -58,11 +58,12 @@ def normal(funcs: FuncArray,
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
     from .._kernel import set_proxim
     proximo, point, f = set_proxim(proxim), [], []
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu, proxim))
+        f.append(get_value(funcs_num, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         dk = -res_num(*x_0)
@@ -110,12 +111,13 @@ def variant(funcs: FuncArray,
     from .._kernel import set_proxim
     from .._drive import gammak
     proximo, point, f = set_proxim(proxim), [], []
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
     vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu, proxim))
+        f.append(get_value(funcs_num, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         dk = -res_num(*x_0)
@@ -164,12 +166,13 @@ def decline(funcs: FuncArray,
     from .._kernel import set_proxim
     from .._drive import gammak
     proximo, point, f = set_proxim(proxim), [], []
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
     vkx = lambda k: x_0 if k == 0 else point[k-1] + (x_0 - point[k-1]) / gk
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu, proxim))
+        f.append(get_value(funcs_num, x_0, mu, proxim))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         dk = -res_num(*x_0)
@@ -179,7 +182,7 @@ def decline(funcs: FuncArray,
             dky = -res_num(*yk)
             delta = yk + tk * dky[0]
             u = proximo(delta, mu, tk)
-            phiu = get_value(funcs, args, u, mu, proxim)
+            phiu = get_value(funcs_num, u, mu, proxim)
             x_0 = u if phiu <= f[-1] else x_0
             k += 1
         else:

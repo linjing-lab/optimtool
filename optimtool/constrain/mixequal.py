@@ -62,11 +62,12 @@ def penalty_quadraticm(funcs: FuncArray,
     assert p > 0
     from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, point, f = kernel(method), [], []
     cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         # reps = dict(zip(args, x_0))
@@ -80,7 +81,7 @@ def penalty_quadraticm(funcs: FuncArray,
         sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0))
+            f.append(get_value(funcs_num, x_0))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -123,12 +124,13 @@ def penalty_L1(funcs: FuncArray,
     assert p > 0
     from .._kernel import kernel
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, point, f = kernel(method), [], []
     cons_unequal_num = sp.lambdify(args, cons_unequal, modules='numpy')
     cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
     while 1:
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         # reps = dict(zip(args, x_0))
@@ -146,7 +148,7 @@ def penalty_L1(funcs: FuncArray,
         sigma *= p
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0))
+            f.append(get_value(funcs_num, x_0))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -201,12 +203,13 @@ def lagrange_augmentedm(funcs: FuncArray,
     from .._kernel import kernel
     from .._drive import cons_unequal_L, v_k, renew_mu_k
     funcs, args, cons_equal, cons_unequal, x_0 = f2m(funcs), a2m(args), f2m(cons_equal), f2m(cons_unequal), p2t(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = kernel(method), []
     lamk = np.array([lamk for _ in range(cons_equal.shape[0])]).reshape(cons_equal.shape[0], 1)
     muk = np.array([muk for _ in range(cons_unequal.shape[0])]).reshape(cons_unequal.shape[0], 1)
     cons_equal_num = sp.lambdify(args, cons_equal, modules='numpy')
     while 1:
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         etak = 1 / sigma
@@ -220,7 +223,7 @@ def lagrange_augmentedm(funcs: FuncArray,
             res = L.jacobian(args)
             res_num = sp.lambdify(args, res, modules='numpy')
             if (vkx <= epsilon) and (np.linalg.norm(res_num(*x_0)) <= etak):
-                f.append(get_value(funcs, args, x_0))
+                f.append(get_value(funcs_num, x_0))
                 if verbose:
                     print("{}\t{}\t{}".format(x_0, f[-1], k))
                 break

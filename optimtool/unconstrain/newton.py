@@ -48,13 +48,14 @@ def classic(funcs: FuncArray,
     '''
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
     hes, f = sp.hessian(funcs, args), []
     hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1:
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         gradient = res_num(*x_0)
@@ -95,6 +96,7 @@ def modified(funcs: FuncArray,
     from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # graident
     res_num = sp.lambdify(args, res, modules='numpy')
@@ -102,7 +104,7 @@ def modified(funcs: FuncArray,
     hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1:
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         gradient = res_num(*x_0)
@@ -112,7 +114,7 @@ def modified(funcs: FuncArray,
         hessian = h2h(hessian)
         dk = -np.linalg.inv(hessian).dot(gradient.T).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, res, args, x_0, dk)
+            alpha = search(funcs_num, res_num, x_0, dk)
             x_0 += alpha * dk[0]
             k += 1
         else:
@@ -148,6 +150,7 @@ def CG(funcs: FuncArray,
     from .._kernel import linear_search
     funcs, args, x_0 = f2m(funcs), a2m(args), p2t(x_0)
     assert all(funcs.shape) == 1 and args.shape[0] == len(x_0)
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     search, f = linear_search(method), []
     res = funcs.jacobian(args) # gradient
     res_num = sp.lambdify(args, res, modules='numpy')
@@ -155,7 +158,7 @@ def CG(funcs: FuncArray,
     hes_num = sp.lambdify(args, hes, modules='numpy')
     while 1: # while k < max_iters when constraint optimization
         # reps = dict(zip(args, x_0))
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         gradient = res_num(*x_0)
@@ -164,7 +167,7 @@ def CG(funcs: FuncArray,
         hessian = hes_num(*x_0)
         dk = conjugate(hessian, -gradient, dk0, eps).reshape(1, -1)
         if np.linalg.norm(dk) >= epsilon:
-            alpha = search(funcs, res, args, x_0, dk)
+            alpha = search(funcs_num, res_num, x_0, dk)
             x_0 += alpha * dk[0]
             k += 1
         else:

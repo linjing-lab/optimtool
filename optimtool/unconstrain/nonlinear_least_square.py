@@ -53,14 +53,16 @@ def gauss_newton(funcr: FuncArray,
     assert funcr.shape[0] > 1 and funcr.shape[1] ==1 and args.shape[0] == len(x_0)
     search, f = linear_search(method), []
     resr, funcs = funcr.jacobian(args), sp.Matrix([(1/2)*funcr.T*funcr])
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     funcr_num = sp.lambdify(args, funcr, modules='numpy')
     res = funcs.jacobian(args)
+    res_num = sp.lambdify(args, res, modules='numpy')
     resr_num = sp.lambdify(args, resr, modules='numpy')
     while 1:
         # reps = dict(zip(args, x_0))
         rk = funcr_num(*x_0)
         # rk = np.array(funcr.subs(reps)).astype(DataType)
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         jk = resr_num(*x_0)
@@ -68,7 +70,7 @@ def gauss_newton(funcr: FuncArray,
         q, r = np.linalg.qr(jk)
         dk = np.linalg.inv(r).dot(-(q.T).dot(rk)).reshape(1,-1) # operate with x_0
         if np.linalg.norm(dk) > epsilon:
-            alpha = search(funcs, res, args, x_0, dk)
+            alpha = search(funcs_num, res_num, x_0, dk)
             x_0 += alpha * dk[0]
             k += 1
         else:
@@ -131,7 +133,7 @@ def levenberg_marquardt(funcr: FuncArray,
         # reps = dict(zip(args, x_0))
         rk = funcr_num(*x_0)
         # rk = np.array(funcr.subs(reps)).astype(DataType)
-        f.append(get_value(funcs, args, x_0))
+        f.append(get_value(funcs_num, x_0))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         jk = res_num(*x_0)

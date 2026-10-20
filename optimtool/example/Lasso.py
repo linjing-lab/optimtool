@@ -60,6 +60,7 @@ def gradient(A: NDArray,
     args, x_0 = a2m(args), p2t(x_0)
     assert args.shape[0] == len(x_0)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
     args_num = sp.lambdify(args, args, modules='numpy')
@@ -69,7 +70,7 @@ def gradient(A: NDArray,
     while 1:
         # reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu, "L1"))
+        f.append(get_value(funcs_num, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         resv = res_num(*x_0)
@@ -79,7 +80,7 @@ def gradient(A: NDArray,
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0, mu, "L1"))
+            f.append(get_value(funcs_num, x_0, mu, "L1"))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -117,14 +118,15 @@ def subgradient(A: NDArray,
     args, x_0 = a2m(args), p2t(x_0)
     assert args.shape[0] == len(x_0)
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
     args_num = sp.lambdify(args, args, modules='numpy')
     point, f = [], []
     while 1:
-        reps = dict(zip(args, x_0))
+        # reps = dict(zip(args, x_0))
         point.append(np.array(x_0))
-        f.append(get_value(funcs, args, x_0, mu, "L1"))
+        f.append(get_value(funcs_num, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         resv = res_num(*x_0)
@@ -135,7 +137,7 @@ def subgradient(A: NDArray,
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) <= epsilon:
             point.append(np.array(x_0))
-            f.append(get_value(funcs, args, x_0, mu, "L1"))
+            f.append(get_value(funcs_num, x_0, mu, "L1"))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
@@ -172,13 +174,14 @@ def approximate_point(A: NDArray,
     lambda_ma = max(values)
     tk = 1 / np.real(lambda_ma) if isinstance(lambda_ma, complex) else 1 / lambda_ma
     funcs = sp.Matrix([0.5*((A*args - b).T)*(A*args - b)])
+    funcs_num = sp.lambdify(args, funcs, modules='numpy')
     res = funcs.jacobian(args)
     res_num = sp.lambdify(args, res, modules='numpy')
     point, f = [], []
     while 1:
         # reps = dict(zip(args, x_0))
         point.append(x_0)
-        f.append(get_value(funcs, args, x_0, mu, "L1"))
+        f.append(get_value(funcs_num, x_0, mu, "L1"))
         if verbose:
             print("{}\t{}\t{}".format(x_0, f[-1], k))
         grad = res_num(*x_0)
@@ -187,7 +190,7 @@ def approximate_point(A: NDArray,
         k = k + 1
         if np.linalg.norm(x_0 - point[k - 1]) < epsilon:
             point.append(x_0)
-            f.append(get_value(funcs, args, x_0, mu, "L1"))
+            f.append(get_value(funcs_num, x_0, mu, "L1"))
             if verbose:
                 print("{}\t{}\t{}".format(x_0, f[-1], k))
             break
