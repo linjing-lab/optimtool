@@ -128,5 +128,5 @@ if __name__ == '__main__':
     #     return X, y
 
     # X, y = gen_reg(n_samples=5)
-    # f_sym, params = gen_nn(X, y, hidden_dims=[2,], task='regression')
+    # f_sym, params, theta0 = gen_nn(X, y, hidden_dims=[2,], task='regression')
     # ou.newton_quasi.bfgs(f_sym, params, theta0, verbose=True, epsilon=1e-4)

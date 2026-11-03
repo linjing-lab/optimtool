@@ -7,6 +7,15 @@ def _block_add(terms, block=32):
         cur = [sp.Add(*cur[i:i + block]) for i in range(0, len(cur), block)]
     return cur[0]
 
+def xavier_normal(layer_dims):
+    theta = []
+    for i in range(len(layer_dims) - 1):
+        fan_in, fan_out = layer_dims[i], layer_dims[i + 1]
+        std = np.sqrt(2.0 / (fan_in + fan_out))
+        theta.extend(np.random.randn(fan_in * fan_out) * std)
+        theta.extend(np.zeros(fan_out))
+    return theta
+
 def gen_nn(X_data, y_data, hidden_dims=(), task='classification', epsilon=0.0, block=32):
     n_samples, n_features = X_data.shape
     if task == 'classification':
@@ -27,6 +36,7 @@ def gen_nn(X_data, y_data, hidden_dims=(), task='classification', epsilon=0.0, b
     else:
         raise ValueError(f"Support classification or regression. not support {task}.")
     layer_dims = [n_features] + list(hidden_dims) + [n_outputs]
+    theta0 = xavier_normal(layer_dims)
     n_layers = len(layer_dims) - 1
     W_list, b_list, params = [], [], []
     for i in range(n_layers):
@@ -68,20 +78,15 @@ def gen_nn(X_data, y_data, hidden_dims=(), task='classification', epsilon=0.0, b
                 terms.append(sp.Mul(d, d))
         denom = n_samples * n_outputs
     f_sym = _block_add(terms, block) / denom
-    return f_sym, params
+    return f_sym, params, theta0
 
-from sklearn.datasets import make_classification
-X, y = make_classification(n_samples=64, n_features=4, n_classes=3, n_informative=3, n_redundant=0, random_state=0)
-hidden = [2,]
-f_sym, params = gen_nn(X, y, hidden_dims=hidden)
-def xavier_normal(layer_dims):
-    theta = []
-    for i in range(len(layer_dims) - 1):
-        fan_in, fan_out = layer_dims[i], layer_dims[i + 1]
-        std = np.sqrt(2.0 / (fan_in + fan_out))
-        theta.extend(np.random.randn(fan_in * fan_out) * std)
-        theta.extend(np.zeros(fan_out))
-    return theta
-layer_dims = [X.shape[1]] + hidden + [len(np.unique(y))]
-theta0 = xavier_normal(layer_dims)
-ou.gradient_descent.barzilar_borwein(f_sym, params, theta0, verbose=True, epsilon=1e-2)
+if __name__ == '__main__':
+    from sklearn.datasets import make_classification, make_regression
+    X, y = make_classification(n_samples=64, n_features=4, n_classes=3, n_informative=3, n_redundant=0, random_state=0)
+    hidden = [2,]
+    f_sym, params, theta0 = gen_nn(X, y, hidden_dims=hidden, task="classification")
+    ou.gradient_descent.barzilar_borwein(f_sym, params, theta0, verbose=True, epsilon=1e-2)
+
+    X, y = make_regression(n_samples=128, n_features=4, n_informative=3, n_targets=1, noise=0.0, random_state=0)
+    f_sym, params, theta0 = gen_nn(X, y, hidden_dims=hidden, task="regression")
+    ou.gradient_descent.barzilar_borwein(f_sym, params, theta0, verbose=True, epsilon=1e-2)
