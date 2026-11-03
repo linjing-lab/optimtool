@@ -1,5 +1,6 @@
 import optimtool.unconstrain as ou
 from optimtool.base import sp, np
+from block_nn import xavier_normal
 
 def gen_nn(X_data, y_data, hidden_dims=[], task='classification'):
     n_samples, n_features = X_data.shape
@@ -24,6 +25,7 @@ def gen_nn(X_data, y_data, hidden_dims=[], task='classification'):
         raise ValueError(f"Support classification or regression. not support {task}.")
     params = []
     layer_dims = [n_features] + hidden_dims + [n_outputs]
+    theta0 = xavier_normal(layer_dims)
     for i in range(len(layer_dims)-1):
         prev_dim = layer_dims[i]
         curr_dim = layer_dims[i+1]
@@ -98,32 +100,33 @@ def gen_nn(X_data, y_data, hidden_dims=[], task='classification'):
                 diff = predictions[s][o] - y_processed[s, o]
                 f_sym += diff ** 2 # MSE
         f_sym /= (n_samples * n_outputs)
-    return f_sym, params
+    return f_sym, params, theta0
 
-# # classification
-X = np.array([
-    [2.0, 1.0, 0.5, 0.1],
-    [5.1, 3.1, 2.1, 1.05],
-    [5.0, 3.0, 2.0, 1.0],
-    [2.1, 0.9, 0.55, 0.15],
-    [8.0, 5.0, 4.0, 2.0],
-    [8.2, 5.2, 4.2, 2.1],
-], dtype=np.float64)
-y = np.array([0, 1, 1, 0, 2, 2], dtype=np.int64)
-f_sym, params = gen_nn(X, y, hidden_dims=[2,])
-ou.gradient_descent.barzilar_borwein(f_sym, params, np.ones(len(params)).tolist(), verbose=True, method="ZhangHanger", epsilon=1e-2)
+if __name__ == '__main__':
+    # classification
+    X = np.array([
+        [2.0, 1.0, 0.5, 0.1],
+        [5.1, 3.1, 2.1, 1.05],
+        [5.0, 3.0, 2.0, 1.0],
+        [2.1, 0.9, 0.55, 0.15],
+        [8.0, 5.0, 4.0, 2.0],
+        [8.2, 5.2, 4.2, 2.1],
+    ], dtype=np.float64)
+    y = np.array([0, 1, 1, 0, 2, 2], dtype=np.int64)
+    f_sym, params, theta0 = gen_nn(X, y, hidden_dims=[2,])
+    ou.gradient_descent.barzilar_borwein(f_sym, params, theta0, verbose=True, method="ZhangHanger", epsilon=1e-2)
 
-# regression
-# def gen_reg(n_samples=20, seed=0):
-#     np.random.seed(seed)
-#     X = np.linspace(-5, 5, n_samples).reshape(-1, 1)
-#     noise = 0.2 * np.random.randn(n_samples, 3)
-#     y1 = np.sin(X)
-#     y2 = 0.5 * X
-#     y3 = np.cos(X) + 0.2 * X
-#     y = np.hstack([y1, y2, y3]) + noise
-#     return X, y
+    # regression
+    # def gen_reg(n_samples=20, seed=0):
+    #     np.random.seed(seed)
+    #     X = np.linspace(-5, 5, n_samples).reshape(-1, 1)
+    #     noise = 0.2 * np.random.randn(n_samples, 3)
+    #     y1 = np.sin(X)
+    #     y2 = 0.5 * X
+    #     y3 = np.cos(X) + 0.2 * X
+    #     y = np.hstack([y1, y2, y3]) + noise
+    #     return X, y
 
-# X, y = gen_reg(n_samples=5)
-# f_sym, params = gen_nn(X, y, hidden_dims=[2,], task='regression')
-# ou.newton_quasi.bfgs(f_sym, params, np.ones(len(params)).tolist(), verbose=True, epsilon=1e-4)
+    # X, y = gen_reg(n_samples=5)
+    # f_sym, params = gen_nn(X, y, hidden_dims=[2,], task='regression')
+    # ou.newton_quasi.bfgs(f_sym, params, theta0, verbose=True, epsilon=1e-4)
