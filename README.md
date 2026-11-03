@@ -32,7 +32,7 @@
   author       = {Lin, Jing},
   title        = {optimtool: The fundamental package for scientific research in optimization.},
   year         = {2021},
-  version      = {2.9.0},
+  version      = {2.9.1},
   publisher    = {PyPI},
   organization = {linjing-lab},
   url          = {https://pypi.org/project/optimtool/},
