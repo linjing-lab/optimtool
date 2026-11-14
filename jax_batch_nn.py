@@ -156,8 +156,7 @@ def train_epochs(make_f_fun, f_fun, theta, X, y,
 if __name__ == '__main__':
     from sklearn.preprocessing import StandardScaler
     import pandas, numpy
-    # url = "https://github.com/linjing-lab/easy-pytorch/tree/main/released_box/data/bitcoin_heist_data.csv"
-    df = pandas.read_csv('bitcoin_heist_data.csv')
+    df = pandas.read_csv('https://raw.githubusercontent.com/linjing-lab/easy-pytorch/main/released_box/data/bitcoin_heist_data.csv', engine="pyarrow")
     df = df.to_numpy()
     labels = df[:,-1]
     X = df[:,1:-1].astype(numpy.float64)
