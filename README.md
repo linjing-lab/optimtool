@@ -47,6 +47,8 @@ git clone https://github.com/linjing-lab/optimtool.git
 cd optimtool
 pip install -e . --verbose
 ```
+> 支持block_nn, jax_nn, jax_batch_nn等神经网络算法，分别是基于optimtool的全批量机器学习，基于JAX的BFGS机器学习，基于小批量训练的JAX机器学习。
+
 下载稳定版：
 ```text
 pip install optimtool --upgrade
@@ -82,6 +84,10 @@ pip install optimtool>=2.7.0
 下载优化内存和架构的版本:
 ```text
 pip install optimtool>=2.8.0
+```
+下载编译符号函数并加速运行时的版本：
+```text
+pip install optimtool>=2.9.0
 ```
 > 建议：如果对自定义输入函数的需求比高版本中允许的输入类型检查更为强烈，推荐下载v2.4.4；如果需要在_convert.py和_typing.py中做可扩展的输入函数类型（基于sympy.core中所实现的类型），那么高版本中所作出的优化可以得到保留与体现。
 

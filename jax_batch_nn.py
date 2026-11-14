@@ -106,7 +106,7 @@ def train_epochs(make_f_fun, f_fun, theta, X, y,
     for epoch in range(int(epochs)):
         perm = jax.random.permutation(jax.random.PRNGKey(seed + epoch), n)
         n_updated = 0
-        no_decrease = 0              # 「一轮内」计数：每个 epoch 重置
+        no_decrease = 0
         prev_full = float('inf')
 
         for b, start in enumerate(range(0, n, batch_size)):

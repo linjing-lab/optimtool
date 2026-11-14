@@ -47,6 +47,8 @@ git clone https://github.com/linjing-lab/optimtool.git
 cd optimtool
 pip install -e . --verbose
 ```
+> Support neural network algorithms such as block_nn, jax_nn, jax_batch_nn, etc., including full batch machine learning based on optimtool, BFGS machine learning based on JAX, and small batch training based on JAX machine learning.
+
 download stable version：
 ```text
 pip install optimtool --upgrade
@@ -82,6 +84,10 @@ pip install optimtool>=2.7.0
 download versions with optimized memory and architect:
 ```text
 pip install optimtool>=2.8.0
+```
+download versions with compiled symbol function and speed up runtime:
+```text
+pip install optimtool>=2.9.0
 ```
 > advices: if the demand for custom input function is stronger than input type check allowed in higher versions, it is recommended to download v2.4.4; if users need to extend types of FuncType in _convert.py and _typing.py (based on the types implemented in sympy.core), the optimizations made in higher versions can be preserved and reflected.
 
